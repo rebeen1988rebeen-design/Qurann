@@ -6,7 +6,6 @@ import {
   Pause,
   ChevronDown,
   ListFilter,
-  CheckCircle2,
   Bookmark,
   Pencil,
   SkipBack,
@@ -14,9 +13,9 @@ import {
   Volume2,
   ChevronLeft,
   ChevronRight,
-  BookOpen,
 } from 'lucide-react';
-import { Reciter, SurahMeta, Verse, toArabicNumerals } from '@/data/quranData';
+import { Reciter, SurahMeta, Verse } from '@/data/quranData';
+import { Language, TRANSLATIONS, toLocalizedNumeral, formatLocalizedTime } from '@/data/translations';
 
 interface BottomAudioPlayerBarProps {
   selectedReciter: Reciter;
@@ -37,13 +36,7 @@ interface BottomAudioPlayerBarProps {
   activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights';
   setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights') => void;
   themeMode: 'light' | 'dark' | 'ice';
-}
-
-function formatTime(seconds: number): string {
-  if (!seconds || isNaN(seconds)) return '0:00';
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  appLanguage: Language;
 }
 
 export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
@@ -65,7 +58,9 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
   activeView,
   setActiveView,
   themeMode,
+  appLanguage,
 }) => {
+  const t = TRANSLATIONS[appLanguage];
   const isDark = themeMode === 'dark';
   const isIce = themeMode === 'ice';
 
@@ -81,6 +76,20 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
 
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
+  const verseLabel = currentVerse
+    ? `${t.verses} ${toLocalizedNumeral(currentVerse.numberInSurah, appLanguage)}`
+    : t.startPlayback;
+
+  const verseCountProgress = totalVerses > 0
+    ? `(${toLocalizedNumeral((currentVerseIndex ?? 0) + 1, appLanguage)}/${toLocalizedNumeral(totalVerses, appLanguage)})`
+    : '';
+
+  const surahDisplayName = appLanguage === 'en'
+    ? currentSurah.englishName
+    : appLanguage === 'ku'
+    ? currentSurah.kurdishName
+    : currentSurah.name;
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 flex flex-col items-center pointer-events-none transition-all duration-300">
       
@@ -94,13 +103,11 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
             <div className="flex items-center gap-2 truncate">
               <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 font-bold flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>{currentSurah.name}</span>
+                <span>{surahDisplayName}</span>
                 <span className="opacity-60">•</span>
-                <span>
-                  {currentVerse ? `ئایەتی ${currentVerse.numberInSurah}` : 'دەستپێک'}
-                </span>
-                {totalVerses > 0 && (
-                  <span className="text-[10px] opacity-70">({(currentVerseIndex ?? 0) + 1}/{totalVerses})</span>
+                <span>{verseLabel}</span>
+                {verseCountProgress && (
+                  <span className="text-[10px] opacity-70 ml-0.5">{verseCountProgress}</span>
                 )}
               </span>
             </div>
@@ -109,7 +116,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
             <button
               onClick={onOpenReciterModal}
               className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/5 dark:bg-white/10 hover:bg-emerald-500/10 text-slate-700 dark:text-slate-200 transition-all text-xs"
-              title="Change Quran Reciter"
+              title={t.reciter}
             >
               <Volume2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span className="truncate max-w-[110px] sm:max-w-[140px]">
@@ -121,8 +128,8 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
 
           {/* Continuous Ayah Progress Slider Track */}
           <div className="flex items-center gap-2 px-1">
-            <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 w-8 text-right">
-              {formatTime(currentTime)}
+            <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 w-9 text-right">
+              {formatLocalizedTime(currentTime, appLanguage)}
             </span>
 
             <div className="relative flex-1 h-2 flex items-center group cursor-pointer">
@@ -143,8 +150,8 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
               </div>
             </div>
 
-            <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 w-8">
-              {formatTime(duration)}
+            <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 w-9">
+              {formatLocalizedTime(duration, appLanguage)}
             </span>
           </div>
 
@@ -155,17 +162,17 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 className="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 transition-all"
-                title="Previous Mushaf Page"
+                title="Previous Page"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <span className="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-800 dark:text-amber-300 font-extrabold text-[11px]">
-                ل {toArabicNumerals(currentPage)}
+                {appLanguage === 'en' ? 'P ' : 'ل '}{toLocalizedNumeral(currentPage, appLanguage)}
               </span>
               <button
                 onClick={() => setCurrentPage(Math.min(604, currentPage + 1))}
                 className="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 transition-all"
-                title="Next Mushaf Page"
+                title="Next Page"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -176,7 +183,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
               <button
                 onClick={onPrevVerse}
                 className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 active:scale-90 transition-all"
-                title="Previous Ayah"
+                title={t.prevVerse}
               >
                 <SkipBack className="w-4 h-4 fill-current" />
               </button>
@@ -186,7 +193,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
                 className={`w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg hover:bg-emerald-600 active:scale-95 transition-all ${
                   isPlaying ? 'ring-4 ring-emerald-500/30 animate-pulse' : ''
                 }`}
-                title={isPlaying ? 'Pause Recitation' : 'Play Continuous Recitation'}
+                title={isPlaying ? t.paused : t.startPlayback}
               >
                 {isPlaying ? (
                   <Pause className="w-4 h-4 fill-white" />
@@ -198,16 +205,16 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
               <button
                 onClick={onNextVerse}
                 className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 active:scale-90 transition-all"
-                title="Next Ayah (Auto-Advance)"
+                title={t.nextVerse}
               >
                 <SkipForward className="w-4 h-4 fill-current" />
               </button>
             </div>
 
-            {/* View Mode Indicator */}
+            {/* Continuous Mode Indicator */}
             <div className="flex items-center gap-1">
               <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                بەردەوام
+                {t.continuous}
               </span>
             </div>
           </div>
@@ -228,23 +235,10 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
           }`}
         >
           <ListFilter className="w-5 h-5" />
-          <span className="text-[11px]">ناوەڕۆک</span>
+          <span className="text-[11px] font-medium">{t.contents}</span>
         </button>
 
-        {/* Tab 2: Khatmah */}
-        <button
-          onClick={() => setActiveView('khatmah')}
-          className={`flex flex-col items-center gap-0.5 transition-all ${
-            activeView === 'khatmah'
-              ? 'text-emerald-600 dark:text-emerald-400 font-bold scale-105'
-              : 'hover:text-emerald-600 opacity-70'
-          }`}
-        >
-          <CheckCircle2 className="w-5 h-5" />
-          <span className="text-[11px]">خەتنەکردن</span>
-        </button>
-
-        {/* Tab 3: Reader (Main Quran) */}
+        {/* Tab 2: Reader (Main Quran) */}
         <button
           onClick={() => setActiveView('reader')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
@@ -256,10 +250,10 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
           <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center font-bold text-xs border border-emerald-500/30">
             📖
           </div>
-          <span className="text-[11px]">قورئان</span>
+          <span className="text-[11px] font-medium">{t.appTitle}</span>
         </button>
 
-        {/* Tab 4: Bookmarks */}
+        {/* Tab 3: Bookmarks */}
         <button
           onClick={() => setActiveView('bookmarks')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
@@ -269,10 +263,10 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
           }`}
         >
           <Bookmark className="w-5 h-5" />
-          <span className="text-[11px]">نیشانەکراو</span>
+          <span className="text-[11px] font-medium">{t.bookmarks}</span>
         </button>
 
-        {/* Tab 5: Highlights */}
+        {/* Tab 4: Highlights */}
         <button
           onClick={() => setActiveView('highlights')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
@@ -282,7 +276,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
           }`}
         >
           <Pencil className="w-5 h-5" />
-          <span className="text-[11px]">دیاریکراو</span>
+          <span className="text-[11px] font-medium">{t.highlights}</span>
         </button>
 
       </div>

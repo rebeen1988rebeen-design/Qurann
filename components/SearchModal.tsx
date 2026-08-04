@@ -3,12 +3,14 @@
 import React, { useState } from 'react';
 import { Search, X, BookOpen } from 'lucide-react';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, SurahMeta, Verse } from '@/data/quranData';
+import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectSurah: (surah: SurahMeta, page: number) => void;
   themeMode: 'light' | 'dark' | 'ice';
+  appLanguage: Language;
 }
 
 export const SearchModal: React.FC<SearchModalProps> = ({
@@ -16,11 +18,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   onClose,
   onSelectSurah,
   themeMode,
+  appLanguage,
 }) => {
   const [query, setQuery] = useState('');
 
   if (!isOpen) return null;
 
+  const t = TRANSLATIONS[appLanguage];
   const isDark = themeMode === 'dark';
   const isIce = themeMode === 'ice';
 
@@ -62,7 +66,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search Quran in Arabic, Kurdish, English, or Surah name..."
+            placeholder={t.searchPlaceholder}
             autoFocus
             className="w-full bg-transparent text-base font-medium focus:outline-none text-slate-900 dark:text-white placeholder:text-slate-400"
           />
@@ -78,7 +82,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         <div className="flex-1 overflow-y-auto pt-4 space-y-4">
           {!query.trim() && (
             <div className="text-center py-8 text-slate-400 text-sm">
-              Type keywords to search across the Quran text, Kurdish translation, or Surah list.
+              {t.searchPlaceholder}
             </div>
           )}
 
@@ -86,7 +90,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           {matchingSurahs.length > 0 && (
             <div>
               <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                Surahs ({matchingSurahs.length})
+                {t.tabSurahs} ({toLocalizedNumeral(matchingSurahs.length, appLanguage)})
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {matchingSurahs.map((surah) => (
@@ -99,8 +103,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     className="p-3 rounded-[16px] bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-emerald-500/15 cursor-pointer flex items-center justify-between transition-all"
                   >
                     <div>
-                      <div className="font-bold text-sm text-slate-900 dark:text-white">{surah.englishName}</div>
-                      <div className="text-xs text-slate-500">{surah.kurdishName} • Page {surah.page}</div>
+                      <div className="font-bold text-sm text-slate-900 dark:text-white">
+                        {appLanguage === 'en' ? surah.englishName : surah.name}
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        {surah.kurdishName} • {t.pageBadge} {toLocalizedNumeral(surah.page, appLanguage)}
+                      </div>
                     </div>
                     <span className="font-bold text-emerald-600 dark:text-emerald-400 uthmani-text text-base">{surah.name}</span>
                   </div>
@@ -113,7 +121,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           {matchingVerses.length > 0 && (
             <div>
               <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                Ayahs ({matchingVerses.length})
+                {t.verses} ({toLocalizedNumeral(matchingVerses.length, appLanguage)})
               </div>
               <div className="flex flex-col gap-3">
                 {matchingVerses.map((verse) => (
@@ -127,14 +135,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     className="p-4 rounded-[18px] bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-emerald-500/15 cursor-pointer transition-all"
                   >
                     <div className="flex items-center justify-between text-xs text-emerald-600 font-bold mb-1">
-                      <span>Ayah {verse.numberInSurah} • Page {verse.page}</span>
+                      <span>{t.verses} {toLocalizedNumeral(verse.numberInSurah, appLanguage)} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}</span>
                       <BookOpen className="w-3.5 h-3.5" />
                     </div>
                     <div dir="rtl" className="text-lg uthmani-text text-slate-900 dark:text-slate-100 mb-1">
                       {verse.text}
                     </div>
-                    <div dir="rtl" className="text-sm kurdish-text text-slate-600 dark:text-slate-300">
-                      {verse.kurdish}
+                    <div dir={appLanguage === 'en' ? 'ltr' : 'rtl'} className="text-sm kurdish-text text-slate-600 dark:text-slate-300">
+                      {appLanguage === 'en' ? verse.english : verse.kurdish}
                     </div>
                   </div>
                 ))}

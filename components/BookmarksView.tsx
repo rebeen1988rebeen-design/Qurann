@@ -1,14 +1,16 @@
 'use client';
 
 import React from 'react';
-import { Bookmark, Trash2, BookOpen, Volume2 } from 'lucide-react';
-import { Verse, SURAHS_LIST, SAMPLE_VERSES_DATA } from '@/data/quranData';
+import { Bookmark, Trash2, BookOpen } from 'lucide-react';
+import { Verse, SAMPLE_VERSES_DATA } from '@/data/quranData';
+import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 
 interface BookmarksViewProps {
   bookmarkedVerseNumbers: number[];
   onToggleBookmark: (num: number) => void;
   onSelectVerse: (surahNumber: number, page: number) => void;
   themeMode: 'light' | 'dark' | 'ice';
+  appLanguage: Language;
 }
 
 export const BookmarksView: React.FC<BookmarksViewProps> = ({
@@ -16,7 +18,9 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
   onToggleBookmark,
   onSelectVerse,
   themeMode,
+  appLanguage,
 }) => {
+  const t = TRANSLATIONS[appLanguage];
   const isDark = themeMode === 'dark';
   const isIce = themeMode === 'ice';
 
@@ -36,10 +40,10 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            Bookmarks
+            {t.bookmarksTitle}
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            {savedVerses.length} Saved Quranic Verses
+            {t.savedVersesCount(toLocalizedNumeral(savedVerses.length, appLanguage))}
           </p>
         </div>
         <div className="w-10 h-10 rounded-full bg-amber-500/15 text-amber-500 flex items-center justify-center border border-amber-500/30">
@@ -50,9 +54,9 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
       {savedVerses.length === 0 ? (
         <div className={`rounded-[24px] p-8 text-center ${cardGlassClass}`}>
           <Bookmark className="w-12 h-12 text-slate-400 mx-auto mb-3 opacity-50" />
-          <h3 className="text-lg font-bold text-slate-700 dark:text-slate-200">No Bookmarks Saved Yet</h3>
+          <h3 className="text-lg font-bold text-slate-700 dark:text-slate-200">{t.noBookmarksTitle}</h3>
           <p className="text-xs text-slate-500 max-w-xs mx-auto mt-1">
-            Tap the bookmark icon while reading any verse to save it to your bookmarks collection.
+            {t.noBookmarksDesc}
           </p>
         </div>
       ) : (
@@ -64,13 +68,13 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
             >
               <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10 mb-3">
                 <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 px-3 py-1 rounded-full">
-                  Ayah {verse.numberInSurah} • Page {verse.page}
+                  {t.verses} {toLocalizedNumeral(verse.numberInSurah, appLanguage)} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}
                 </span>
 
                 <button
                   onClick={() => onToggleBookmark(verse.numberInQuran)}
                   className="p-1.5 rounded-full hover:bg-rose-500/20 text-rose-500 transition-all"
-                  title="Remove Bookmark"
+                  title={t.removeBookmark}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -81,9 +85,9 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
                 {verse.text}
               </div>
 
-              {/* Kurdish */}
-              <div dir="rtl" className="text-base kurdish-text text-emerald-800 dark:text-emerald-300 mt-1">
-                {verse.kurdish}
+              {/* Kurdish / English depending on language */}
+              <div dir={appLanguage === 'en' ? 'ltr' : 'rtl'} className="text-base kurdish-text text-emerald-800 dark:text-emerald-300 mt-1">
+                {appLanguage === 'en' ? verse.english : verse.kurdish}
               </div>
 
               {/* Jump Button */}
@@ -92,7 +96,7 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
                 className="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold text-xs border border-emerald-500/30 hover:bg-emerald-500/30 transition-all"
               >
                 <BookOpen className="w-3.5 h-3.5" />
-                <span>Jump to Page {verse.page}</span>
+                <span>{t.jumpToPage(toLocalizedNumeral(verse.page, appLanguage))}</span>
               </button>
             </div>
           ))}

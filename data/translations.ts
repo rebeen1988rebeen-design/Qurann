@@ -1,0 +1,352 @@
+export type Language = 'ar' | 'ku' | 'en';
+
+export const toLocalizedNumeral = (num: number | string, lang: Language): string => {
+  if (num === undefined || num === null) return '';
+  const str = String(num);
+  if (lang === 'en') return str;
+
+  // Eastern Arabic / Kurdish numerals: ٠١٢٣٤٥٦٧٨٩
+  const digits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return str.replace(/\d/g, (d) => digits[parseInt(d, 10)]);
+};
+
+export const formatLocalizedTime = (seconds: number, lang: Language): string => {
+  if (isNaN(seconds) || seconds < 0) return toLocalizedNumeral("0:00", lang);
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  const formatted = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  return toLocalizedNumeral(formatted, lang);
+};
+
+export const TRANSLATIONS = {
+  ar: {
+    // Header & General Navigation
+    appTitle: "القرآن الكريم",
+    backToReader: "العودة للقرآن",
+    close: "إغلاق",
+    contents: "الفهرس",
+    search: "بحث",
+    settings: "الإعدادات",
+    bookmarks: "المحفوظات",
+    highlights: "المظللة",
+    khatmah: "الختمة",
+    part: "الجزء",
+    page: "صفحة",
+    surah: "سورة",
+    verses: "آيات",
+    meccan: "مكية",
+    medinan: "مدنية",
+    
+    // Header page badge
+    pageBadge: "الصفحة",
+
+    // Search
+    searchPlaceholder: "ابحث عن اسم السورة، الرقم، أو الكلمة...",
+    searchTitle: "البحث في القرآن الكريم",
+    noResults: "لم يتم العثور على نتائج",
+    surahsFound: "السور المطابقة",
+    versesFound: "الآيات المطابقة",
+
+    // Contents View Tabs & Header
+    tabSurahs: "السور",
+    tabQuarters: "الأرباع",
+    tabJuzs: "الأجزاء",
+    contentsTitle: "فهرس القرآن",
+    contentsSubtitle: (surahCount: string, juzCount: string) => `${surahCount} سورة • ${juzCount} جزءاً • مصحف المدينة`,
+    juzHeader: (juzNum: string) => `الجزء ${juzNum}`,
+    surahSubtitle: (page: string, verses: string, type: string) => `صفحة ${page} • ${verses} آية • ${type}`,
+    surahHeader: (surahName: string, ayahNum: string) => `سورة ${surahName} • الآية ${ayahNum}`,
+
+    // Bottom Player Bar
+    reciter: "القارئ",
+    playing: "جاري التشغيل",
+    paused: "متوقف",
+    continuous: "مستمر",
+    startPlayback: "تشغيل",
+    prevVerse: "الآية السابقة",
+    nextVerse: "الآية التالية",
+
+    // Reader View
+    arabicOnly: "عربي",
+    kurdishOnly: "كوردي",
+    kurdishTranslation: "تفسير / ترجمة",
+    englishTranslation: "English Translation",
+    zoomFont: "حجم الخط",
+    arabicFont: "عربي",
+    kurdishFont: "كوردي",
+    playVerse: "استماع للآية",
+    playAudio: "تشغيل الصوت",
+    bookmarkVerse: "حفظ الآية",
+    bookmark: "نیشانەکردن / حفظ",
+    highlight: "تظليل",
+    shareVerse: "مشاركة",
+    copy: "نسخ النص",
+    loadingVerses: "جاري تحميل السورة...",
+
+    // Settings View
+    settingsTitle: "الإعدادات",
+    appLanguage: "لغة التطبيق",
+    langArabic: "العربية",
+    langKurdish: "کوردى سۆرانی",
+    langEnglish: "English",
+    theme: "المظهر",
+    themeLight: "فاتح",
+    themeDark: "داكن",
+    themeIce: "ثلجي",
+    reciterSelection: "القارئ المفضل",
+    membership: "العضوية الممتازة",
+    ayahMembership: "عضوية آية الممتازة",
+    pro: "ممتاز",
+    quranSettings: "إعدادات المصحف",
+    sync: "المزامنة السحابية",
+    icloudActive: "مفعل (iCloud)",
+    disabled: "معطل",
+    reminders: "تنبيهات القراءة",
+    dailyReminder: "تنبيه يومي",
+    audioReciter: "القارئ والتلاوة",
+    language: "اللغة",
+    appearance: "المظهر والنمط",
+    appIcon: "أيقونة التطبيق",
+    defaultGold: "الذهبي الرئيسي",
+    helpFaq: "الأسئلة الشائعة والمساعدة",
+    aboutApp: "عن تطبيق القرآن",
+    ourOtherApp: "تطبيقنا الآخر",
+    hisnSub: "حصن المسلم والأذكار اليومية",
+    syncData: "مزامنة البيانات",
+
+    // Bookmarks View
+    bookmarksTitle: "الآيات المحفوظة",
+    savedVersesCount: (count: string) => `${count} آية محفوظة`,
+    noBookmarksTitle: "لا توجد محفوظات حالياً",
+    noBookmarksDesc: "اضغط على أيقونة الإشارة المرجعية أثناء قراءة أي آية لحفظها هنا.",
+    removeBookmark: "إزالة الحفظ",
+    jumpToPage: (page: string) => `الانتقال إلى صفحة ${page}`,
+
+    // Highlights View
+    highlightsTitle: "الآيات المظللة",
+    highlightsCount: (count: string) => `${count} آية مظللة ودراسات`,
+    noHighlightsTitle: "لا توجد آيات مظللة",
+    noHighlightsDesc: "قم بتظليل الآيات باللون الذهبي أو الزمردي أو الأزرق لتنظيم مراجعتك.",
+    removeHighlight: "إزالة التظليل",
+  },
+  ku: {
+    // Header & General Navigation
+    appTitle: "قورئانی پیرۆز",
+    backToReader: "گەڕانەوە بۆ قورئان",
+    close: "داخستن",
+    contents: "ناوەڕۆک",
+    search: "گەڕان",
+    settings: "ڕێکخستنەکان",
+    bookmarks: "نیشانەکراو",
+    highlights: "دیاریکراو",
+    khatmah: "خەتنەکردن",
+    part: "پشکی",
+    page: "لاپەڕە",
+    surah: "سورەتی",
+    verses: "ئایەت",
+    meccan: "مەکی",
+    medinan: "مەدەنی",
+
+    // Header page badge
+    pageBadge: "لاپەڕەی",
+
+    // Search
+    searchPlaceholder: "گەڕان بەدوای ناو، ژمارە، یان وشە...",
+    searchTitle: "گەڕان لە قورئانی پیرۆزدا",
+    noResults: "هیچ ئەنجامێک نەدۆزرایەوە",
+    surahsFound: "سورەتە دۆزراوەکان",
+    versesFound: "ئایەتە دۆزراوەکان",
+
+    // Contents View Tabs & Header
+    tabSurahs: "سورەتەکان",
+    tabQuarters: "چارەکەکان",
+    tabJuzs: "پشکەکان",
+    contentsTitle: "ناوەڕۆک",
+    contentsSubtitle: (surahCount: string, juzCount: string) => `${surahCount} سورەت • ${juzCount} پشک • پێرستی مصحفی مەدینە`,
+    juzHeader: (juzNum: string) => `پشکی ${juzNum}`,
+    surahSubtitle: (page: string, verses: string, type: string) => `لاپەڕە ${page} • ${verses} ئایەت • ${type}`,
+    surahHeader: (surahName: string, ayahNum: string) => `سورەتی ${surahName} • ئایەتی ${ayahNum}`,
+
+    // Bottom Player Bar
+    reciter: "خوێنەر",
+    playing: "دەخوێنێتەوە",
+    paused: "وەستاوە",
+    continuous: "بەردەوام",
+    startPlayback: "دەستپێک",
+    prevVerse: "ئایەتی پێشوو",
+    nextVerse: "ئایەتی داهاتوو",
+
+    // Reader View
+    arabicOnly: "عەرەبی",
+    kurdishOnly: "کوردی",
+    kurdishTranslation: "تەفسیر / وەرگێڕانی کوردی",
+    englishTranslation: "English Translation",
+    zoomFont: "قەبارەی فۆنت",
+    arabicFont: "عەرەبی",
+    kurdishFont: "کوردی",
+    playVerse: "گوێگرتن لە ئایەت",
+    playAudio: "لێدانی دەنگ",
+    bookmarkVerse: "نیشانەکردنی ئایەت",
+    bookmark: "نیشانەکردن",
+    highlight: "دیاریکردن",
+    shareVerse: "بەشداریکردن",
+    copy: "کۆپیکردنی دەق",
+    loadingVerses: "بارکردنی ئایەتەکان...",
+
+    // Settings View
+    settingsTitle: "ڕێکخستنەکان",
+    appLanguage: "زمانی بەرنامە",
+    langArabic: "العربية",
+    langKurdish: "کوردى سۆرانی",
+    langEnglish: "English",
+    theme: "ڕوکار",
+    themeLight: "رووناک",
+    themeDark: "تاریک",
+    themeIce: "سەهۆڵی",
+    reciterSelection: "خوێنەری هەڵبژێردراو",
+    membership: "ئەندامێتی تایبەت",
+    ayahMembership: "ئەندامێتی بەخشندەیی ئایەت",
+    pro: "تایبەت",
+    quranSettings: "ڕێکخستنەکانی قورئان",
+    sync: "هاوکاتکردنی سحابی",
+    icloudActive: "چالاکە (iCloud)",
+    disabled: "ناچالاکە",
+    reminders: "بیرخەرەوەی خوێندنەوە",
+    dailyReminder: "بیرخەرەوەی ڕۆژانە",
+    audioReciter: "دەنگ و خوێنەر",
+    language: "زمان",
+    appearance: "ڕوکار و شێواز",
+    appIcon: "ئایکۆنی بەرنامە",
+    defaultGold: "زێڕینی سەرەکی",
+    helpFaq: "پرسیارە باوەکان و یارمەتی",
+    aboutApp: "دەربارەی بەرنامەی قورئان",
+    ourOtherApp: "بەرنامەیەکی تری ئیمە",
+    hisnSub: "قەڵای موسڵمان و زیکرەکانی ڕۆژانە",
+    syncData: "هاوکاتکردنی زانیارییەکان",
+
+    // Bookmarks View
+    bookmarksTitle: "ئایەتە نیشانەکراوەکان",
+    savedVersesCount: (count: string) => `${count} ئایەتی هەڵگیراو`,
+    noBookmarksTitle: "هیچ ئایەتێک نیشان نەکراوە",
+    noBookmarksDesc: "داگرتنی نیشانە لەسەر هەر ئایەتێک بۆ ئەوەی لێرە پاشەکەوت بێت.",
+    removeBookmark: "سڕینەوەی نیشانە",
+    jumpToPage: (page: string) => `چوون بۆ لاپەڕەی ${page}`,
+
+    // Highlights View
+    highlightsTitle: "ئایەتە دیاریکراوەکان",
+    highlightsCount: (count: string) => `${count} ئایەتی دیاریکراو`,
+    noHighlightsTitle: "هیچ ئایەتێک دیاری نەکراوە",
+    noHighlightsDesc: "دیاریکردنی ئایەتەکان بە ڕەنگی زێڕین، زمڕودی، یان شینی سەهۆڵی.",
+    removeHighlight: "سڕینەوەی دیاریکراو",
+  },
+  en: {
+    // Header & General Navigation
+    appTitle: "Holy Quran",
+    backToReader: "Back to Quran",
+    close: "Close",
+    contents: "Contents",
+    search: "Search",
+    settings: "Settings",
+    bookmarks: "Bookmarks",
+    highlights: "Highlights",
+    khatmah: "Khatmah",
+    part: "Part",
+    page: "Page",
+    surah: "Surah",
+    verses: "Verses",
+    meccan: "Meccan",
+    medinan: "Medinan",
+
+    // Header page badge
+    pageBadge: "Page",
+
+    // Search
+    searchPlaceholder: "Search surah name, number, or keyword...",
+    searchTitle: "Search Holy Quran",
+    noResults: "No results found",
+    surahsFound: "Matching Surahs",
+    versesFound: "Matching Ayahs",
+
+    // Contents View Tabs & Header
+    tabSurahs: "Sūrahs",
+    tabQuarters: "Quarters",
+    tabJuzs: "Juzs",
+    contentsTitle: "Contents",
+    contentsSubtitle: (surahCount: string, juzCount: string) => `${surahCount} Surahs • ${juzCount} Juzs (Parts) • Madani Mushaf Index`,
+    juzHeader: (juzNum: string) => `PART ${juzNum}`,
+    surahSubtitle: (page: string, verses: string, type: string) => `Page ${page} • ${verses} verses • ${type}`,
+    surahHeader: (surahName: string, ayahNum: string) => `Surah ${surahName} • Ayah ${ayahNum}`,
+
+    // Bottom Player Bar
+    reciter: "Reciter",
+    playing: "Playing",
+    paused: "Paused",
+    continuous: "Continuous",
+    startPlayback: "Start",
+    prevVerse: "Previous Ayah",
+    nextVerse: "Next Ayah",
+
+    // Reader View
+    arabicOnly: "Arabic",
+    kurdishOnly: "Kurdish",
+    kurdishTranslation: "Kurdish Translation",
+    englishTranslation: "English Translation",
+    zoomFont: "Font Size",
+    arabicFont: "Arabic",
+    kurdishFont: "Kurdish",
+    playVerse: "Listen to Ayah",
+    playAudio: "Play Audio",
+    bookmarkVerse: "Bookmark Ayah",
+    bookmark: "Bookmark",
+    highlight: "Highlight",
+    shareVerse: "Share",
+    copy: "Copy Text",
+    loadingVerses: "Loading Surah Verses...",
+
+    // Settings View
+    settingsTitle: "Settings",
+    appLanguage: "App Language",
+    langArabic: "العربية",
+    langKurdish: "کوردى سۆرانی",
+    langEnglish: "English",
+    theme: "Theme",
+    themeLight: "Light",
+    themeDark: "Dark",
+    themeIce: "Ice",
+    reciterSelection: "Selected Reciter",
+    membership: "Ayah Membership",
+    ayahMembership: "Ayah Premium Membership",
+    pro: "PRO",
+    quranSettings: "Quran Settings",
+    sync: "Cloud Sync",
+    icloudActive: "Active (iCloud)",
+    disabled: "Disabled",
+    reminders: "Reading Reminders",
+    dailyReminder: "Daily Reminder",
+    audioReciter: "Audio Reciter",
+    language: "Language",
+    appearance: "Appearance & Style",
+    appIcon: "App Icon",
+    defaultGold: "Default Gold",
+    helpFaq: "Help & FAQs",
+    aboutApp: "About Quran App",
+    ourOtherApp: "OUR OTHER APP",
+    hisnSub: "Daily Muslim Azkar & Supplications",
+    syncData: "Sync Data",
+
+    // Bookmarks View
+    bookmarksTitle: "Bookmarks",
+    savedVersesCount: (count: string) => `${count} Saved Quranic Verses`,
+    noBookmarksTitle: "No Bookmarks Saved Yet",
+    noBookmarksDesc: "Tap the bookmark icon while reading any verse to save it to your bookmarks collection.",
+    removeBookmark: "Remove Bookmark",
+    jumpToPage: (page: string) => `Jump to Page ${page}`,
+
+    // Highlights View
+    highlightsTitle: "Highlights",
+    highlightsCount: (count: string) => `${count} Color-coded Ayahs`,
+    noHighlightsTitle: "No Highlights Yet",
+    noHighlightsDesc: "Highlight meaningful verses in gold, emerald, or ice blue to organize your study.",
+    removeHighlight: "Remove Highlight",
+  }
+};

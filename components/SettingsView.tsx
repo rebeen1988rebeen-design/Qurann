@@ -8,7 +8,6 @@ import {
   Book,
   Cloud,
   Bell,
-  Archive,
   Globe,
   Moon,
   Sun,
@@ -19,6 +18,7 @@ import {
   Check,
   Volume2,
 } from 'lucide-react';
+import { Language, TRANSLATIONS } from '@/data/translations';
 
 interface SettingsViewProps {
   onBack: () => void;
@@ -30,6 +30,8 @@ interface SettingsViewProps {
   setFontSize: (size: 'small' | 'medium' | 'large' | 'xlarge') => void;
   selectedReciterName: string;
   onOpenReciterSelector: () => void;
+  appLanguage: Language;
+  setAppLanguage: (lang: Language) => void;
 }
 
 export const SettingsView: React.FC<SettingsViewProps> = ({
@@ -42,7 +44,10 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   setFontSize,
   selectedReciterName,
   onOpenReciterSelector,
+  appLanguage,
+  setAppLanguage,
 }) => {
+  const t = TRANSLATIONS[appLanguage];
   const [remindersEnabled, setRemindersEnabled] = useState(true);
   const [syncEnabled, setSyncEnabled] = useState(true);
   const [activeSubModal, setActiveSubModal] = useState<string | null>(null);
@@ -68,7 +73,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           <ChevronLeft className="w-6 h-6" />
         </button>
         <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-          Settings
+          {t.settingsTitle}
         </h1>
       </div>
 
@@ -85,11 +90,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Heart className="w-5 h-5 fill-rose-500/20" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                Ayah Membership
+                {t.ayahMembership}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-rose-500 bg-rose-500/10 px-2.5 py-1 rounded-full border border-rose-500/20">Pro</span>
+              <span className="text-xs font-bold text-rose-500 bg-rose-500/10 px-2.5 py-1 rounded-full border border-rose-500/20">{t.pro}</span>
               <ChevronRight className="w-5 h-5 text-slate-400" />
             </div>
           </div>
@@ -108,7 +113,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Book className="w-5 h-5" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                Quran
+                {t.quranSettings}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -127,12 +132,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Cloud className="w-5 h-5" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                Sync
+                {t.sync}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${syncEnabled ? 'bg-emerald-500/20 text-emerald-600' : 'bg-slate-200 text-slate-500'}`}>
-                {syncEnabled ? 'iCloud Active' : 'Disabled'}
+                {syncEnabled ? t.icloudActive : t.disabled}
               </span>
               <ChevronRight className="w-5 h-5 text-slate-400" />
             </div>
@@ -148,11 +153,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Bell className="w-5 h-5" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                Reminders
+                {t.reminders}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-500 font-medium">Daily 08:00 AM</span>
+              <span className="text-xs text-slate-500 font-medium">{t.dailyReminder}</span>
               <ChevronRight className="w-5 h-5 text-slate-400" />
             </div>
           </div>
@@ -167,7 +172,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Volume2 className="w-5 h-5" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                Audio Reciter
+                {t.audioReciter}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -191,11 +196,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Globe className="w-5 h-5" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                Language
+                {t.language}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-500 font-medium capitalize">{translationMode === 'kurdish' ? 'Kurdish (کوردی)' : translationMode === 'arabic' ? 'Arabic' : 'Bilingual (Both)'}</span>
+              <span className="text-xs text-slate-500 font-medium capitalize">
+                {appLanguage === 'ku' ? 'کوردی (ك)' : appLanguage === 'ar' ? 'العربية (ع)' : 'English (E)'}
+              </span>
               <ChevronRight className="w-5 h-5 text-slate-400" />
             </div>
           </div>
@@ -210,7 +217,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Moon className="w-5 h-5" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                Appearance
+                {t.appearance}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -229,11 +236,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Smartphone className="w-5 h-5" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                App Icon
+                {t.appIcon}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-500 font-medium">Default Gold</span>
+              <span className="text-xs text-slate-500 font-medium">{t.defaultGold}</span>
               <ChevronRight className="w-5 h-5 text-slate-400" />
             </div>
           </div>
@@ -251,7 +258,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <HelpCircle className="w-5 h-5" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                Help & FAQ
+                {t.helpFaq}
               </span>
             </div>
             <ChevronRight className="w-5 h-5 text-slate-400" />
@@ -269,7 +276,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Info className="w-5 h-5" />
               </div>
               <span className="font-semibold text-base text-slate-900 dark:text-white">
-                About Quran App
+                {t.aboutApp}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -282,12 +289,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         {/* OUR OTHER APP Section matching Screenshot 4 */}
         <div className="mt-4">
           <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">
-            OUR OTHER APP
+            {t.ourOtherApp}
           </div>
 
           <div className={`rounded-[22px] overflow-hidden shadow-sm p-4 flex items-center justify-between cursor-pointer hover:bg-emerald-500/10 transition-all ${cardGlassClass}`}>
             <div className="flex items-center gap-3.5">
-              {/* Custom Blue Icon Badge for Hisn Adhkar App matching screenshot 4 */}
               <div className="w-10 h-10 rounded-[14px] bg-sky-500 text-white flex items-center justify-center font-bold text-xl shadow-md">
                 <span>ﷺ</span>
               </div>
@@ -296,7 +302,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   Hisn
                 </span>
                 <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                  Adhkar and Dua App
+                  {t.hisnSub}
                 </span>
               </div>
             </div>
@@ -306,11 +312,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
       </div>
 
-      {/* Sub Modals for Settings (Appearance, Language, Quran) */}
+      {/* Sub Modals for Settings */}
       {activeSubModal === 'appearance' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
           <div className={`w-full max-w-md rounded-[24px] p-6 shadow-2xl ${cardGlassClass}`}>
-            <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">Select Appearance</h3>
+            <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">{t.appearance}</h3>
             <div className="flex flex-col gap-3">
               <button
                 onClick={() => { setThemeMode('light'); setActiveSubModal(null); }}
@@ -349,7 +355,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               onClick={() => setActiveSubModal(null)}
               className="w-full mt-5 py-2.5 rounded-full bg-slate-200/80 dark:bg-slate-800 font-bold text-sm"
             >
-              Close
+              {t.close}
             </button>
           </div>
         </div>
@@ -358,40 +364,48 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       {activeSubModal === 'language' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
           <div className={`w-full max-w-md rounded-[24px] p-6 shadow-2xl ${cardGlassClass}`}>
-            <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">Language & Translation</h3>
+            <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">{t.language}</h3>
+            
             <div className="flex flex-col gap-3">
               <button
-                onClick={() => { setTranslationMode('kurdish'); setActiveSubModal(null); }}
+                onClick={() => { setAppLanguage('ku'); setActiveSubModal(null); }}
                 className="p-3.5 rounded-[16px] bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between font-semibold text-emerald-900 dark:text-emerald-100"
               >
-                <div className="flex flex-col text-left">
-                  <span>Kurdish Sorani (کوردی)</span>
-                  <span className="text-xs text-emerald-600 font-normal">2px smaller font for optimal reading</span>
+                <div className="flex items-center gap-3">
+                  <span className="w-7 h-7 rounded-full bg-emerald-500 text-white font-bold text-xs flex items-center justify-center">ك</span>
+                  <span>کوردی (Sorani Kurdish)</span>
                 </div>
-                {translationMode === 'kurdish' && <Check className="w-5 h-5 text-emerald-500" />}
+                {appLanguage === 'ku' && <Check className="w-5 h-5 text-emerald-500" />}
               </button>
 
               <button
-                onClick={() => { setTranslationMode('both'); setActiveSubModal(null); }}
+                onClick={() => { setAppLanguage('ar'); setActiveSubModal(null); }}
                 className="p-3.5 rounded-[16px] bg-white/60 dark:bg-slate-800/60 border border-white/60 flex items-center justify-between font-semibold"
               >
-                <span>Bilingual (Kurdish + English)</span>
-                {translationMode === 'both' && <Check className="w-5 h-5 text-emerald-500" />}
+                <div className="flex items-center gap-3">
+                  <span className="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">ع</span>
+                  <span>العربية (Arabic)</span>
+                </div>
+                {appLanguage === 'ar' && <Check className="w-5 h-5 text-emerald-500" />}
               </button>
 
               <button
-                onClick={() => { setTranslationMode('arabic'); setActiveSubModal(null); }}
+                onClick={() => { setAppLanguage('en'); setActiveSubModal(null); }}
                 className="p-3.5 rounded-[16px] bg-white/60 dark:bg-slate-800/60 border border-white/60 flex items-center justify-between font-semibold"
               >
-                <span>Arabic Only (Uthmani Script)</span>
-                {translationMode === 'arabic' && <Check className="w-5 h-5 text-emerald-500" />}
+                <div className="flex items-center gap-3">
+                  <span className="w-7 h-7 rounded-full bg-emerald-700 text-white font-bold text-xs flex items-center justify-center">E</span>
+                  <span>English</span>
+                </div>
+                {appLanguage === 'en' && <Check className="w-5 h-5 text-emerald-500" />}
               </button>
             </div>
+
             <button
               onClick={() => setActiveSubModal(null)}
               className="w-full mt-5 py-2.5 rounded-full bg-slate-200/80 dark:bg-slate-800 font-bold text-sm"
             >
-              Close
+              {t.close}
             </button>
           </div>
         </div>
@@ -403,16 +417,16 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-600 mx-auto flex items-center justify-center mb-3">
               <Book className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Quran Application</h3>
-            <p className="text-xs text-emerald-600 font-bold mt-1">Inspired by Ayah App & Apple Liquid Glass</p>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{t.aboutApp}</h3>
+            <p className="text-xs text-emerald-600 font-bold mt-1">Madani Quran & Liquid Glass</p>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">
-              Featuring Madani Uthmani Script, Sorani Kurdish Translation, complete Recitation audio player, Khatmah progress tracker, and custom glassmorphic styling.
+              Featuring Madani Uthmani Script, Sorani Kurdish Translation, English Translation, complete Recitation audio player, and dynamic tri-lingual localization.
             </p>
             <button
               onClick={() => setActiveSubModal(null)}
               className="w-full mt-6 py-2.5 rounded-full bg-emerald-500 text-white font-bold text-sm shadow-md"
             >
-              Done
+              {t.close}
             </button>
           </div>
         </div>

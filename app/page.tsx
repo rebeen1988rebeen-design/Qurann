@@ -12,27 +12,46 @@ import { BottomAudioPlayerBar } from '@/components/BottomAudioPlayerBar';
 import { SearchModal } from '@/components/SearchModal';
 import { AudioReciterModal } from '@/components/AudioReciterModal';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, RECITERS, SurahMeta, Verse, Reciter } from '@/data/quranData';
+import { Language } from '@/data/translations';
+
+const stripBismillahPrefix = (text: string, numberInSurah: number, surahNum: number): string => {
+  if (numberInSurah !== 1 || surahNum === 1) return text;
+  
+  let s = text.replace(/^[\uFEFF\u200B\s]+/, '');
+  const bismillahPattern = /^(?:بِسْمِ|بِسۡمِ|بِسمِ)\s+[\u0600-\u06FF\s]*?(?:ٱلرَّحِيمِ|ٱلرَّحِيم|الرَّحِيمِ|الرَّحِيمِ|الرحيم)\s*/i;
+  
+  if (bismillahPattern.test(s)) {
+    return s.replace(bismillahPattern, '').trim();
+  }
+
+  const bismillahEnding = "ٱلرَّحِيمِ";
+  const index = s.indexOf(bismillahEnding);
+  if (index !== -1 && index < 45) {
+    return s.slice(index + bismillahEnding.length).trim();
+  }
+
+  return s;
+};
 
 export default function QuranApp() {
   const [currentSurah, setCurrentSurah] = useState<SurahMeta>(SURAHS_LIST[1]); // Al-Baqarah default
   const [currentPage, setCurrentPage] = useState<number>(3);
   const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights'>('reader');
   
+  const [appLanguage, setAppLanguage] = useState<Language>('ku'); // Default to Sorani Kurdish
   const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish' | 'both'>('kurdish');
   const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'ice'>('light');
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
 
-  // Synchronized Font Scaling (Arabic default = 24px, Kurdish default = 20px)
-  const [arabicFontSize, setArabicFontSize] = useState<number>(24);
-  const kurdishFontSize = Math.max(12, arabicFontSize - 4);
+  // Synchronized Font Scaling (Arabic default = 22px, Kurdish default = 16px)
+  const [arabicFontSize, setArabicFontSize] = useState<number>(22);
+  const kurdishFontSize = Math.max(10, arabicFontSize - 6);
 
   const handleZoomInFont = () => setArabicFontSize((prev) => Math.min(44, prev + 2));
-  const handleZoomOutFont = () => setArabicFontSize((prev) => Math.max(16, prev - 2));
+  const handleZoomOutFont = () => setArabicFontSize((prev) => Math.max(14, prev - 2));
 
-  const [bookmarkedVerses, setBookmarkedVerses] = useState<number[]>([1, 9, 14]);
-  const [highlightedVerses, setHighlightedVerses] = useState<Record<number, string>>({
-    9: 'bg-amber-500/20 text-amber-950 dark:text-amber-100',
-  });
+  const [bookmarkedVerses, setBookmarkedVerses] = useState<number[]>([]);
+  const [highlightedVerses, setHighlightedVerses] = useState<Record<number, string>>({});
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isReciterModalOpen, setIsReciterModalOpen] = useState(false);
@@ -103,7 +122,7 @@ export default function QuranApp() {
                 ) => ({
                   numberInSurah: a.numberInSurah,
                   numberInQuran: a.number,
-                  text: a.text,
+                  text: stripBismillahPrefix(a.text, a.numberInSurah, surahNum),
                   kurdish: kurdishAyahs[idx]?.text || '',
                   english: englishAyahs[idx]?.text || '',
                   juz: a.juz,
@@ -115,7 +134,7 @@ export default function QuranApp() {
                 (a: { numberInSurah: number; number: number; text: string; juz: number; page: number }) => ({
                   numberInSurah: a.numberInSurah,
                   numberInQuran: a.number,
-                  text: a.text,
+                  text: stripBismillahPrefix(a.text, a.numberInSurah, surahNum),
                   kurdish: '',
                   english: '',
                   juz: a.juz,
@@ -354,7 +373,10 @@ export default function QuranApp() {
   const currentVerse = currentVerseIndex !== null ? versesForCurrentSurah[currentVerseIndex] || null : null;
 
   return (
-    <div className={`min-h-screen relative overflow-x-hidden transition-colors duration-500 ${getBgStyle()}`}>
+    <div
+      dir={appLanguage === 'en' ? 'ltr' : 'rtl'}
+      className={`min-h-screen relative overflow-x-hidden transition-colors duration-500 ${getBgStyle()}`}
+    >
       
       {/* Liquid Glass Ambient Background Orbs */}
       <div className="fixed top-12 left-1/4 w-96 h-96 rounded-full bg-emerald-400/20 dark:bg-emerald-600/15 blur-3xl pointer-events-none -z-10 animate-pulse duration-1000" />
@@ -374,6 +396,8 @@ export default function QuranApp() {
         setThemeMode={setThemeMode}
         translationMode={translationMode}
         setTranslationMode={setTranslationMode}
+        appLanguage={appLanguage}
+        setAppLanguage={setAppLanguage}
       />
 
       {/* Main Views Container */}
@@ -391,6 +415,7 @@ export default function QuranApp() {
               playVerse(currentSurah, idx >= 0 ? idx : 0, true);
             }}
             translationMode={translationMode}
+            onSelectTranslationMode={(mode) => setTranslationMode(mode)}
             bookmarkedVerses={bookmarkedVerses}
             onToggleBookmark={handleToggleBookmark}
             highlightedVerses={highlightedVerses}
@@ -401,6 +426,7 @@ export default function QuranApp() {
             kurdishFontSize={kurdishFontSize}
             onZoomInFont={handleZoomInFont}
             onZoomOutFont={handleZoomOutFont}
+            appLanguage={appLanguage}
           />
         )}
 
@@ -409,6 +435,7 @@ export default function QuranApp() {
             onSelectSurah={(surah) => handleSelectSurah(surah)}
             currentSurahNumber={currentSurah.number}
             themeMode={themeMode}
+            appLanguage={appLanguage}
           />
         )}
 
@@ -423,6 +450,8 @@ export default function QuranApp() {
             setFontSize={setFontSize}
             selectedReciterName={selectedReciter.name}
             onOpenReciterSelector={() => setIsReciterModalOpen(true)}
+            appLanguage={appLanguage}
+            setAppLanguage={setAppLanguage}
           />
         )}
 
@@ -443,6 +472,7 @@ export default function QuranApp() {
               handleSelectSurah(surah, page);
             }}
             themeMode={themeMode}
+            appLanguage={appLanguage}
           />
         )}
 
@@ -455,6 +485,7 @@ export default function QuranApp() {
               handleSelectSurah(surah, page);
             }}
             themeMode={themeMode}
+            appLanguage={appLanguage}
           />
         )}
       </main>
@@ -479,6 +510,7 @@ export default function QuranApp() {
         activeView={activeView}
         setActiveView={setActiveView}
         themeMode={themeMode}
+        appLanguage={appLanguage}
       />
 
       {/* Modals */}
@@ -487,6 +519,7 @@ export default function QuranApp() {
         onClose={() => setIsSearchOpen(false)}
         onSelectSurah={(surah, page) => handleSelectSurah(surah, page)}
         themeMode={themeMode}
+        appLanguage={appLanguage}
       />
 
       <AudioReciterModal

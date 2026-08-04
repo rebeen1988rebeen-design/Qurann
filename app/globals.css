@@ -113,14 +113,19 @@
 /* Quran Uthmani Script Styling */
 .uthmani-text {
   font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', 'Traditional Arabic', serif;
-  line-height: 2.3;
-  word-spacing: 0.18em;
+  line-height: 2.1;
+  word-spacing: -0.06em;
+  letter-spacing: 0.01em;
+  text-justify: inter-character;
+  font-feature-settings: "kash" 1;
   text-rendering: optimizeLegibility;
 }
 
 .kurdish-text {
   font-family: 'Vazirmatn', 'Noto Naskh Arabic', system-ui, sans-serif;
   line-height: 1.7;
+  word-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 /* Verse marker ornament */

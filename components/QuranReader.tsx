@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Play, Bookmark, Share2, Sparkles, Volume2, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
-import { SurahMeta, Verse, toArabicNumerals } from '@/data/quranData';
+import { Play, Bookmark, Share2, Volume2 } from 'lucide-react';
+import { SurahMeta, Verse } from '@/data/quranData';
+import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 
 interface QuranReaderProps {
   currentSurah: SurahMeta;
@@ -13,6 +14,7 @@ interface QuranReaderProps {
   isPlaying?: boolean;
   onPlayVerseAudio: (verse: Verse) => void;
   translationMode: 'arabic' | 'kurdish' | 'both';
+  onSelectTranslationMode?: (mode: 'arabic' | 'kurdish' | 'both') => void;
   bookmarkedVerses: number[];
   onToggleBookmark: (verseNumberInQuran: number) => void;
   highlightedVerses: Record<number, string>;
@@ -23,6 +25,7 @@ interface QuranReaderProps {
   kurdishFontSize: number;
   onZoomInFont: () => void;
   onZoomOutFont: () => void;
+  appLanguage: Language;
 }
 
 export const QuranReader: React.FC<QuranReaderProps> = ({
@@ -34,6 +37,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   isPlaying = false,
   onPlayVerseAudio,
   translationMode,
+  onSelectTranslationMode,
   bookmarkedVerses,
   onToggleBookmark,
   highlightedVerses,
@@ -44,12 +48,31 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   kurdishFontSize,
   onZoomInFont,
   onZoomOutFont,
+  appLanguage,
 }) => {
+  const t = TRANSLATIONS[appLanguage];
   const [readingMode, setReadingMode] = useState<'page' | 'verses'>('page');
   const [selectedVerseForModal, setSelectedVerseForModal] = useState<Verse | null>(null);
 
   const isDark = themeMode === 'dark';
   const isIce = themeMode === 'ice';
+
+  const getCleanArabicText = (verse: Verse) => {
+    if (verse.numberInSurah !== 1 || currentSurah.number === 1) {
+      return verse.text;
+    }
+    let s = (verse.text || '').replace(/^[\uFEFF\u200B\s]+/, '');
+    const bismillahPattern = /^(?:بِسْمِ|بِسۡمِ|بِسمِ)\s+[\u0600-\u06FF\s]*?(?:ٱلرَّحِيمِ|ٱلرَّحِيم|الرَّحِيمِ|الرَّحِيمِ|الرحيم)\s*/i;
+    if (bismillahPattern.test(s)) {
+      return s.replace(bismillahPattern, '').trim();
+    }
+    const bismillahEnding = "ٱلرَّحِيمِ";
+    const index = s.indexOf(bismillahEnding);
+    if (index !== -1 && index < 45) {
+      return s.slice(index + bismillahEnding.length).trim();
+    }
+    return s;
+  };
 
   const cardGlassClass = isDark
     ? 'liquid-glass-dark text-slate-100'
@@ -73,115 +96,73 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   return (
     <div className="w-full max-w-4xl mx-auto px-3 py-2 pb-44 flex flex-col items-center">
       
-      {/* Top Header Controls: Mode Toggle (Page vs Verses), Zoom (+/-) & Page Navigator */}
-      <div className={`w-full rounded-[20px] p-2 sm:p-3 mb-4 flex flex-wrap items-center justify-between gap-2 transition-all ${cardGlassClass}`}>
-        
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-1 bg-black/5 dark:bg-white/10 p-1 rounded-full border border-white/20">
-          <button
-            onClick={() => setReadingMode('page')}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
-              readingMode === 'page'
-                ? 'bg-emerald-500 text-white shadow-sm'
-                : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'
-            }`}
-          >
-            <Eye className="w-3.5 h-3.5" />
-            <span>Madani Page</span>
-          </button>
-          <button
-            onClick={() => setReadingMode('verses')}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
-              readingMode === 'verses'
-                ? 'bg-emerald-500 text-white shadow-sm'
-                : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'
-            }`}
-          >
-            <span>Verse List</span>
-          </button>
-        </div>
-
-        {/* Synchronized Font Zoom Controls (+ / -) */}
-        <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
-          <button
-            onClick={onZoomOutFont}
-            className="w-7 h-7 rounded-full bg-white/50 dark:bg-slate-700/60 hover:bg-emerald-500/30 text-slate-800 dark:text-slate-100 flex items-center justify-center font-bold text-base transition-all active:scale-95 shadow-xs"
-            title="Zoom Out Font Sizes"
-          >
-            -
-          </button>
-          <div className="flex flex-col items-center px-1 select-none">
-            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-              A:{arabicFontSize}px
-            </span>
-            <span className="text-[9px] font-semibold text-slate-500 opacity-85">
-              K:{kurdishFontSize}px
-            </span>
-          </div>
-          <button
-            onClick={onZoomInFont}
-            className="w-7 h-7 rounded-full bg-white/50 dark:bg-slate-700/60 hover:bg-emerald-500/30 text-slate-800 dark:text-slate-100 flex items-center justify-center font-bold text-base transition-all active:scale-95 shadow-xs"
-            title="Zoom In Font Sizes"
-          >
-            +
-          </button>
-        </div>
-
-        {/* Page Switcher Buttons */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-            disabled={currentPage <= 1}
-            className="p-1.5 rounded-full hover:bg-white/30 dark:hover:bg-slate-700/50 disabled:opacity-30 transition-all text-slate-700 dark:text-slate-200"
-            title="Previous Page"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-            Page {currentPage}
-          </span>
-          <button
-            onClick={() => setCurrentPage(Math.min(604, currentPage + 1))}
-            disabled={currentPage >= 604}
-            className="p-1.5 rounded-full hover:bg-white/30 dark:hover:bg-slate-700/50 disabled:opacity-30 transition-all text-slate-700 dark:text-slate-200"
-            title="Next Page"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-
       {/* Main Quran Frame Card */}
       <div className={`w-full rounded-[24px] p-4 sm:p-8 min-h-[500px] shadow-xl transition-all relative overflow-hidden ${cardGlassClass}`}>
         
-        {/* Decorative Top Surah Header Card */}
-        <div className="w-full text-center py-4 mb-6 border-b border-emerald-500/20 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 mb-2">
-            <Sparkles className="w-4 h-4 text-emerald-500" />
-            <span className="text-xs font-bold uppercase tracking-wider">{currentSurah.revelationType} • {currentSurah.numberOfAyahs} Verses</span>
+        {/* Synchronized Font Zoom Bar */}
+        <div className="w-full mb-4 flex items-center justify-end">
+          <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
+            <button
+              onClick={onZoomOutFont}
+              className="w-7 h-7 rounded-full bg-white/50 dark:bg-slate-700/60 hover:bg-emerald-500/30 text-slate-800 dark:text-slate-100 flex items-center justify-center font-bold text-base transition-all active:scale-95 shadow-xs"
+              title="Zoom Out Font Sizes"
+            >
+              -
+            </button>
+            <div className="flex flex-col items-center px-1 select-none">
+              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                A:{toLocalizedNumeral(arabicFontSize, appLanguage)}px
+              </span>
+              <span className="text-[9px] font-semibold text-slate-500 opacity-85">
+                K:{toLocalizedNumeral(kurdishFontSize, appLanguage)}px
+              </span>
+            </div>
+            <button
+              onClick={onZoomInFont}
+              className="w-7 h-7 rounded-full bg-white/50 dark:bg-slate-700/60 hover:bg-emerald-500/30 text-slate-800 dark:text-slate-100 flex items-center justify-center font-bold text-base transition-all active:scale-95 shadow-xs"
+              title="Zoom In Font Sizes"
+            >
+              +
+            </button>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold uthmani-text text-emerald-800 dark:text-emerald-300 tracking-wide">
-            {currentSurah.name}
-          </h1>
-          <p className="text-sm font-medium text-slate-600 dark:text-slate-400 mt-1">
-            {currentSurah.kurdishName} • {currentSurah.englishName} ({currentSurah.englishNameTranslation})
-          </p>
         </div>
 
-        {/* Bismillah Banner for non-Fatihah surahs */}
-        {currentSurah.number !== 9 && (
-          <div className="w-full text-center my-6 py-3 px-4 rounded-[16px] bg-emerald-500/5 border border-emerald-500/15">
-            <span className="text-2xl sm:text-3xl uthmani-text text-emerald-700 dark:text-emerald-300 tracking-wider">
-              بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+        {/* 2 Display Mode Boxes (عەرەبی / کوردی / Arabic / Kurdish) */}
+        <div className="w-full mb-6 grid grid-cols-2 gap-3" dir={appLanguage === 'en' ? 'ltr' : 'rtl'}>
+          {/* Box 1: Arabic */}
+          <button
+            onClick={() => onSelectTranslationMode?.('arabic')}
+            className={`py-3 px-4 rounded-[16px] text-center transition-all flex items-center justify-center cursor-pointer border ${
+              translationMode === 'arabic' || translationMode === 'both'
+                ? 'bg-emerald-500/20 dark:bg-emerald-500/25 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md scale-[1.01]'
+                : 'bg-white/40 dark:bg-slate-800/40 border-white/60 dark:border-white/10 hover:bg-white/70 dark:hover:bg-slate-800/70'
+            }`}
+          >
+            <span className="text-base font-bold text-emerald-800 dark:text-emerald-300">
+              {t.arabicOnly}
             </span>
-          </div>
-        )}
+          </button>
+
+          {/* Box 2: Kurdish */}
+          <button
+            onClick={() => onSelectTranslationMode?.('kurdish')}
+            className={`py-3 px-4 rounded-[16px] text-center transition-all flex items-center justify-center cursor-pointer border ${
+              translationMode === 'kurdish'
+                ? 'bg-emerald-500/20 dark:bg-emerald-500/25 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md scale-[1.01]'
+                : 'bg-white/40 dark:bg-slate-800/40 border-white/60 dark:border-white/10 hover:bg-white/70 dark:hover:bg-slate-800/70'
+            }`}
+          >
+            <span className="text-base font-bold text-emerald-800 dark:text-emerald-300">
+              {t.kurdishOnly}
+            </span>
+          </button>
+        </div>
 
         {isLoadingVerses && (
           <div className="w-full my-8 flex flex-col items-center justify-center gap-2 py-8 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 animate-pulse">
             <div className="w-8 h-8 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
-            <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 kurdish-text">
-              ڕاکێشانی دەقی تەواوی سورەتەکە...
+            <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+              {t.loadingVerses}
             </span>
           </div>
         )}
@@ -200,10 +181,11 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                   textJustify: 'inter-word',
                   direction: 'rtl',
                   width: '100%',
-                  wordSpacing: 'normal',
+                  wordSpacing: '-0.02em',
+                  letterSpacing: '-0.01em',
                   overflowX: 'hidden',
                   fontSize: `${kurdishFontSize}px`,
-                  lineHeight: '2.3',
+                  lineHeight: '2.0',
                 }}
               >
                 {verses.map((verse, index) => {
@@ -224,7 +206,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       }`}
                       title={`ئایەتی ${verse.numberInSurah} - داگرە بۆ گوێگرتن یان نیشانکردن`}
                     >
-                      {verse.kurdish || verse.text}
+                      {verse.kurdish || getCleanArabicText(verse)}
                       
                       {/* Ornamental Verse End Marker */}
                       <span
@@ -239,7 +221,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                           fontSize: `${Math.max(10, kurdishFontSize - 8)}px`,
                         }}
                       >
-                        {toArabicNumerals(verse.numberInSurah)}
+                        {toLocalizedNumeral(verse.numberInSurah, appLanguage)}
                       </span>
                     </span>
                   );
@@ -249,9 +231,12 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
               /* ARABIC OR BILINGUAL PAGE FLOW */
               <div
                 dir="rtl"
-                className="w-full text-justify leading-[2.6] uthmani-text select-text pt-2 pb-6"
+                className="w-full text-justify leading-[2.1] uthmani-text select-text pt-2 pb-6"
                 style={{
                   fontSize: `${arabicFontSize}px`,
+                  wordSpacing: '-0.06em',
+                  letterSpacing: '0.01em',
+                  textJustify: 'inter-character',
                 }}
               >
                 {verses.map((verse, index) => {
@@ -270,9 +255,9 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                           ? `${highlightColor} px-1 rounded`
                           : 'hover:bg-emerald-500/10'
                       }`}
-                      title={`Ayah ${verse.numberInSurah} - Click for options`}
+                      title={`${t.verses} ${toLocalizedNumeral(verse.numberInSurah, appLanguage)}`}
                     >
-                      {verse.text}
+                      {getCleanArabicText(verse)}
                       
                       {/* Ornamental Verse End Marker */}
                       <span
@@ -287,7 +272,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                           fontSize: `${Math.max(10, arabicFontSize - 12)}px`,
                         }}
                       >
-                        {toArabicNumerals(verse.numberInSurah)}
+                        {toLocalizedNumeral(verse.numberInSurah, appLanguage)}
                       </span>
                     </span>
                   );
@@ -324,10 +309,10 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                             : 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
                         }`}
                       >
-                        {verse.numberInSurah}
+                        {toLocalizedNumeral(verse.numberInSurah, appLanguage)}
                       </span>
                       <span className="text-xs opacity-60 font-medium">
-                        Page {verse.page} • Juz {verse.juz}
+                        {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)} • {t.part} {toLocalizedNumeral(verse.juz, appLanguage)}
                       </span>
                     </div>
 
@@ -339,7 +324,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                             ? 'bg-emerald-500 text-white shadow-md'
                             : 'hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
                         }`}
-                        title="Play Verse Recitation"
+                        title={t.playAudio}
                       >
                         <Volume2 className="w-4 h-4" />
                       </button>
@@ -348,28 +333,28 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                         className={`p-1.5 rounded-full transition-all ${
                           isBookmarked ? 'text-amber-500 fill-amber-500' : 'text-slate-400 hover:text-amber-500'
                         }`}
-                        title="Bookmark Verse"
+                        title={t.bookmark}
                       >
                         <Bookmark className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
 
-                  {/* Arabic Uthmani Verse Text (if not kurdish-only or if both/arabic) */}
+                  {/* Arabic Uthmani Verse Text */}
                   {(translationMode === 'arabic' || translationMode === 'both') && (
                     <div
                       dir="rtl"
                       className="w-full text-right uthmani-text text-slate-900 dark:text-slate-100 mb-3 leading-relaxed"
                       style={{ fontSize: `${arabicFontSize}px` }}
                     >
-                      {verse.text}
+                      {getCleanArabicText(verse)}
                       <span className="inline-flex items-center justify-center w-7 h-7 mx-2 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-bold font-sans">
-                        {toArabicNumerals(verse.numberInSurah)}
+                        {toLocalizedNumeral(verse.numberInSurah, appLanguage)}
                       </span>
                     </div>
                   )}
 
-                  {/* Kurdish Translation (with edge-to-edge justification) */}
+                  {/* Kurdish Translation */}
                   {(translationMode === 'kurdish' || translationMode === 'both') && (
                     <div
                       dir="rtl"
@@ -387,16 +372,16 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       }}
                     >
                       <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 block mb-1">
-                        وەرگێڕانی کوردی (Sorani) ﴿{verse.numberInSurah}﴾
+                        {t.kurdishTranslation} ﴿{toLocalizedNumeral(verse.numberInSurah, appLanguage)}﴾
                       </span>
-                      {verse.kurdish || verse.text}
+                      {verse.kurdish || getCleanArabicText(verse)}
                     </div>
                   )}
 
                   {/* English Translation */}
                   {translationMode === 'both' && (
                     <div className="w-full text-left text-sm text-slate-600 dark:text-slate-300 mt-2 bg-slate-500/5 p-3 rounded-[14px] border border-slate-500/10 font-sans">
-                      <span className="text-[10px] uppercase font-bold text-slate-500 block mb-0.5">English Translation</span>
+                      <span className="text-[10px] uppercase font-bold text-slate-500 block mb-0.5">{t.englishTranslation}</span>
                       {verse.english}
                     </div>
                   )}
@@ -410,7 +395,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
         {/* Footer Page Number Badge */}
         <div className="w-full flex justify-center mt-6 pt-4 border-t border-emerald-500/15">
           <div className="px-5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 font-bold text-sm tracking-widest font-sans flex items-center gap-1.5 shadow-xs">
-            <span>{toArabicNumerals(currentPage)}</span>
+            <span>{toLocalizedNumeral(currentPage, appLanguage)}</span>
           </div>
         </div>
 
@@ -423,13 +408,16 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
             
             <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10 mb-4">
               <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 px-3 py-1 rounded-full">
-                Surah {currentSurah.englishName} • Ayah {selectedVerseForModal.numberInSurah}
+                {t.surahHeader(
+                  appLanguage === 'en' ? currentSurah.englishName : currentSurah.name,
+                  toLocalizedNumeral(selectedVerseForModal.numberInSurah, appLanguage)
+                )}
               </span>
               <button
                 onClick={() => setSelectedVerseForModal(null)}
                 className="text-xs font-bold px-2.5 py-1 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10"
               >
-                Close ✕
+                {t.close} ✕
               </button>
             </div>
 
@@ -441,7 +429,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
             {/* Kurdish Translation */}
             {(translationMode === 'kurdish' || translationMode === 'both') && (
               <div dir="rtl" className="text-lg kurdish-text text-slate-800 dark:text-slate-200 bg-emerald-500/10 p-3 rounded-[16px] mb-3">
-                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 block mb-1">وەرگێڕانی کوردی</span>
+                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 block mb-1">{t.kurdishTranslation}</span>
                 {selectedVerseForModal.kurdish}
               </div>
             )}
@@ -449,7 +437,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
             {/* English Translation */}
             {translationMode === 'both' && (
               <div className="text-sm text-slate-600 dark:text-slate-300 bg-slate-500/5 p-3 rounded-[16px] mb-5">
-                <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">English Translation</span>
+                <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">{t.englishTranslation}</span>
                 {selectedVerseForModal.english}
               </div>
             )}
@@ -464,7 +452,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-emerald-500 text-white font-semibold text-xs shadow-md hover:bg-emerald-600 transition-all"
               >
                 <Play className="w-3.5 h-3.5 fill-white" />
-                <span>Play Recitation</span>
+                <span>{t.playAudio}</span>
               </button>
 
               <button
@@ -474,18 +462,17 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/40 dark:bg-slate-800/60 font-semibold text-xs border border-white/50 text-slate-700 dark:text-slate-200 hover:bg-white/60"
               >
                 <Bookmark className="w-3.5 h-3.5 text-amber-500" />
-                <span>Bookmark</span>
+                <span>{t.bookmark}</span>
               </button>
 
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(`${selectedVerseForModal.text}\n${selectedVerseForModal.kurdish}`);
-                  alert('Verse copied to clipboard!');
                 }}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/40 dark:bg-slate-800/60 font-semibold text-xs border border-white/50 text-slate-700 dark:text-slate-200 hover:bg-white/60"
               >
                 <Share2 className="w-3.5 h-3.5 text-sky-500" />
-                <span>Copy</span>
+                <span>{t.copy}</span>
               </button>
             </div>
 
