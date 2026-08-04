@@ -8,6 +8,7 @@ import { SettingsView } from '@/components/SettingsView';
 import { KhatmahTrackerView } from '@/components/KhatmahTrackerView';
 import { BookmarksView } from '@/components/BookmarksView';
 import { HighlightsView } from '@/components/HighlightsView';
+import { SearchView } from '@/components/SearchView';
 import { BottomAudioPlayerBar } from '@/components/BottomAudioPlayerBar';
 import { SearchModal } from '@/components/SearchModal';
 import { AudioReciterModal } from '@/components/AudioReciterModal';
@@ -37,7 +38,7 @@ const stripBismillahPrefix = (text: string, numberInSurah: number, surahNum: num
 export default function QuranApp() {
   const [currentSurah, setCurrentSurah] = useState<SurahMeta>(SURAHS_LIST[1]); // Al-Baqarah default
   const [currentPage, setCurrentPage] = useState<number>(3);
-  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights'>('reader');
+  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search'>('reader');
   
   const [appLanguage, setAppLanguage] = useState<Language>('ku'); // Default to Sorani Kurdish
   const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish' | 'both'>('kurdish');
@@ -385,7 +386,7 @@ export default function QuranApp() {
         currentJuz={currentSurah.juz}
         activeView={activeView}
         setActiveView={setActiveView}
-        openSearch={() => setIsSearchOpen(true)}
+        openSearch={() => setActiveView('search')}
         openPageJump={() => setActiveView('contents')}
         themeMode={themeMode}
         setThemeMode={setThemeMode}
@@ -482,6 +483,17 @@ export default function QuranApp() {
             onSelectVerse={(surahNum, page) => {
               const surah = SURAHS_LIST.find((s) => s.number === surahNum) || SURAHS_LIST[0];
               handleSelectSurah(surah, page);
+            }}
+            themeMode={themeMode}
+            appLanguage={appLanguage}
+          />
+        )}
+
+        {activeView === 'search' && (
+          <SearchView
+            onSelectSurah={(surah, page) => {
+              handleSelectSurah(surah, page);
+              setActiveView('reader');
             }}
             themeMode={themeMode}
             appLanguage={appLanguage}

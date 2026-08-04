@@ -13,6 +13,7 @@ import {
   Volume2,
   ChevronLeft,
   ChevronRight,
+  Search,
 } from 'lucide-react';
 import { Reciter, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral, formatLocalizedTime } from '@/data/translations';
@@ -34,8 +35,8 @@ interface BottomAudioPlayerBarProps {
   onSeek: (time: number) => void;
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights';
-  setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights') => void;
+  activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search';
+  setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search') => void;
   themeMode: ThemeMode;
   appLanguage: Language;
 }
@@ -84,10 +85,10 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
     : currentSurah.name;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 flex flex-col items-center pointer-events-none transition-all duration-300">
+    <div className="fixed bottom-3 left-0 right-0 z-40 flex flex-col items-center pointer-events-none transition-all duration-300 px-3">
       
-      {/* Apple Bottom Navigation Tab Bar */}
-      <div className={`w-full pointer-events-auto py-2 px-6 flex items-center justify-around shadow-2xl ${navGlassClass}`}>
+      {/* Apple Bottom Navigation Tab Bar in a Box */}
+      <div className={`mx-auto max-w-4xl w-full pointer-events-auto py-2.5 px-6 flex items-center justify-around shadow-2xl rounded-[22px] ${navGlassClass}`}>
         
         {/* Tab 1: Contents */}
         <button
@@ -102,7 +103,20 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
           <span className="text-[11px] font-medium">{t.contents}</span>
         </button>
 
-        {/* Tab 2: Reader (Main Quran) */}
+        {/* Tab 2: Search */}
+        <button
+          onClick={() => setActiveView('search')}
+          className={`flex flex-col items-center gap-0.5 transition-all ${
+            activeView === 'search'
+              ? 'text-emerald-600 dark:text-emerald-400 font-bold scale-105'
+              : 'hover:text-emerald-600 opacity-70'
+          }`}
+        >
+          <Search className="w-5 h-5" />
+          <span className="text-[11px] font-medium">{t.search}</span>
+        </button>
+
+        {/* Tab 3: Reader (Main Quran) */}
         <button
           onClick={() => setActiveView('reader')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
@@ -117,7 +131,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
           <span className="text-[11px] font-medium">{t.appTitle}</span>
         </button>
 
-        {/* Tab 3: Bookmarks */}
+        {/* Tab 4: Bookmarks */}
         <button
           onClick={() => setActiveView('bookmarks')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
@@ -130,7 +144,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
           <span className="text-[11px] font-medium">{t.bookmarks}</span>
         </button>
 
-        {/* Tab 4: Highlights */}
+        {/* Tab 5: Highlights */}
         <button
           onClick={() => setActiveView('highlights')}
           className={`flex flex-col items-center gap-0.5 transition-all ${

@@ -21,8 +21,8 @@ interface NavbarTopProps {
   currentSurah: SurahMeta;
   currentPage: number;
   currentJuz: number;
-  activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights';
-  setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights') => void;
+  activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search';
+  setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search') => void;
   openSearch: () => void;
   openPageJump: () => void;
   themeMode: ThemeMode;
