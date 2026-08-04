@@ -25,7 +25,7 @@ export const getThemeConfig = (theme: ThemeMode): ThemeStyleConfig => {
     case 'white':
       return {
         rootBg: 'bg-[#FFFFFF] text-slate-900',
-        cardGlass: 'bg-white/[0.05] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none rounded-[32px] text-slate-900',
+        cardGlass: 'bg-white/0 [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none rounded-[32px] text-slate-900',
         navGlass: 'bg-white/[0.05] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-slate-900 shadow-none rounded-full',
         playerGlass: 'bg-white/[0.05] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-slate-900 shadow-none rounded-[32px]',
         modalGlass: 'bg-white/[0.05] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-slate-900 shadow-none rounded-[32px]',
@@ -45,32 +45,32 @@ export const getThemeConfig = (theme: ThemeMode): ThemeStyleConfig => {
 
     case 'dark':
       return {
-        rootBg: 'bg-[#0F172A] text-white',
-        cardGlass: 'bg-[#1E293B]/[0.10] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none text-[#F1F5F9] rounded-[32px]',
-        navGlass: 'bg-[#0F172A]/[0.10] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-white shadow-none rounded-full',
-        playerGlass: 'bg-[#1E293B]/[0.10] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-white shadow-none rounded-[32px]',
-        modalGlass: 'bg-[#1E293B]/[0.10] [backdrop-filter:blur(10px)_saturate(180%)] text-white border border-transparent shadow-none rounded-[32px]',
-        textPrimary: 'text-[#F1F5F9] font-bold',
+        rootBg: 'bg-[#1E2022] text-white',
+        cardGlass: 'bg-[#1E2022] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none text-[#F1F5F9] rounded-[32px]',
+        navGlass: 'bg-[#262A2E]/[0.40] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-white shadow-none rounded-full',
+        playerGlass: 'bg-[#262A2E]/[0.40] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-white shadow-none rounded-[32px]',
+        modalGlass: 'bg-[#262A2E]/[0.40] [backdrop-filter:blur(10px)_saturate(180%)] text-white border border-transparent shadow-none rounded-[32px]',
+        textPrimary: 'text-[#FFFFFF] font-bold',
         textSecondary: 'text-white/90 font-medium',
         textAccent: 'text-white font-bold',
-        arabicVerseText: 'text-[#F1F5F9] font-normal',
+        arabicVerseText: 'text-[#FFFFFF] font-normal',
         kurdishText: 'text-white/90 font-medium',
-        ayahBadge: 'bg-slate-800 text-white border border-slate-700 font-bold shadow-xs',
-        surahBadgeActive: 'bg-white text-slate-950 font-bold shadow-sm',
-        surahBadgeInactive: 'bg-slate-800/80 text-white font-bold border border-slate-700',
-        activeTabBg: 'bg-slate-800/80 text-white border-0 shadow-xs font-extrabold',
-        buttonAccent: 'bg-white text-slate-950 font-bold hover:bg-slate-100 shadow-md',
+        ayahBadge: 'bg-[#27272A] text-white border border-transparent font-bold shadow-xs',
+        surahBadgeActive: 'bg-white text-black font-bold shadow-sm',
+        surahBadgeInactive: 'bg-[#27272A] text-white font-bold border border-transparent',
+        activeTabBg: 'bg-[#27272A] text-white border-0 shadow-xs font-extrabold',
+        buttonAccent: 'bg-white text-black font-bold hover:bg-slate-100 shadow-md',
         accentBorder: 'border-white/10',
         isDark: true,
       };
 
     case 'cyan':
       return {
-        rootBg: 'bg-[#FFFFFF] text-cyan-950',
-        cardGlass: 'bg-[#F0F9FF]/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none text-[#0C4A6E] rounded-[32px]',
-        navGlass: 'bg-white/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-cyan-950 shadow-none rounded-full',
-        playerGlass: 'bg-[#F0F9FF]/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-cyan-950 shadow-none rounded-[32px]',
-        modalGlass: 'bg-[#F0F9FF]/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-cyan-950 shadow-none rounded-[32px]',
+        rootBg: 'bg-[#EBF5FF]',
+        cardGlass: 'bg-[#EBF5FF] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none text-[#0C4A6E] rounded-[32px]',
+        navGlass: 'bg-[#EBF5FF]/[0.25] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-cyan-950 shadow-none rounded-full',
+        playerGlass: 'bg-[#EBF5FF] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-cyan-950 shadow-none rounded-[32px]',
+        modalGlass: 'bg-[#EBF5FF] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-cyan-950 shadow-none rounded-[32px]',
         textPrimary: 'text-[#0C4A6E] font-bold',
         textSecondary: 'text-sky-950 font-semibold',
         textAccent: 'text-sky-700 font-bold',
@@ -87,11 +87,11 @@ export const getThemeConfig = (theme: ThemeMode): ThemeStyleConfig => {
 
     case 'green':
       return {
-        rootBg: 'bg-[#FFFFFF] text-emerald-950',
-        cardGlass: 'bg-[#F0FDF4]/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none text-[#064E3B] rounded-[32px]',
-        navGlass: 'bg-white/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-emerald-950 shadow-none rounded-full',
-        playerGlass: 'bg-[#F0FDF4]/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-emerald-950 shadow-none rounded-[32px]',
-        modalGlass: 'bg-[#F0FDF4]/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-emerald-950 shadow-none rounded-[32px]',
+        rootBg: 'bg-[#E6F8ED]',
+        cardGlass: 'bg-[#E6F8ED] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none text-[#064E3B] rounded-[32px]',
+        navGlass: 'bg-[#E6F8ED]/[0.25] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-emerald-950 shadow-none rounded-full',
+        playerGlass: 'bg-[#E6F8ED] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-emerald-950 shadow-none rounded-[32px]',
+        modalGlass: 'bg-[#E6F8ED] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-emerald-950 shadow-none rounded-[32px]',
         textPrimary: 'text-[#064E3B] font-bold',
         textSecondary: 'text-emerald-950 font-semibold',
         textAccent: 'text-emerald-700 font-bold',
@@ -108,11 +108,11 @@ export const getThemeConfig = (theme: ThemeMode): ThemeStyleConfig => {
 
     case 'yellow':
       return {
-        rootBg: 'bg-[#FFFFFF] text-amber-950',
-        cardGlass: 'bg-[#FEFCE8]/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none text-[#451A03] rounded-[32px]',
-        navGlass: 'bg-white/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-amber-950 shadow-none rounded-full',
-        playerGlass: 'bg-[#FEFCE8]/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-amber-950 shadow-none rounded-[32px]',
-        modalGlass: 'bg-[#FEFCE8]/[0.30] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-amber-950 shadow-none rounded-[32px]',
+        rootBg: 'bg-[#FFFBEA]',
+        cardGlass: 'bg-[#FFFBEA] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent shadow-none text-[#451A03] rounded-[32px]',
+        navGlass: 'bg-[#FFFBEA]/[0.25] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-amber-950 shadow-none rounded-full',
+        playerGlass: 'bg-[#FFFBEA] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-amber-950 shadow-none rounded-[32px]',
+        modalGlass: 'bg-[#FFFBEA] [backdrop-filter:blur(10px)_saturate(180%)] border border-transparent text-amber-950 shadow-none rounded-[32px]',
         textPrimary: 'text-[#451A03] font-bold',
         textSecondary: 'text-amber-950 font-semibold',
         textAccent: 'text-amber-700 font-bold',

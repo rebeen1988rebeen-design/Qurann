@@ -331,7 +331,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                   {(translationMode === 'kurdish' || translationMode === 'both') && (
                     <div
                       dir="rtl"
-                      className="w-full text-right kurdish-text text-emerald-900 dark:text-emerald-200 mt-2 bg-emerald-500/5 p-3 sm:p-4 rounded-[16px] border border-emerald-500/10"
+                      className="w-full text-right kurdish-text text-emerald-900 dark:text-emerald-200 mt-2 p-3 sm:p-4 rounded-[16px]"
                       style={{
                         textAlign: 'justify',
                         textAlignLast: 'right',
@@ -353,7 +353,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
 
                   {/* English Translation */}
                   {translationMode === 'both' && (
-                    <div className="w-full text-left text-sm text-slate-600 dark:text-slate-300 mt-2 bg-slate-500/5 p-3 rounded-[14px] border border-slate-500/10 font-sans">
+                    <div className="w-full text-left text-sm text-slate-600 dark:text-slate-300 mt-2 p-3 rounded-[14px] font-sans">
                       <span className="text-[10px] uppercase font-bold text-slate-500 block mb-0.5">{t.englishTranslation}</span>
                       {verse.english}
                     </div>
