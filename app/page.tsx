@@ -401,10 +401,10 @@ export default function QuranApp() {
       />
 
       {/* Main Views Container */}
-      <main className="w-full">
+      <main className="w-full relative">
         {activeView === 'reader' && (
           isLoadingVerses ? (
-            <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md">
+            <div className="absolute inset-0 flex items-center justify-center z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-[24px]">
               <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (

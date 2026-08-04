@@ -88,14 +88,14 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
   const activeTabClass = themeMode === 'dark'
     ? 'text-white font-extrabold scale-105'
     : themeMode === 'cyan'
-    ? 'text-sky-700 font-extrabold scale-105'
+    ? 'text-sky-800 font-extrabold scale-105'
     : themeMode === 'yellow'
-    ? 'text-amber-700 font-extrabold scale-105'
-    : 'text-emerald-700 font-extrabold scale-105';
+    ? 'text-amber-800 font-extrabold scale-105'
+    : 'text-emerald-800 font-extrabold scale-105';
 
   const inactiveTabClass = themeMode === 'dark'
-    ? 'text-white/80 hover:text-white'
-    : 'text-black hover:text-emerald-700';
+    ? 'text-white/60 hover:text-white'
+    : 'text-slate-500 hover:text-slate-900';
 
   return (
     <div className="fixed bottom-3 left-0 right-0 z-40 flex flex-col items-center pointer-events-none transition-all duration-300 px-3">
