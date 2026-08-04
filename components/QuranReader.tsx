@@ -92,13 +92,13 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
     <div className="w-full max-w-4xl mx-auto px-3 py-2 pb-44 flex flex-col items-center">
       
       {/* Main Quran Frame Card */}
-      <div className={`w-full rounded-[24px] p-4 sm:p-8 min-h-[500px] shadow-xl relative overflow-hidden ${cardGlassClass}`}>
+      <div className={`w-full p-4 sm:p-8 min-h-[500px] relative overflow-hidden ${cardGlassClass}`}>
         
 
 
         {/* Bismillah Header (Except Surah At-Tawbah - 9) */}
         {currentSurah.number !== 9 && (
-          <div dir="rtl" className="w-full text-center py-4 mb-4 border-b border-black/10 dark:border-white/10">
+          <div dir="rtl" className="w-full text-center py-4 mb-4">
             <span className={`text-xl sm:text-2xl font-bold uthmani-text ${themeConfig.textAccent}`}>
               بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
             </span>
@@ -333,7 +333,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
         )}
 
         {/* Footer Page Number Badge */}
-        <div className="w-full flex justify-center mt-6 pt-4 border-t border-black/10 dark:border-white/10">
+        <div className="w-full flex justify-center mt-6 pt-4">
           <span className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full ${themeConfig.ayahBadge} text-sm font-extrabold font-sans shadow-xs`}>
             {toLocalizedNumeral(currentPage, appLanguage)}
           </span>

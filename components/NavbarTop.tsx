@@ -84,7 +84,7 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
 
   return (
     <header className="sticky top-0 z-40 w-full px-3 pt-3 pb-2 transition-all duration-300">
-      <div className={`mx-auto max-w-4xl rounded-[22px] px-4 py-2.5 flex items-center justify-between transition-all duration-300 ${themeConfig.navGlass}`}>
+      <div className={`mx-auto max-w-4xl px-4 py-2.5 flex items-center justify-between transition-all duration-300 ${themeConfig.navGlass}`}>
         
         {/* Right Controls: Page Badge, Language Switcher, Theme & Settings */}
         <div className="flex items-center gap-1.5 relative">
@@ -104,7 +104,7 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
             className={`px-2.5 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border ${
               translationMode === 'arabic' || translationMode === 'both'
                 ? themeConfig.activeTabBg
-                : 'bg-white/40 dark:bg-slate-800/40 border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 opacity-80'
+                : 'bg-white dark:bg-slate-700 border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 opacity-80'
             }`}
             title="عەرەبی (Arabic Only)"
           >
@@ -117,7 +117,7 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
             className={`px-2.5 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border ${
               translationMode === 'kurdish'
                 ? themeConfig.activeTabBg
-                : 'bg-white/40 dark:bg-slate-800/40 border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 opacity-80'
+                : 'bg-white dark:bg-slate-700 border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 opacity-80'
             }`}
             title="کوردی (Kurdish Translation)"
           >
@@ -128,17 +128,17 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
           <div className={`h-9 px-2 rounded-xl ${themeConfig.activeTabBg} border flex items-center gap-1 shadow-xs`}>
             <button
               onClick={onZoomOutFont}
-              className="w-6 h-6 rounded-lg bg-white/50 dark:bg-slate-700/60 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer"
+              className="w-6 h-6 rounded-lg bg-white dark:bg-slate-700 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer text-slate-900 dark:text-white"
               title="Zoom Out Font"
             >
               -
             </button>
-            <span className="text-[10px] font-bold select-none px-0.5" title={`Arabic: ${arabicFontSize}px | Kurdish: ${kurdishFontSize}px`}>
+            <span className="text-[10px] font-bold select-none px-0.5 text-slate-900 dark:text-white" title={`Arabic: ${arabicFontSize}px | Kurdish: ${kurdishFontSize}px`}>
               {toLocalizedNumeral(arabicFontSize, appLanguage)}
             </span>
             <button
               onClick={onZoomInFont}
-              className="w-6 h-6 rounded-lg bg-white/50 dark:bg-slate-700/60 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer"
+              className="w-6 h-6 rounded-lg bg-white dark:bg-slate-700 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer text-slate-900 dark:text-white"
               title="Zoom In Font"
             >
               +

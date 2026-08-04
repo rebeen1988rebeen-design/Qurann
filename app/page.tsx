@@ -374,11 +374,6 @@ export default function QuranApp() {
       className={`min-h-screen relative overflow-x-hidden transition-colors duration-500 ${getBgStyle()}`}
     >
       
-      {/* Liquid Glass Ambient Background Orbs */}
-      <div className="fixed top-12 left-1/4 w-96 h-96 rounded-full bg-emerald-400/20 dark:bg-emerald-600/15 blur-3xl pointer-events-none -z-10 animate-pulse duration-1000" />
-      <div className="fixed bottom-20 right-1/4 w-80 h-80 rounded-full bg-amber-400/20 dark:bg-amber-600/15 blur-3xl pointer-events-none -z-10" />
-      <div className="fixed top-1/2 right-10 w-72 h-72 rounded-full bg-sky-400/20 dark:bg-sky-600/15 blur-3xl pointer-events-none -z-10" />
-
       {/* Navbar Header */}
       <NavbarTop
         currentSurah={currentSurah}
@@ -404,7 +399,7 @@ export default function QuranApp() {
       <main className="w-full relative">
         {activeView === 'reader' && (
           isLoadingVerses ? (
-            <div className="absolute inset-0 flex items-center justify-center z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-[24px]">
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/10 backdrop-blur-sm">
               <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (
