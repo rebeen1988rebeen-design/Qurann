@@ -94,14 +94,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
       {/* Main Quran Frame Card */}
       <div className={`w-full rounded-[24px] p-4 sm:p-8 min-h-[500px] shadow-xl relative overflow-hidden ${cardGlassClass}`}>
         
-        {isLoadingVerses && (
-          <div className="w-full my-8 flex flex-col items-center justify-center gap-2 py-8 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 animate-pulse">
-            <div className="w-8 h-8 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
-            <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-              {t.loadingVerses}
-            </span>
-          </div>
-        )}
+
 
         {/* Bismillah Header (Except Surah At-Tawbah - 9) */}
         {currentSurah.number !== 9 && (
