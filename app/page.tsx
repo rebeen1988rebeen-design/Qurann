@@ -391,6 +391,10 @@ export default function QuranApp() {
         setThemeMode={setThemeMode}
         translationMode={translationMode}
         setTranslationMode={setTranslationMode}
+        arabicFontSize={arabicFontSize}
+        kurdishFontSize={kurdishFontSize}
+        onZoomInFont={handleZoomInFont}
+        onZoomOutFont={handleZoomOutFont}
         appLanguage={appLanguage}
         setAppLanguage={setAppLanguage}
       />

@@ -29,6 +29,10 @@ interface NavbarTopProps {
   setThemeMode: (mode: ThemeMode) => void;
   translationMode: 'arabic' | 'kurdish' | 'both';
   setTranslationMode: (mode: 'arabic' | 'kurdish' | 'both') => void;
+  arabicFontSize: number;
+  kurdishFontSize: number;
+  onZoomInFont: () => void;
+  onZoomOutFont: () => void;
   appLanguage: Language;
   setAppLanguage: (lang: Language) => void;
 }
@@ -43,6 +47,12 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
   openPageJump,
   themeMode,
   setThemeMode,
+  translationMode,
+  setTranslationMode,
+  arabicFontSize,
+  kurdishFontSize,
+  onZoomInFont,
+  onZoomOutFont,
   appLanguage,
   setAppLanguage,
 }) => {
@@ -86,6 +96,53 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
             <BookOpen className="w-3.5 h-3.5" />
             <span>{toLocalizedNumeral(currentPage, appLanguage)}</span>
           </button>
+
+          {/* Arabic Translation Mode Button */}
+          <button
+            onClick={() => setTranslationMode('arabic')}
+            className={`px-2.5 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border ${
+              translationMode === 'arabic' || translationMode === 'both'
+                ? themeConfig.activeTabBg
+                : 'bg-white/40 dark:bg-slate-800/40 border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 opacity-80'
+            }`}
+            title="عەرەبی (Arabic Only)"
+          >
+            عەرەبی
+          </button>
+
+          {/* Kurdish Translation Mode Button */}
+          <button
+            onClick={() => setTranslationMode('kurdish')}
+            className={`px-2.5 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border ${
+              translationMode === 'kurdish'
+                ? themeConfig.activeTabBg
+                : 'bg-white/40 dark:bg-slate-800/40 border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 opacity-80'
+            }`}
+            title="کوردی (Kurdish Translation)"
+          >
+            کوردی
+          </button>
+
+          {/* Font Zoom Control Box */}
+          <div className={`h-9 px-2 rounded-xl ${themeConfig.activeTabBg} border flex items-center gap-1 shadow-xs`}>
+            <button
+              onClick={onZoomOutFont}
+              className="w-6 h-6 rounded-lg bg-white/50 dark:bg-slate-700/60 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer"
+              title="Zoom Out Font"
+            >
+              -
+            </button>
+            <span className="text-[10px] font-bold select-none px-0.5" title={`Arabic: ${arabicFontSize}px | Kurdish: ${kurdishFontSize}px`}>
+              {toLocalizedNumeral(arabicFontSize, appLanguage)}
+            </span>
+            <button
+              onClick={onZoomInFont}
+              className="w-6 h-6 rounded-lg bg-white/50 dark:bg-slate-700/60 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer"
+              title="Zoom In Font"
+            >
+              +
+            </button>
+          </div>
 
           {/* Dynamic Language Toggle Button (Rounded Rectangular Box: w-9 h-9) */}
           <button

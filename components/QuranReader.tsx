@@ -94,89 +94,6 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
       {/* Main Quran Frame Card */}
       <div className={`w-full rounded-[24px] p-4 sm:p-8 min-h-[500px] shadow-xl relative overflow-hidden ${cardGlassClass}`}>
         
-        {/* Synchronized Font Zoom Bar */}
-        <div className="w-full mb-4 flex items-center justify-end">
-          <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
-            <button
-              onClick={onZoomOutFont}
-              className="w-7 h-7 rounded-full bg-white/50 dark:bg-slate-700/60 hover:bg-emerald-500/30 text-slate-800 dark:text-slate-100 flex items-center justify-center font-bold text-base transition-colors active:scale-95 shadow-xs"
-              title="Zoom Out Font Sizes"
-            >
-              -
-            </button>
-            <div className="flex flex-col items-center px-1 select-none">
-              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                A:{toLocalizedNumeral(arabicFontSize, appLanguage)}px
-              </span>
-              <span className="text-[9px] font-semibold text-slate-500 opacity-85">
-                K:{toLocalizedNumeral(kurdishFontSize, appLanguage)}px
-              </span>
-            </div>
-            <button
-              onClick={onZoomInFont}
-              className="w-7 h-7 rounded-full bg-white/50 dark:bg-slate-700/60 hover:bg-emerald-500/30 text-slate-800 dark:text-slate-100 flex items-center justify-center font-bold text-base transition-colors active:scale-95 shadow-xs"
-              title="Zoom In Font Sizes"
-            >
-              +
-            </button>
-          </div>
-        </div>
-
-        {/* 2 Display Mode Boxes (عەرەبی / کوردی / Arabic / Kurdish) */}
-        <div className="w-full mb-6 grid grid-cols-2 gap-3" dir={appLanguage === 'en' ? 'ltr' : 'rtl'}>
-          {/* Box 1: Arabic */}
-          <button
-            onClick={() => onSelectTranslationMode?.('arabic')}
-            className={`py-3 px-4 rounded-[16px] text-center transition-colors flex items-center justify-center cursor-pointer border ${
-              translationMode === 'arabic' || translationMode === 'both'
-                ? themeMode === 'cyan'
-                  ? 'bg-sky-200/95 text-cyan-950 border-sky-400 ring-2 ring-sky-400/40 shadow-md scale-[1.01]'
-                  : themeMode === 'yellow'
-                  ? 'bg-amber-200/95 text-amber-950 border-amber-400 ring-2 ring-amber-400/40 shadow-md scale-[1.01]'
-                  : themeMode === 'dark'
-                  ? 'bg-slate-700/95 text-white border-slate-400 ring-2 ring-white/30 shadow-md scale-[1.01]'
-                  : 'bg-emerald-200/95 text-emerald-950 border-emerald-400 ring-2 ring-emerald-500/40 shadow-md scale-[1.01]'
-                : themeMode === 'dark'
-                ? 'bg-slate-800/60 text-slate-300 border-slate-700 hover:bg-slate-800/90'
-                : themeMode === 'cyan'
-                ? 'bg-white/50 text-cyan-900/80 border-sky-200/80 hover:bg-white/80'
-                : themeMode === 'yellow'
-                ? 'bg-white/50 text-amber-900/80 border-amber-200/80 hover:bg-white/80'
-                : 'bg-white/50 text-emerald-900/80 border-emerald-200/80 hover:bg-white/80'
-            }`}
-          >
-            <span className="text-base font-extrabold">
-              {t.arabicOnly}
-            </span>
-          </button>
-
-          {/* Box 2: Kurdish */}
-          <button
-            onClick={() => onSelectTranslationMode?.('kurdish')}
-            className={`py-3 px-4 rounded-[16px] text-center transition-colors flex items-center justify-center cursor-pointer border ${
-              translationMode === 'kurdish'
-                ? themeMode === 'cyan'
-                  ? 'bg-sky-200/95 text-cyan-950 border-sky-400 ring-2 ring-sky-400/40 shadow-md scale-[1.01]'
-                  : themeMode === 'yellow'
-                  ? 'bg-amber-200/95 text-amber-950 border-amber-400 ring-2 ring-amber-400/40 shadow-md scale-[1.01]'
-                  : themeMode === 'dark'
-                  ? 'bg-slate-700/95 text-white border-slate-400 ring-2 ring-white/30 shadow-md scale-[1.01]'
-                  : 'bg-emerald-200/95 text-emerald-950 border-emerald-400 ring-2 ring-emerald-500/40 shadow-md scale-[1.01]'
-                : themeMode === 'dark'
-                ? 'bg-slate-800/60 text-slate-300 border-slate-700 hover:bg-slate-800/90'
-                : themeMode === 'cyan'
-                ? 'bg-white/50 text-cyan-900/80 border-sky-200/80 hover:bg-white/80'
-                : themeMode === 'yellow'
-                ? 'bg-white/50 text-amber-900/80 border-amber-200/80 hover:bg-white/80'
-                : 'bg-white/50 text-emerald-900/80 border-emerald-200/80 hover:bg-white/80'
-            }`}
-          >
-            <span className="text-base font-extrabold">
-              {t.kurdishOnly}
-            </span>
-          </button>
-        </div>
-
         {isLoadingVerses && (
           <div className="w-full my-8 flex flex-col items-center justify-center gap-2 py-8 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 animate-pulse">
             <div className="w-8 h-8 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
@@ -414,10 +331,10 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
         )}
 
         {/* Footer Page Number Badge */}
-        <div className="w-full flex justify-center mt-6 pt-4 border-t border-emerald-500/15">
-          <div className="px-5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 font-bold text-sm tracking-widest font-sans flex items-center gap-1.5 shadow-xs">
-            <span>{toLocalizedNumeral(currentPage, appLanguage)}</span>
-          </div>
+        <div className="w-full flex justify-center mt-6 pt-4 border-t border-black/10 dark:border-white/10">
+          <span className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full ${themeConfig.ayahBadge} text-sm font-extrabold font-sans shadow-xs`}>
+            {toLocalizedNumeral(currentPage, appLanguage)}
+          </span>
         </div>
 
       </div>
