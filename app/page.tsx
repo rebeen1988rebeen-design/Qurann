@@ -399,7 +399,7 @@ export default function QuranApp() {
       />
 
       {/* Main Views Container */}
-      <main className="w-full relative pt-[110px]">
+      <main className="w-full relative pt-[105px]" onClick={toggleBars}>
         {activeView === 'reader' && (
           isLoadingVerses ? (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/10 backdrop-blur-sm">
