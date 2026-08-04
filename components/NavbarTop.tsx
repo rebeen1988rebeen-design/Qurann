@@ -141,10 +141,10 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
             <span>{toLocalizedNumeral(currentPage, appLanguage)}</span>
           </button>
 
-          {/* Dynamic Language Toggle Button (Vertical Oval: w-7 h-9) */}
+          {/* Dynamic Language Toggle Button (Rounded Rectangular Box: w-9 h-9) */}
           <button
             onClick={cycleAppLanguage}
-            className={`w-7 h-9 rounded-[50%] ${themeConfig.activeTabBg} font-bold flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer`}
+            className={`w-9 h-9 rounded-xl ${themeConfig.activeTabBg} font-bold flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border`}
             title={`Language: ${appLanguage.toUpperCase()} - Click to switch`}
           >
             {appLanguage === 'ar' && <span className="text-xs font-extrabold font-serif">ع</span>}
@@ -152,12 +152,16 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
             {appLanguage === 'en' && <span className="text-[10px] font-extrabold font-sans">E</span>}
           </button>
 
-          {/* Theme Switcher Button with Popover */}
+          {/* Direct Single-Click Theme Switcher Button (Rounded Rectangular Box: w-9 h-9) */}
           <div className="relative">
             <button
-              onClick={() => setShowThemePopover(!showThemePopover)}
-              className={`w-7 h-9 rounded-[50%] ${themeConfig.activeTabBg} flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95`}
-              title={`${t.theme} - Choose Theme`}
+              onClick={cycleTheme}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setShowThemePopover(!showThemePopover);
+              }}
+              className={`w-9 h-9 rounded-xl ${themeConfig.activeTabBg} flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 border`}
+              title={`${t.theme} - Click to switch automatically`}
             >
               {themeMode === 'white' && <Sun className="w-4 h-4 text-emerald-700" />}
               {themeMode === 'dark' && <Moon className="w-4 h-4 text-indigo-400" />}

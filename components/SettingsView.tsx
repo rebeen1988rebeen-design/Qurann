@@ -182,53 +182,120 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         {/* CARD BLOCK 3: Language, Appearance, App Icon matching Screenshot 4 */}
         <div className={`rounded-[22px] overflow-hidden shadow-sm divide-y divide-black/5 dark:divide-white/10 ${cardGlassClass}`}>
           
-          {/* Language Toggle */}
-          <div
-            onClick={() => setActiveSubModal('language')}
-            className="w-full p-4 flex items-center justify-between cursor-pointer hover:bg-emerald-500/10 transition-all"
-          >
-            <div className="flex items-center gap-3.5">
-              <div className="w-9 h-9 rounded-[12px] bg-teal-500/15 text-teal-600 dark:text-teal-400 flex items-center justify-center border border-teal-500/20">
-                <Globe className="w-5 h-5" />
+          {/* Language Toggle with Direct Rounded Rectangular Buttons */}
+          <div className="w-full p-4 flex flex-col gap-3">
+            <div
+              onClick={() => {
+                const langs: ('ku' | 'ar' | 'en')[] = ['ku', 'ar', 'en'];
+                const nextLang = langs[(langs.indexOf(appLanguage) + 1) % langs.length];
+                setAppLanguage(nextLang);
+              }}
+              className="w-full flex items-center justify-between cursor-pointer hover:opacity-85 transition-all"
+            >
+              <div className="flex items-center gap-3.5">
+                <div className="w-9 h-9 rounded-xl bg-teal-500/15 text-teal-600 dark:text-teal-400 flex items-center justify-center border border-teal-500/20">
+                  <Globe className="w-5 h-5" />
+                </div>
+                <span className="font-semibold text-base text-slate-900 dark:text-white">
+                  {t.language}
+                </span>
               </div>
-              <span className="font-semibold text-base text-slate-900 dark:text-white">
-                {t.language}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-extrabold text-teal-700 dark:text-teal-400 bg-teal-500/15 px-3 py-1 rounded-xl border border-teal-500/20">
+                  {appLanguage === 'ku' ? 'کوردی' : appLanguage === 'ar' ? 'العربية' : 'English'}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-500 font-medium capitalize">
-                {appLanguage === 'ku' ? 'کوردی (ك)' : appLanguage === 'ar' ? 'العربية (ع)' : 'English (E)'}
-              </span>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
+
+            {/* Direct 1-Click Language Buttons (Rounded Rectangles) */}
+            <div className="grid grid-cols-3 gap-2 pt-1">
+              {[
+                { id: 'ku' as const, badge: 'ك', label: 'کوردی' },
+                { id: 'ar' as const, badge: 'ع', label: 'العربية' },
+                { id: 'en' as const, badge: 'E', label: 'English' },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setAppLanguage(item.id);
+                  }}
+                  className={`py-2 px-2 rounded-xl border flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                    appLanguage === item.id
+                      ? 'bg-emerald-500/20 border-emerald-500 ring-2 ring-emerald-500/30 text-emerald-950 dark:text-emerald-100 font-bold shadow-xs'
+                      : 'bg-white/40 dark:bg-slate-800/40 border-black/10 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-white/70 dark:hover:bg-slate-800/70'
+                  }`}
+                >
+                  <span className="w-5 h-5 rounded-lg bg-emerald-600 text-white font-extrabold text-[11px] flex items-center justify-center">
+                    {item.badge}
+                  </span>
+                  <span className="text-xs font-bold truncate">{item.label}</span>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Appearance (Light / Dark / Ice) */}
-          <div
-            onClick={() => setActiveSubModal('appearance')}
-            className="w-full p-4 flex items-center justify-between cursor-pointer hover:bg-emerald-500/10 transition-all"
-          >
-            <div className="flex items-center gap-3.5">
-              <div className="w-9 h-9 rounded-[12px] bg-purple-500/15 text-purple-500 flex items-center justify-center border border-purple-500/20">
-                <Moon className="w-5 h-5" />
+          {/* Appearance (5 Themes - Direct Single-Click Selection with Rounded Rectangular Buttons) */}
+          <div className="w-full p-4 flex flex-col gap-3">
+            <div
+              onClick={() => {
+                const modes: ThemeMode[] = ['white', 'dark', 'cyan', 'green', 'yellow'];
+                const nextMode = modes[(modes.indexOf(themeMode) + 1) % modes.length];
+                setThemeMode(nextMode);
+              }}
+              className="w-full flex items-center justify-between cursor-pointer hover:opacity-85 transition-all"
+            >
+              <div className="flex items-center gap-3.5">
+                <div className="w-9 h-9 rounded-xl bg-purple-500/15 text-purple-500 flex items-center justify-center border border-purple-500/20">
+                  <Moon className="w-5 h-5" />
+                </div>
+                <span className="font-semibold text-base text-slate-900 dark:text-white">
+                  {t.appearance}
+                </span>
               </div>
-              <span className="font-semibold text-base text-slate-900 dark:text-white">
-                {t.appearance}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-extrabold text-emerald-700 dark:text-emerald-400 bg-emerald-500/15 px-3 py-1 rounded-xl border border-emerald-500/20">
+                  {themeMode === 'white'
+                    ? t.themeWhite
+                    : themeMode === 'dark'
+                    ? t.themeDark
+                    : themeMode === 'cyan'
+                    ? t.themeCyan
+                    : themeMode === 'green'
+                    ? t.themeGreen
+                    : t.themeYellow}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-500 font-medium font-sans">
-                {themeMode === 'white'
-                  ? t.themeWhite
-                  : themeMode === 'dark'
-                  ? t.themeDark
-                  : themeMode === 'cyan'
-                  ? t.themeCyan
-                  : themeMode === 'green'
-                  ? t.themeGreen
-                  : t.themeYellow}
-              </span>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
+
+            {/* Direct Single-Click Theme Selection Buttons (Rounded Rectangular Shapes) */}
+            <div className="grid grid-cols-5 gap-1.5 pt-1">
+              {[
+                { id: 'white' as ThemeMode, icon: <Sun className="w-4 h-4 text-emerald-700" />, label: 'سپی', bg: 'bg-white text-emerald-950 border-emerald-300' },
+                { id: 'dark' as ThemeMode, icon: <Moon className="w-4 h-4 text-indigo-400" />, label: 'تاریک', bg: 'bg-slate-900 text-white border-slate-700' },
+                { id: 'cyan' as ThemeMode, icon: <Sparkles className="w-4 h-4 text-sky-600" />, label: 'شین', bg: 'bg-[#E0F2FE] text-cyan-950 border-sky-300' },
+                { id: 'green' as ThemeMode, icon: <Palette className="w-4 h-4 text-emerald-700" />, label: 'سەوز', bg: 'bg-[#DCFCE7] text-emerald-950 border-emerald-300' },
+                { id: 'yellow' as ThemeMode, icon: <Sun className="w-4 h-4 text-amber-600" />, label: 'زەرد', bg: 'bg-[#FEF08A] text-amber-950 border-amber-300' },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setThemeMode(item.id);
+                  }}
+                  className={`py-2 px-1 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${item.bg} ${
+                    themeMode === item.id
+                      ? 'ring-2 ring-emerald-500 shadow-md scale-105 font-bold'
+                      : 'opacity-70 hover:opacity-100 hover:scale-100'
+                  }`}
+                  title={item.label}
+                >
+                  {item.icon}
+                  <span className="text-[10px] font-extrabold truncate max-w-full">
+                    {item.label}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
 

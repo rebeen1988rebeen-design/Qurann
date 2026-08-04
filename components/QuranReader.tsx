@@ -129,11 +129,23 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
             onClick={() => onSelectTranslationMode?.('arabic')}
             className={`py-3 px-4 rounded-[16px] text-center transition-colors flex items-center justify-center cursor-pointer border ${
               translationMode === 'arabic' || translationMode === 'both'
-                ? 'bg-emerald-500/20 dark:bg-emerald-500/25 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md scale-[1.01]'
-                : 'bg-white/40 dark:bg-slate-800/40 border-white/60 dark:border-white/10 hover:bg-white/70 dark:hover:bg-slate-800/70'
+                ? themeMode === 'cyan'
+                  ? 'bg-sky-200/95 text-cyan-950 border-sky-400 ring-2 ring-sky-400/40 shadow-md scale-[1.01]'
+                  : themeMode === 'yellow'
+                  ? 'bg-amber-200/95 text-amber-950 border-amber-400 ring-2 ring-amber-400/40 shadow-md scale-[1.01]'
+                  : themeMode === 'dark'
+                  ? 'bg-slate-700/95 text-white border-slate-400 ring-2 ring-white/30 shadow-md scale-[1.01]'
+                  : 'bg-emerald-200/95 text-emerald-950 border-emerald-400 ring-2 ring-emerald-500/40 shadow-md scale-[1.01]'
+                : themeMode === 'dark'
+                ? 'bg-slate-800/60 text-slate-300 border-slate-700 hover:bg-slate-800/90'
+                : themeMode === 'cyan'
+                ? 'bg-white/50 text-cyan-900/80 border-sky-200/80 hover:bg-white/80'
+                : themeMode === 'yellow'
+                ? 'bg-white/50 text-amber-900/80 border-amber-200/80 hover:bg-white/80'
+                : 'bg-white/50 text-emerald-900/80 border-emerald-200/80 hover:bg-white/80'
             }`}
           >
-            <span className="text-base font-bold text-emerald-800 dark:text-emerald-300">
+            <span className="text-base font-extrabold">
               {t.arabicOnly}
             </span>
           </button>
@@ -143,11 +155,23 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
             onClick={() => onSelectTranslationMode?.('kurdish')}
             className={`py-3 px-4 rounded-[16px] text-center transition-colors flex items-center justify-center cursor-pointer border ${
               translationMode === 'kurdish'
-                ? 'bg-emerald-500/20 dark:bg-emerald-500/25 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md scale-[1.01]'
-                : 'bg-white/40 dark:bg-slate-800/40 border-white/60 dark:border-white/10 hover:bg-white/70 dark:hover:bg-slate-800/70'
+                ? themeMode === 'cyan'
+                  ? 'bg-sky-200/95 text-cyan-950 border-sky-400 ring-2 ring-sky-400/40 shadow-md scale-[1.01]'
+                  : themeMode === 'yellow'
+                  ? 'bg-amber-200/95 text-amber-950 border-amber-400 ring-2 ring-amber-400/40 shadow-md scale-[1.01]'
+                  : themeMode === 'dark'
+                  ? 'bg-slate-700/95 text-white border-slate-400 ring-2 ring-white/30 shadow-md scale-[1.01]'
+                  : 'bg-emerald-200/95 text-emerald-950 border-emerald-400 ring-2 ring-emerald-500/40 shadow-md scale-[1.01]'
+                : themeMode === 'dark'
+                ? 'bg-slate-800/60 text-slate-300 border-slate-700 hover:bg-slate-800/90'
+                : themeMode === 'cyan'
+                ? 'bg-white/50 text-cyan-900/80 border-sky-200/80 hover:bg-white/80'
+                : themeMode === 'yellow'
+                ? 'bg-white/50 text-amber-900/80 border-amber-200/80 hover:bg-white/80'
+                : 'bg-white/50 text-emerald-900/80 border-emerald-200/80 hover:bg-white/80'
             }`}
           >
-            <span className="text-base font-bold text-emerald-800 dark:text-emerald-300">
+            <span className="text-base font-extrabold">
               {t.kurdishOnly}
             </span>
           </button>
