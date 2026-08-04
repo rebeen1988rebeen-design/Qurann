@@ -57,52 +57,6 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
       
       {/* Main Content Column */}
       <div className="flex-1">
-        
-        {/* Top Segmented Control Switch */}
-        <div className="w-full flex items-center justify-between mb-6">
-          <div className="inline-flex p-1 rounded-full bg-slate-200/60 dark:bg-slate-800/60 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-inner">
-            <button
-              onClick={() => setActiveTab('surahs')}
-              className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                activeTab === 'surahs'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm font-semibold'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-              }`}
-            >
-              {t.tabSurahs}
-            </button>
-            <button
-              onClick={() => setActiveTab('quarters')}
-              className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                activeTab === 'quarters'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm font-semibold'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-              }`}
-            >
-              {t.tabQuarters}
-            </button>
-            <button
-              onClick={() => setActiveTab('juzs')}
-              className={`px-6 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                activeTab === 'juzs'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm font-semibold'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
-              }`}
-            >
-              {t.tabJuzs}
-            </button>
-          </div>
-        </div>
-
-        {/* Large Header Title */}
-        <div className="mb-6">
-          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            {t.contentsTitle}
-          </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">
-            {t.contentsSubtitle(toLocalizedNumeral(114, appLanguage), toLocalizedNumeral(30, appLanguage))}
-          </p>
-        </div>
 
         {/* Search Bar Input */}
         <div className="relative mb-6">

@@ -12,6 +12,7 @@ import {
   Palette,
   ChevronLeft,
   Check,
+  Globe,
 } from 'lucide-react';
 import { SurahMeta } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
@@ -150,9 +151,7 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
             className={`w-9 h-9 rounded-xl ${themeConfig.activeTabBg} font-bold flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border`}
             title={`Language: ${appLanguage.toUpperCase()} - Click to switch`}
           >
-            {appLanguage === 'ar' && <span className="text-xs font-extrabold font-serif">ع</span>}
-            {appLanguage === 'ku' && <span className="text-xs font-extrabold font-serif">ك</span>}
-            {appLanguage === 'en' && <span className="text-[10px] font-extrabold font-sans">E</span>}
+            <Globe className="w-4 h-4" />
           </button>
 
           {/* Direct Single-Click Theme Switcher Button (Rounded Rectangular Box: w-9 h-9) */}
