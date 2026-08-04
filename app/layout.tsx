@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased selection:bg-emerald-500/30 selection:text-emerald-900 dark:selection:text-emerald-100 font-sans min-h-screen" suppressHydrationWarning>
+      <body className="antialiased selection:bg-emerald-500/30 selection:text-emerald-900 dark:selection:text-emerald-100 font-sans min-h-screen" suppressHydrationWarning>
         {children}
         <script
           dangerouslySetInnerHTML={{

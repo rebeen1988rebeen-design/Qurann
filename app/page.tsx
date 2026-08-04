@@ -363,6 +363,18 @@ export default function QuranApp() {
     });
   };
 
+  // Sync body background with theme
+  useEffect(() => {
+    const colors = {
+      white: '#FFFFFF',
+      dark: '#1E2022',
+      cyan: '#EBF5FF',
+      green: '#E6F8ED',
+      yellow: '#FFFBEA'
+    };
+    document.body.style.backgroundColor = colors[themeMode] || '#FFFFFF';
+  }, [themeMode]);
+
   // Background style based on theme mode
   const getBgStyle = () => {
     return getThemeConfig(themeMode).rootBg;

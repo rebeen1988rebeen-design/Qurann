@@ -398,13 +398,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
           </div>
         )}
 
-        {/* Footer Page Number Badge */}
-        <div className="w-full flex justify-center mt-6 pt-4">
-          <span className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full ${themeConfig.ayahBadge} text-sm font-extrabold font-sans shadow-xs`}>
-            {toLocalizedNumeral(currentPage, appLanguage)}
-          </span>
-        </div>
-
+        {/* Footer Page Number Badge removed per user request */}
       </div>
 
       {/* Verse Detail / Action Pop-up Modal when tapping verse in Page Mode */}
