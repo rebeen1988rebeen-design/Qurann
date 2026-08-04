@@ -11,11 +11,12 @@ interface QuranReaderProps {
   verses: Verse[];
   currentPage: number;
   setCurrentPage: (page: number) => void;
+  onVisibleVerseChange?: (verse: Verse) => void;
   currentVerseIndex: number | null;
   isPlaying?: boolean;
   onPlayVerseAudio: (verse: Verse) => void;
-  translationMode: 'arabic' | 'kurdish' | 'both';
-  onSelectTranslationMode?: (mode: 'arabic' | 'kurdish' | 'both') => void;
+  translationMode: 'arabic' | 'kurdish';
+  onSelectTranslationMode?: (mode: 'arabic' | 'kurdish') => void;
   bookmarkedVerses: number[];
   onToggleBookmark: (verseNumberInQuran: number) => void;
   highlightedVerses: Record<number, string>;
@@ -35,6 +36,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   verses,
   currentPage,
   setCurrentPage,
+  onVisibleVerseChange,
   currentVerseIndex,
   isPlaying = false,
   onPlayVerseAudio,
@@ -62,6 +64,36 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   const touchStartTimeRef = React.useRef(0);
   const longPressTimerRef = React.useRef<NodeJS.Timeout | null>(null);
 
+  // Scroll tracking to update current visible verse
+  useEffect(() => {
+    if (readingMode !== 'page' || verses.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries.find((entry) => entry.isIntersecting);
+        if (visibleEntry) {
+          const verseId = visibleEntry.target.id;
+          const numberInQuran = parseInt(verseId.replace('verse-', ''), 10);
+          const verse = verses.find((v) => v.numberInQuran === numberInQuran);
+          if (verse) {
+            onVisibleVerseChange?.(verse);
+            if (verse.page !== currentPage) {
+              setCurrentPage(verse.page);
+            }
+          }
+        }
+      },
+      { threshold: 0.5, rootMargin: '-10% 0px -10% 0px' }
+    );
+
+    verses.forEach((verse) => {
+      const el = document.getElementById(`verse-${verse.numberInQuran}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [verses, readingMode, currentPage, setCurrentPage, onVisibleVerseChange]);
+
   const handleTouchStart = () => {
     touchStartTimeRef.current = Date.now();
     longPressTimerRef.current = setTimeout(() => {
@@ -73,7 +105,8 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
     e.stopPropagation();
     if (longPressTimerRef.current) clearTimeout(longPressTimerRef.current);
     
-    if (Date.now() - touchStartTimeRef.current > 500) {
+    const currentTime = new Date().getTime();
+    if (currentTime - touchStartTimeRef.current > 500) {
       // Long press: Select verse
       setSelectedVerseForModal(verse);
     }
@@ -314,7 +347,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                   </div>
 
                   {/* Arabic Uthmani Verse Text */}
-                  {(translationMode === 'arabic' || translationMode === 'both') && (
+                  {translationMode === 'arabic' && (
                     <div
                       dir="rtl"
                       className="w-full text-right uthmani-text text-slate-900 dark:text-slate-100 mb-3 leading-relaxed"
@@ -327,35 +360,35 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                     </div>
                   )}
 
-                  {/* Kurdish Translation */}
-                  {(translationMode === 'kurdish' || translationMode === 'both') && (
+                  {/* Kurdish/English Translation based on appLanguage */}
+                  {translationMode === 'kurdish' && (
                     <div
-                      dir="rtl"
-                      className="w-full text-right kurdish-text text-emerald-900 dark:text-emerald-200 mt-2 p-3 sm:p-4 rounded-[16px]"
+                      dir={appLanguage === 'en' ? 'ltr' : 'rtl'}
+                      className={`w-full ${appLanguage === 'en' ? 'text-left font-sans text-sm' : 'text-right kurdish-text text-lg'} text-emerald-900 dark:text-emerald-200 mt-2 p-3 sm:p-4 rounded-[16px]`}
                       style={{
-                        textAlign: 'justify',
-                        textAlignLast: 'right',
+                        textAlign: appLanguage === 'en' ? 'left' : 'justify',
+                        textAlignLast: appLanguage === 'en' ? 'left' : 'right',
                         textJustify: 'inter-word',
-                        direction: 'rtl',
+                        direction: appLanguage === 'en' ? 'ltr' : 'rtl',
                         width: '100%',
                         wordSpacing: 'normal',
                         overflowX: 'hidden',
-                        fontSize: `${kurdishFontSize}px`,
-                        lineHeight: '2.0',
+                        fontSize: `${appLanguage === 'en' ? 14 : kurdishFontSize}px`,
+                        lineHeight: appLanguage === 'en' ? '1.5' : '2.0',
                       }}
                     >
-                      <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 block mb-1">
-                        {t.kurdishTranslation} ﴿{toLocalizedNumeral(verse.numberInSurah, appLanguage)}﴾
+                      <span className={`text-[11px] font-bold text-emerald-600 dark:text-emerald-400 block mb-1 ${appLanguage === 'en' ? 'uppercase' : ''}`}>
+                        {appLanguage === 'en' ? t.englishTranslation : t.kurdishTranslation} ﴿{toLocalizedNumeral(verse.numberInSurah, appLanguage)}﴾
                       </span>
-                      {verse.kurdish || getCleanArabicText(verse)}
+                      {appLanguage === 'en' ? (verse.english || verse.kurdish) : (verse.kurdish || getCleanArabicText(verse))}
                     </div>
                   )}
 
                   {/* English Translation */}
-                  {translationMode === 'both' && (
+                  {false && verse && (
                     <div className="w-full text-left text-sm text-slate-600 dark:text-slate-300 mt-2 p-3 rounded-[14px] font-sans">
                       <span className="text-[10px] uppercase font-bold text-slate-500 block mb-0.5">{t.englishTranslation}</span>
-                      {verse.english}
+                      {verse?.english}
                     </div>
                   )}
 
@@ -399,19 +432,13 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
               {selectedVerseForModal.text}
             </div>
 
-            {/* Kurdish Translation */}
-            {(translationMode === 'kurdish' || translationMode === 'both') && (
-              <div dir="rtl" className="text-lg kurdish-text text-slate-800 dark:text-slate-200 bg-emerald-500/10 p-3 rounded-[16px] mb-3">
-                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 block mb-1">{t.kurdishTranslation}</span>
-                {selectedVerseForModal.kurdish}
-              </div>
-            )}
-
-            {/* English Translation */}
-            {translationMode === 'both' && (
-              <div className="text-sm text-slate-600 dark:text-slate-300 bg-slate-500/5 p-3 rounded-[16px] mb-5">
-                <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">{t.englishTranslation}</span>
-                {selectedVerseForModal.english}
+            {/* Kurdish/English Translation based on appLanguage */}
+            {translationMode === 'kurdish' && (
+              <div dir={appLanguage === 'en' ? 'ltr' : 'rtl'} className={`${appLanguage === 'en' ? 'text-sm font-sans' : 'text-lg kurdish-text'} text-slate-800 dark:text-slate-200 bg-emerald-500/10 p-3 rounded-[16px] mb-3`}>
+                <span className={`text-[11px] font-bold text-emerald-600 dark:text-emerald-400 block mb-1 ${appLanguage === 'en' ? 'uppercase' : ''}`}>
+                  {appLanguage === 'en' ? t.englishTranslation : t.kurdishTranslation}
+                </span>
+                {appLanguage === 'en' ? selectedVerseForModal.english : selectedVerseForModal.kurdish}
               </div>
             )}
 

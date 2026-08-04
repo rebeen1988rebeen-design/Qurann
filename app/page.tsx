@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { NavbarTop } from '@/components/NavbarTop';
+import { UnifiedBottomNavBar } from '@/components/UnifiedBottomNavBar';
 import { QuranReader } from '@/components/QuranReader';
 import { ContentsView } from '@/components/ContentsView';
 import { SettingsView } from '@/components/SettingsView';
@@ -9,7 +9,6 @@ import { KhatmahTrackerView } from '@/components/KhatmahTrackerView';
 import { BookmarksView } from '@/components/BookmarksView';
 import { HighlightsView } from '@/components/HighlightsView';
 import { SearchView } from '@/components/SearchView';
-import { BottomAudioPlayerBar } from '@/components/BottomAudioPlayerBar';
 import { SearchModal } from '@/components/SearchModal';
 import { AudioReciterModal } from '@/components/AudioReciterModal';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, RECITERS, SurahMeta, Verse, Reciter } from '@/data/quranData';
@@ -38,10 +37,11 @@ const stripBismillahPrefix = (text: string, numberInSurah: number, surahNum: num
 export default function QuranApp() {
   const [currentSurah, setCurrentSurah] = useState<SurahMeta>(SURAHS_LIST[1]); // Al-Baqarah default
   const [currentPage, setCurrentPage] = useState<number>(3);
+  const [currentJuz, setCurrentJuz] = useState<number>(1);
   const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search'>('reader');
   
   const [appLanguage, setAppLanguage] = useState<Language>('ku'); // Default to Sorani Kurdish
-  const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish' | 'both'>('kurdish');
+  const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish'>('kurdish');
   const [themeMode, setThemeMode] = useState<ThemeMode>('white');
   const [showBars, setShowBars] = useState(true);
   const toggleBars = () => setShowBars(!showBars);
@@ -376,30 +376,8 @@ export default function QuranApp() {
       className={`min-h-screen relative overflow-x-hidden transition-colors duration-500 ${getBgStyle()}`}
     >
       
-      {/* Navbar Header */}
-      <NavbarTop
-        currentSurah={currentSurah}
-        currentPage={currentPage}
-        currentJuz={currentSurah.juz}
-        activeView={activeView}
-        setActiveView={setActiveView}
-        openSearch={() => setActiveView('search')}
-        openPageJump={() => setActiveView('contents')}
-        themeMode={themeMode}
-        setThemeMode={setThemeMode}
-        translationMode={translationMode}
-        setTranslationMode={setTranslationMode}
-        arabicFontSize={arabicFontSize}
-        kurdishFontSize={kurdishFontSize}
-        onZoomInFont={handleZoomInFont}
-        onZoomOutFont={handleZoomOutFont}
-        appLanguage={appLanguage}
-        setAppLanguage={setAppLanguage}
-        showBars={showBars}
-      />
-
       {/* Main Views Container */}
-      <main className="w-full relative pt-[105px]" onClick={toggleBars}>
+      <main className="w-full relative pt-6" onClick={toggleBars}>
         {activeView === 'reader' && (
           isLoadingVerses ? (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/10 backdrop-blur-sm">
@@ -412,6 +390,10 @@ export default function QuranApp() {
               verses={versesForCurrentSurah}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
+              onVisibleVerseChange={(verse) => {
+                if (verse.juz !== currentJuz) setCurrentJuz(verse.juz);
+                if (verse.page !== currentPage) setCurrentPage(verse.page);
+              }}
               currentVerseIndex={currentVerseIndex}
               isPlaying={isPlaying}
               onPlayVerseAudio={(verse) => {
@@ -507,28 +489,22 @@ export default function QuranApp() {
         )}
       </main>
 
-      {/* Floating Audio Player & Bottom Navigation Tab Bar */}
-      <BottomAudioPlayerBar
-        selectedReciter={selectedReciter}
-        onOpenReciterModal={() => setIsReciterModalOpen(true)}
-        isPlaying={isPlaying}
-        onTogglePlay={togglePlayAudio}
-        currentSurah={currentSurah}
-        currentVerse={currentVerse}
-        currentVerseIndex={currentVerseIndex}
-        totalVerses={versesForCurrentSurah.length}
-        onNextVerse={handleNextVerse}
-        onPrevVerse={handlePrevVerse}
-        currentTime={currentTime}
-        duration={duration}
-        onSeek={handleSeek}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
+      {/* Unified Bottom Navigation Bar */}
+      <UnifiedBottomNavBar
         activeView={activeView}
         setActiveView={setActiveView}
+        openPageJump={() => setActiveView('contents')}
         themeMode={themeMode}
+        setThemeMode={setThemeMode}
+        translationMode={translationMode}
+        setTranslationMode={setTranslationMode}
+        onZoomInFont={handleZoomInFont}
+        onZoomOutFont={handleZoomOutFont}
         appLanguage={appLanguage}
+        setAppLanguage={setAppLanguage}
         showBars={showBars}
+        currentJuz={currentJuz}
+        currentPage={currentPage}
       />
 
       {/* Modals */}

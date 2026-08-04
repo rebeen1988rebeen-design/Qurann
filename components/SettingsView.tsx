@@ -26,8 +26,8 @@ interface SettingsViewProps {
   onBack: () => void;
   themeMode: ThemeMode;
   setThemeMode: (mode: ThemeMode) => void;
-  translationMode: 'arabic' | 'kurdish' | 'both';
-  setTranslationMode: (mode: 'arabic' | 'kurdish' | 'both') => void;
+  translationMode: 'arabic' | 'kurdish';
+  setTranslationMode: (mode: 'arabic' | 'kurdish') => void;
   fontSize: 'small' | 'medium' | 'large' | 'xlarge';
   setFontSize: (size: 'small' | 'medium' | 'large' | 'xlarge') => void;
   selectedReciterName: string;
