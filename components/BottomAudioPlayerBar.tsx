@@ -84,6 +84,18 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
     ? currentSurah.kurdishName
     : currentSurah.name;
 
+  const activeTabClass = themeMode === 'dark'
+    ? 'text-white font-extrabold scale-105'
+    : themeMode === 'cyan'
+    ? 'text-sky-700 font-extrabold scale-105'
+    : themeMode === 'yellow'
+    ? 'text-amber-700 font-extrabold scale-105'
+    : 'text-emerald-700 font-extrabold scale-105';
+
+  const inactiveTabClass = themeMode === 'dark'
+    ? 'text-white/80 hover:text-white'
+    : 'text-black hover:text-emerald-700';
+
   return (
     <div className="fixed bottom-3 left-0 right-0 z-40 flex flex-col items-center pointer-events-none transition-all duration-300 px-3">
       
@@ -94,9 +106,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
         <button
           onClick={() => setActiveView('contents')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
-            activeView === 'contents'
-              ? 'text-emerald-600 dark:text-emerald-400 font-bold scale-105'
-              : 'hover:text-emerald-600 opacity-70'
+            activeView === 'contents' ? activeTabClass : inactiveTabClass
           }`}
         >
           <ListFilter className="w-5 h-5" />
@@ -107,9 +117,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
         <button
           onClick={() => setActiveView('search')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
-            activeView === 'search'
-              ? 'text-emerald-600 dark:text-emerald-400 font-bold scale-105'
-              : 'hover:text-emerald-600 opacity-70'
+            activeView === 'search' ? activeTabClass : inactiveTabClass
           }`}
         >
           <Search className="w-5 h-5" />
@@ -120,24 +128,24 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
         <button
           onClick={() => setActiveView('reader')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
-            activeView === 'reader'
-              ? 'text-emerald-600 dark:text-emerald-400 font-bold scale-105'
-              : 'hover:text-emerald-600 opacity-70'
+            activeView === 'reader' ? activeTabClass : inactiveTabClass
           }`}
         >
-          <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center font-bold text-xs border border-emerald-500/30">
+          <div className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shadow-xs ${
+            activeView === 'reader'
+              ? (themeMode === 'dark' ? 'bg-white text-slate-950' : themeMode === 'cyan' ? 'bg-sky-600 text-white' : themeMode === 'yellow' ? 'bg-amber-600 text-white' : 'bg-emerald-600 text-white')
+              : (themeMode === 'dark' ? 'bg-slate-700 text-white' : themeMode === 'cyan' ? 'bg-sky-100 text-sky-800' : themeMode === 'yellow' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800')
+          }`}>
             📖
           </div>
-          <span className="text-[11px] font-medium">{t.appTitle}</span>
+          <span className="text-[11px] font-medium">قورئان</span>
         </button>
 
         {/* Tab 4: Bookmarks */}
         <button
           onClick={() => setActiveView('bookmarks')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
-            activeView === 'bookmarks'
-              ? 'text-emerald-600 dark:text-emerald-400 font-bold scale-105'
-              : 'hover:text-emerald-600 opacity-70'
+            activeView === 'bookmarks' ? activeTabClass : inactiveTabClass
           }`}
         >
           <Bookmark className="w-5 h-5" />
@@ -148,9 +156,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
         <button
           onClick={() => setActiveView('highlights')}
           className={`flex flex-col items-center gap-0.5 transition-all ${
-            activeView === 'highlights'
-              ? 'text-emerald-600 dark:text-emerald-400 font-bold scale-105'
-              : 'hover:text-emerald-600 opacity-70'
+            activeView === 'highlights' ? activeTabClass : inactiveTabClass
           }`}
         >
           <Pencil className="w-5 h-5" />

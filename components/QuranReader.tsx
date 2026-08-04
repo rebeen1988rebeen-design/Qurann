@@ -103,6 +103,15 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
           </div>
         )}
 
+        {/* Bismillah Header (Except Surah At-Tawbah - 9) */}
+        {currentSurah.number !== 9 && (
+          <div dir="rtl" className="w-full text-center py-4 mb-4 border-b border-black/10 dark:border-white/10">
+            <span className={`text-xl sm:text-2xl font-bold uthmani-text ${themeConfig.textAccent}`}>
+              بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+            </span>
+          </div>
+        )}
+
         {/* PAGE UTHMANI OR KURDISH VIEW MODE */}
         {readingMode === 'page' && (
           <>
@@ -117,11 +126,11 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                   textJustify: 'inter-word',
                   direction: 'rtl',
                   width: '100%',
-                  wordSpacing: '-0.02em',
-                  letterSpacing: '-0.01em',
+                  wordSpacing: '-0.08em',
+                  letterSpacing: '-0.02em',
                   overflowX: 'hidden',
                   fontSize: `${kurdishFontSize}px`,
-                  lineHeight: '2.0',
+                  lineHeight: '1.9',
                 }}
               >
                 {verses.map((verse, index) => {
@@ -133,11 +142,11 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       key={verse.numberInQuran}
                       id={`verse-${verse.numberInQuran}`}
                       onClick={() => setSelectedVerseForModal(verse)}
-                      className={`cursor-pointer transition-colors duration-150 rounded-lg px-1 inline relative ${
+                      className={`cursor-pointer transition-colors duration-150 rounded-md px-0.5 inline relative ${
                         isCurrentPlaying
                           ? 'bg-emerald-500/35 text-emerald-950 dark:text-emerald-50 ring-2 ring-emerald-500 shadow-lg scale-[1.02]'
                           : highlightColor
-                          ? `${highlightColor} px-1 rounded`
+                          ? `${highlightColor} px-0.5 rounded`
                           : 'hover:bg-emerald-500/10'
                       }`}
                       title={`ئایەتی ${verse.numberInSurah} - داگرە بۆ گوێگرتن یان نیشانکردن`}
@@ -146,16 +155,16 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       
                       {/* Perfect Round Circle Verse End Marker */}
                       <span
-                        className={`inline-flex items-center justify-center mx-1.5 font-extrabold text-center align-middle font-sans transition-colors shadow-xs ${
+                        className={`inline-flex items-center justify-center mx-1 font-extrabold text-center align-middle font-sans transition-colors shadow-xs ${
                           isCurrentPlaying
                             ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 shadow-md'
                             : themeConfig.ayahBadge
                         }`}
                         style={{
-                          width: `${Math.max(28, kurdishFontSize + 8)}px`,
-                          height: `${Math.max(28, kurdishFontSize + 8)}px`,
+                          width: `${Math.max(26, kurdishFontSize + 6)}px`,
+                          height: `${Math.max(26, kurdishFontSize + 6)}px`,
                           borderRadius: '50%',
-                          fontSize: `${Math.max(13, kurdishFontSize - 3)}px`,
+                          fontSize: `${Math.max(12, kurdishFontSize - 4)}px`,
                         }}
                       >
                         {toLocalizedNumeral(verse.numberInSurah, appLanguage)}
@@ -168,11 +177,11 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
               /* ARABIC OR BILINGUAL PAGE FLOW */
               <div
                 dir="rtl"
-                className={`w-full text-justify leading-[2.1] uthmani-text select-text pt-2 pb-6 ${themeConfig.arabicVerseText}`}
+                className={`w-full text-justify leading-[2.0] uthmani-text select-text pt-2 pb-6 ${themeConfig.arabicVerseText}`}
                 style={{
                   fontSize: `${arabicFontSize}px`,
-                  wordSpacing: '-0.06em',
-                  letterSpacing: '0.01em',
+                  wordSpacing: '-0.12em',
+                  letterSpacing: '-0.02em',
                   textJustify: 'inter-character',
                 }}
               >
@@ -185,11 +194,11 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       key={verse.numberInQuran}
                       id={`verse-${verse.numberInQuran}`}
                       onClick={() => setSelectedVerseForModal(verse)}
-                      className={`cursor-pointer transition-colors duration-150 rounded-lg px-1 inline relative ${
+                      className={`cursor-pointer transition-colors duration-150 rounded-md px-0.5 inline relative ${
                         isCurrentPlaying
                           ? 'bg-emerald-500/35 ring-2 ring-emerald-500 shadow-lg scale-[1.02]'
                           : highlightColor
-                          ? `${highlightColor} px-1 rounded`
+                          ? `${highlightColor} px-0.5 rounded`
                           : 'hover:bg-emerald-500/10'
                       }`}
                       title={`${t.verses} ${toLocalizedNumeral(verse.numberInSurah, appLanguage)}`}
@@ -198,16 +207,16 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       
                       {/* Perfect Round Circle Verse End Marker */}
                       <span
-                        className={`inline-flex items-center justify-center mx-1.5 font-extrabold text-center align-middle font-sans transition-colors shadow-xs ${
+                        className={`inline-flex items-center justify-center mx-1 font-extrabold text-center align-middle font-sans transition-colors shadow-xs ${
                           isCurrentPlaying
                             ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 shadow-md'
                             : themeConfig.ayahBadge
                         }`}
                         style={{
-                          width: `${Math.max(30, arabicFontSize + 6)}px`,
-                          height: `${Math.max(30, arabicFontSize + 6)}px`,
+                          width: `${Math.max(28, arabicFontSize + 4)}px`,
+                          height: `${Math.max(28, arabicFontSize + 4)}px`,
                           borderRadius: '50%',
-                          fontSize: `${Math.max(13, arabicFontSize - 8)}px`,
+                          fontSize: `${Math.max(12, arabicFontSize - 8)}px`,
                         }}
                       >
                         {toLocalizedNumeral(verse.numberInSurah, appLanguage)}

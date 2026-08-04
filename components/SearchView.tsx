@@ -62,7 +62,7 @@ export const SearchView: React.FC<SearchViewProps> = ({
 
         {/* Search Input Bar */}
         <div className="relative mb-6">
-          <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-emerald-600">
+          <div className={`absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none ${themeConfig.textAccent}`}>
             <Search className="w-5 h-5" />
           </div>
           <input
@@ -112,7 +112,7 @@ export const SearchView: React.FC<SearchViewProps> = ({
                         {surah.kurdishName} • {t.pageBadge} {toLocalizedNumeral(surah.page, appLanguage)} • {surah.numberOfAyahs} {t.verses}
                       </div>
                     </div>
-                    <span className="font-bold text-emerald-600 dark:text-emerald-400 uthmani-text text-xl">{surah.name}</span>
+                    <span className={`font-bold uthmani-text text-xl ${themeConfig.textAccent}`}>{surah.name}</span>
                   </div>
                 ))}
               </div>
