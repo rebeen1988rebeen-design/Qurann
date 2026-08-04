@@ -19,6 +19,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased selection:bg-emerald-500/30 selection:text-emerald-900 dark:selection:text-emerald-100 font-sans min-h-screen" suppressHydrationWarning>
         {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').then(
+                    function(reg) { console.log('SW registered:', reg.scope); },
+                    function(err) { console.log('SW registration failed:', err); }
+                  );
+                });
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   );

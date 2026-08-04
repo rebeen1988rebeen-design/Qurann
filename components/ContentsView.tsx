@@ -92,13 +92,6 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
               {t.tabJuzs}
             </button>
           </div>
-
-          <button
-            onClick={() => setActiveTab('surahs')}
-            className="w-9 h-9 rounded-full bg-slate-200/60 dark:bg-slate-800/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-all border border-white/40"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
 
         {/* Large Header Title */}

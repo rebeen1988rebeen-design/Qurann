@@ -75,66 +75,12 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
     <header className="sticky top-0 z-40 w-full px-3 pt-3 pb-2 transition-all duration-300">
       <div className={`mx-auto max-w-4xl rounded-[22px] px-4 py-2.5 flex items-center justify-between transition-all duration-300 ${themeConfig.navGlass}`}>
         
-        {/* Left Section: Back / View Navigation */}
-        <div className="flex items-center gap-2">
-          {activeView !== 'reader' && (
-            <button
-              onClick={() => setActiveView('reader')}
-              className="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-all opacity-85 hover:opacity-100"
-              title={t.backToReader}
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-          )}
-
-          <button
-            onClick={() => setActiveView('contents')}
-            className={`p-2 rounded-full transition-all ${
-              activeView === 'contents'
-                ? themeConfig.activeTabBg
-                : 'hover:bg-black/5 dark:hover:bg-white/10'
-            }`}
-            title={t.contents}
-          >
-            <ListFilter className="w-5 h-5" />
-          </button>
-
-          <button
-            onClick={openSearch}
-            className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-all"
-            title={t.search}
-          >
-            <Search className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Center Title / Surah Name & Part */}
-        <div className="flex flex-col items-center cursor-pointer select-none" onClick={() => setActiveView('reader')}>
-          <div className="flex items-center gap-2">
-            {appLanguage === 'en' ? (
-              <span className="font-semibold text-base sm:text-lg tracking-tight font-sans">
-                {currentSurah.englishName}
-              </span>
-            ) : appLanguage === 'ku' ? (
-              <span className="font-semibold text-base sm:text-lg tracking-tight kurdish-text">
-                {currentSurah.kurdishName}
-              </span>
-            ) : null}
-            <span className={`font-bold text-base uthmani-text ${themeConfig.textAccent}`}>
-              {currentSurah.name}
-            </span>
-          </div>
-          <span className="text-[11px] font-medium opacity-75 tracking-wide uppercase">
-            {t.part} {toLocalizedNumeral(currentJuz, appLanguage)}
-          </span>
-        </div>
-
-        {/* Right Controls: Page Badge (Vertical Oval), Language Switcher, Theme & Settings */}
-        <div className="flex items-center gap-2 relative">
-          {/* Page Badge Button (Vertical Oval) */}
+        {/* Right Controls: Page Badge, Language Switcher, Theme & Settings */}
+        <div className="flex items-center gap-1.5 relative">
+          {/* Page Badge Button (Rounded Rectangle Box) */}
           <button
             onClick={openPageJump}
-            className={`px-3 py-1 rounded-[18px] ${themeConfig.activeTabBg} font-bold text-xs flex items-center gap-1 transition-all shadow-xs`}
+            className={`px-2.5 py-1 h-9 rounded-xl ${themeConfig.activeTabBg} font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xs border cursor-pointer active:scale-95`}
             title={`${t.pageBadge} ${toLocalizedNumeral(currentPage, appLanguage)}`}
           >
             <BookOpen className="w-3.5 h-3.5" />
@@ -209,17 +155,15 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
             )}
           </div>
 
-          {/* Settings Icon */}
+          {/* Settings Button in a Rounded Rectangle Box */}
           <button
             onClick={() => setActiveView('settings')}
-            className={`p-2 rounded-full transition-all ${
-              activeView === 'settings'
-                ? themeConfig.activeTabBg
-                : 'hover:bg-black/5 dark:hover:bg-white/10'
+            className={`w-9 h-9 rounded-xl ${themeConfig.activeTabBg} flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 border ${
+              activeView === 'settings' ? 'ring-2 ring-emerald-500/50' : ''
             }`}
             title={t.settings}
           >
-            <Settings className="w-5 h-5" />
+            <Settings className="w-4 h-4" />
           </button>
         </div>
 
