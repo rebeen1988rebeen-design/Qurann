@@ -22,6 +22,7 @@ export const TRANSLATIONS = {
   ar: {
     // Header & General Navigation
     appTitle: "القرآن الكريم",
+    quran: "القرآن",
     backToReader: "العودة للقرآن",
     close: "إغلاق",
     contents: "الفهرس",
@@ -134,6 +135,7 @@ export const TRANSLATIONS = {
   ku: {
     // Header & General Navigation
     appTitle: "قورئانی پیرۆز",
+    quran: "قورئان",
     backToReader: "گەڕانەوە بۆ قورئان",
     close: "داخستن",
     contents: "ناوەڕۆک",
@@ -246,6 +248,7 @@ export const TRANSLATIONS = {
   en: {
     // Header & General Navigation
     appTitle: "Holy Quran",
+    quran: "Quran",
     backToReader: "Back to Quran",
     close: "Close",
     contents: "Contents",

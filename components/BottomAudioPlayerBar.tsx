@@ -132,14 +132,8 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
             activeView === 'reader' ? activeTabClass : inactiveTabClass
           }`}
         >
-          <div className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shadow-xs ${
-            activeView === 'reader'
-              ? (themeMode === 'dark' ? 'bg-white text-slate-950' : themeMode === 'cyan' ? 'bg-sky-600 text-white' : themeMode === 'yellow' ? 'bg-amber-600 text-white' : 'bg-emerald-600 text-white')
-              : (themeMode === 'dark' ? 'bg-slate-700 text-white' : themeMode === 'cyan' ? 'bg-sky-100 text-sky-800' : themeMode === 'yellow' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800')
-          }`}>
-            <BookOpen className="w-3.5 h-3.5" />
-          </div>
-          <span className="text-[11px] font-medium">قورئان</span>
+          <BookOpen className="w-5 h-5" />
+          <span className="text-[11px] font-medium">{t.quran}</span>
         </button>
 
         {/* Tab 4: Bookmarks */}
