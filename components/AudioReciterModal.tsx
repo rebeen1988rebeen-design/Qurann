@@ -28,7 +28,7 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-in fade-in duration-200">
-      <div className={`w-full max-w-md rounded-[24px] p-6 shadow-2xl ${cardGlassClass} border border-white/40`}>
+      <div className={`w-full max-w-md rounded-2xl p-6 shadow-2xl ${cardGlassClass} border border-white/40`}>
         
         <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10 mb-4">
           <div className="flex items-center gap-2">
@@ -54,7 +54,7 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
                   onSelectReciter(reciter);
                   onClose();
                 }}
-                className={`p-4 rounded-[18px] border cursor-pointer transition-all flex items-center justify-between ${
+                className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
                   isSelected
                     ? 'bg-emerald-500/20 border-emerald-500 text-emerald-900 dark:text-emerald-100 font-bold shadow-sm'
                     : 'bg-white/40 dark:bg-slate-800/40 border-white/40 dark:border-white/10 hover:bg-emerald-500/10'
@@ -77,7 +77,7 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
 
         <button
           onClick={onClose}
-          className="w-full mt-5 py-2.5 rounded-full bg-slate-200/80 dark:bg-slate-800 font-bold text-sm text-slate-700 dark:text-slate-200"
+          className="w-full mt-5 py-2.5 rounded-xl bg-slate-200/80 dark:bg-slate-800 font-bold text-sm text-slate-700 dark:text-slate-200"
         >
           Cancel
         </button>

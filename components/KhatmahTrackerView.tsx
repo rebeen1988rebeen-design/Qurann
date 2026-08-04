@@ -44,7 +44,7 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
       </div>
 
       {/* Main Glass Progress Card */}
-      <div className={`rounded-[24px] p-6 shadow-xl mb-6 relative overflow-hidden ${cardGlassClass}`}>
+      <div className={`rounded-2xl p-6 shadow-xl mb-6 relative overflow-hidden ${cardGlassClass}`}>
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           
           {/* Progress Circle Visual */}
@@ -80,22 +80,22 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
 
           {/* Quick Stats Grid */}
           <div className="flex-1 grid grid-cols-2 gap-3 w-full">
-            <div className="bg-white/40 dark:bg-slate-800/40 p-3.5 rounded-[18px] border border-white/40 dark:border-white/10 flex flex-col">
+            <div className="bg-white/40 dark:bg-slate-800/40 p-3.5 rounded-xl border border-white/40 dark:border-white/10 flex flex-col">
               <span className="text-[10px] font-bold uppercase text-slate-400">Current Page</span>
               <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{currentPage} / 604</span>
             </div>
 
-            <div className="bg-white/40 dark:bg-slate-800/40 p-3.5 rounded-[18px] border border-white/40 dark:border-white/10 flex flex-col">
+            <div className="bg-white/40 dark:bg-slate-800/40 p-3.5 rounded-xl border border-white/40 dark:border-white/10 flex flex-col">
               <span className="text-[10px] font-bold uppercase text-slate-400">Pages Left</span>
               <span className="text-2xl font-bold text-amber-600 dark:text-amber-400">{totalPages - currentPage}</span>
             </div>
 
-            <div className="bg-white/40 dark:bg-slate-800/40 p-3.5 rounded-[18px] border border-white/40 dark:border-white/10 flex flex-col">
+            <div className="bg-white/40 dark:bg-slate-800/40 p-3.5 rounded-xl border border-white/40 dark:border-white/10 flex flex-col">
               <span className="text-[10px] font-bold uppercase text-slate-400">Daily Goal</span>
               <span className="text-2xl font-bold text-sky-600 dark:text-sky-400">{pagesPerDay} Pgs/Day</span>
             </div>
 
-            <div className="bg-white/40 dark:bg-slate-800/40 p-3.5 rounded-[18px] border border-white/40 dark:border-white/10 flex flex-col">
+            <div className="bg-white/40 dark:bg-slate-800/40 p-3.5 rounded-xl border border-white/40 dark:border-white/10 flex flex-col">
               <span className="text-[10px] font-bold uppercase text-slate-400">Target Days</span>
               <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">{targetDays} Days</span>
             </div>
@@ -133,7 +133,7 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
       </div>
 
       {/* Target Planning Card */}
-      <div className={`rounded-[24px] p-6 shadow-sm ${cardGlassClass}`}>
+      <div className={`rounded-2xl p-6 shadow-sm ${cardGlassClass}`}>
         <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
           <Target className="w-5 h-5 text-emerald-500" />
           <span>Khatmah Target Calculator</span>
@@ -148,7 +148,7 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
             <button
               key={days}
               onClick={() => setTargetDays(days)}
-              className={`p-3.5 rounded-[18px] border text-center font-bold text-sm transition-all ${
+              className={`p-3.5 rounded-xl border text-center font-bold text-sm transition-all ${
                 targetDays === days
                   ? 'bg-emerald-500 text-white border-emerald-500 shadow-md'
                   : 'bg-white/40 dark:bg-slate-800/40 border-white/40 text-slate-700 dark:text-slate-200 hover:bg-white/60'

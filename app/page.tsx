@@ -363,7 +363,7 @@ export default function QuranApp() {
     });
   };
 
-  // Sync body background with theme
+  // Sync body and html background with theme
   useEffect(() => {
     const colors = {
       white: '#FFFFFF',
@@ -372,7 +372,9 @@ export default function QuranApp() {
       green: '#E6F8ED',
       yellow: '#FFFBEA'
     };
-    document.body.style.backgroundColor = colors[themeMode] || '#FFFFFF';
+    const color = colors[themeMode] || '#FFFFFF';
+    document.body.style.backgroundColor = color;
+    document.documentElement.style.backgroundColor = color;
   }, [themeMode]);
 
   // Background style based on theme mode
@@ -385,11 +387,11 @@ export default function QuranApp() {
   return (
     <div
       dir={appLanguage === 'en' ? 'ltr' : 'rtl'}
-      className={`min-h-screen relative overflow-x-hidden transition-colors duration-500 ${getBgStyle()}`}
+      className={`min-h-screen flex flex-col relative overflow-x-hidden transition-colors duration-500 bg-fixed ${getBgStyle()}`}
     >
       
       {/* Main Views Container */}
-      <main className="w-full relative pt-6" onClick={toggleBars}>
+      <main className="flex-1 w-full relative pt-6" onClick={toggleBars}>
         {activeView === 'reader' && (
           isLoadingVerses ? (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/10 backdrop-blur-sm">

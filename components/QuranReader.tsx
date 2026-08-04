@@ -145,10 +145,10 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   }, [currentVerseIndex, verses]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-3 py-2 pb-44 flex flex-col items-center" onClick={toggleBars}>
+    <div className="w-full max-w-4xl mx-auto px-3 py-2 pb-44 flex flex-col items-center min-h-screen" onClick={toggleBars}>
       
       {/* Main Quran Frame Card */}
-      <div className={`w-full p-4 sm:p-8 min-h-[500px] relative overflow-hidden ${cardGlassClass}`}>
+      <div className={`w-full p-4 sm:p-8 flex-1 relative overflow-hidden ${cardGlassClass}`}>
         
 
 
@@ -295,7 +295,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                 <div
                   key={verse.numberInQuran}
                   id={`verse-${verse.numberInQuran}`}
-                  className={`w-full rounded-[32px] p-4 sm:p-5 transition-colors duration-150 border ${
+                  className={`w-full rounded-2xl p-4 sm:p-5 transition-colors duration-150 border ${
                     isCurrentPlaying
                       ? 'bg-emerald-500/25 border-emerald-500 ring-2 ring-emerald-500 shadow-xl scale-[1.01]'
                       : `${themeConfig.cardGlass} border-0`

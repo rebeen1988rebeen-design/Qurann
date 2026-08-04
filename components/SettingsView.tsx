@@ -76,7 +76,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       <div className="flex flex-col gap-5">
         
         {/* CARD BLOCK 1: Membership matching Screenshot 4 */}
-        <div className={`rounded-[22px] overflow-hidden shadow-sm ${cardGlassClass}`}>
+        <div className={`rounded-2xl overflow-hidden shadow-sm ${cardGlassClass}`}>
           <div
             onClick={() => setActiveSubModal('membership')}
             className="w-full p-4 flex items-center justify-between cursor-pointer hover:bg-emerald-500/10 transition-all"
@@ -97,7 +97,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
 
         {/* CARD BLOCK 2: Quran, Sync, Reminders, Storage matching Screenshot 4 */}
-        <div className={`rounded-[22px] overflow-hidden shadow-sm divide-y divide-black/5 dark:divide-white/10 ${cardGlassClass}`}>
+        <div className={`rounded-2xl overflow-hidden shadow-sm divide-y divide-black/5 dark:divide-white/10 ${cardGlassClass}`}>
           
           {/* Quran Settings */}
           <div
@@ -180,7 +180,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
 
         {/* CARD BLOCK 3: Language, Appearance, App Icon matching Screenshot 4 */}
-        <div className={`rounded-[22px] overflow-hidden shadow-sm divide-y divide-black/5 dark:divide-white/10 ${cardGlassClass}`}>
+        <div className={`rounded-2xl overflow-hidden shadow-sm divide-y divide-black/5 dark:divide-white/10 ${cardGlassClass}`}>
           
           {/* Language Toggle with Direct Rounded Rectangular Buttons */}
           <div className="w-full p-4 flex flex-col gap-3">
@@ -321,7 +321,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
 
         {/* CARD BLOCK 4: Help */}
-        <div className={`rounded-[22px] overflow-hidden shadow-sm ${cardGlassClass}`}>
+        <div className={`rounded-2xl overflow-hidden shadow-sm ${cardGlassClass}`}>
           <div
             onClick={() => setActiveSubModal('help')}
             className="w-full p-4 flex items-center justify-between cursor-pointer hover:bg-emerald-500/10 transition-all"
@@ -339,7 +339,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
 
         {/* CARD BLOCK 5: About */}
-        <div className={`rounded-[22px] overflow-hidden shadow-sm ${cardGlassClass}`}>
+        <div className={`rounded-2xl overflow-hidden shadow-sm ${cardGlassClass}`}>
           <div
             onClick={() => setActiveSubModal('about')}
             className="w-full p-4 flex items-center justify-between cursor-pointer hover:bg-emerald-500/10 transition-all"
@@ -365,7 +365,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             {t.ourOtherApp}
           </div>
 
-          <div className={`rounded-[22px] overflow-hidden shadow-sm p-4 flex items-center justify-between cursor-pointer hover:bg-emerald-500/10 transition-all ${cardGlassClass}`}>
+          <div className={`rounded-2xl overflow-hidden shadow-sm p-4 flex items-center justify-between cursor-pointer hover:bg-emerald-500/10 transition-all ${cardGlassClass}`}>
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 rounded-[14px] bg-sky-500 text-white flex items-center justify-center font-bold text-xl shadow-md">
                 <span>ﷺ</span>
@@ -388,7 +388,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       {/* Sub Modals for Settings */}
       {activeSubModal === 'appearance' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
-          <div className={`w-full max-w-md rounded-[24px] p-6 shadow-2xl ${cardGlassClass}`}>
+          <div className={`w-full max-w-md rounded-2xl p-6 shadow-2xl ${cardGlassClass}`}>
             <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">{t.appearance}</h3>
             <div className="flex flex-col gap-2.5">
               
@@ -485,7 +485,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
       {activeSubModal === 'language' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
-          <div className={`w-full max-w-md rounded-[24px] p-6 shadow-2xl ${cardGlassClass}`}>
+          <div className={`w-full max-w-md rounded-2xl p-6 shadow-2xl ${cardGlassClass}`}>
             <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">{t.language}</h3>
             
             <div className="flex flex-col gap-3">
@@ -535,7 +535,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
       {activeSubModal === 'about' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
-          <div className={`w-full max-w-md rounded-[24px] p-6 shadow-2xl text-center ${cardGlassClass}`}>
+          <div className={`w-full max-w-md rounded-2xl p-6 shadow-2xl text-center ${cardGlassClass}`}>
             <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-600 mx-auto flex items-center justify-center mb-3">
               <Book className="w-8 h-8" />
             </div>

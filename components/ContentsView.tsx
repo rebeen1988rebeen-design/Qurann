@@ -59,7 +59,7 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
       <div className="flex-1">
 
         {/* Surah List */}
-        <div className={`rounded-[32px] overflow-hidden ${themeConfig.cardGlass} border-0`}>
+        <div className={`rounded-2xl overflow-hidden ${themeConfig.cardGlass} border-0`}>
           {filteredSurahs.map((surah) => {
             const isSelected = surah.number === currentSurahNumber;
 
@@ -94,7 +94,7 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
                 <div className="flex items-center gap-4">
                   {/* Surah Index Badge */}
                   <div
-                    className={`w-8 h-8 rounded-full font-bold text-sm flex items-center justify-center transition-all shadow-xs ${
+                    className={`w-8 h-8 rounded-lg font-bold text-sm flex items-center justify-center transition-all shadow-xs ${
                       isSelected
                         ? themeMode === 'dark' ? 'bg-white text-slate-900' : 'bg-slate-900 text-white'
                         : 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-200'
