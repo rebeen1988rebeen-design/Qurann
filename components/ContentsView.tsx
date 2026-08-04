@@ -58,18 +58,6 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
       {/* Main Content Column */}
       <div className="flex-1">
 
-        {/* Search Bar Input */}
-        <div className="relative mb-6">
-          <Search className="w-4 h-4 absolute left-4 top-3.5 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={t.searchPlaceholder}
-            className={`w-full pl-11 pr-4 py-3 rounded-full text-sm focus:outline-none transition-all ${themeConfig.cardGlass} border-0`}
-          />
-        </div>
-
         {/* Surah List */}
         <div className={`rounded-[32px] overflow-hidden ${themeConfig.cardGlass} border-0`}>
           {filteredSurahs.map((surah) => {
