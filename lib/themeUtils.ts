@@ -25,10 +25,10 @@ export const getThemeConfig = (theme: ThemeMode): ThemeStyleConfig => {
     case 'white':
       return {
         rootBg: 'bg-[#FFFFFF] text-slate-900',
-        cardGlass: 'bg-white border border-slate-200/50 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] text-slate-900 rounded-[32px]',
-        navGlass: 'bg-white border border-slate-200/50 text-slate-900 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
-        playerGlass: 'bg-white border border-slate-200/50 text-slate-900 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
-        modalGlass: 'bg-white border border-slate-200/50 text-slate-900 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
+        cardGlass: 'bg-white/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-white/45 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px] text-slate-900',
+        navGlass: 'bg-white/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-white/45 text-slate-900 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-full',
+        playerGlass: 'bg-white/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-white/45 text-slate-900 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
+        modalGlass: 'bg-white/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-white/45 text-slate-900 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
         textPrimary: 'text-[#000000] font-bold',
         textSecondary: 'text-emerald-800 font-semibold',
         textAccent: 'text-emerald-700 font-bold',
@@ -46,10 +46,10 @@ export const getThemeConfig = (theme: ThemeMode): ThemeStyleConfig => {
     case 'dark':
       return {
         rootBg: 'bg-[#0F172A] text-white',
-        cardGlass: 'bg-[#1E293B] border border-white/10 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3),0_8px_10px_-6px_rgba(0,0,0,0.2)] text-[#F1F5F9] rounded-[32px]',
-        navGlass: 'bg-[#1E293B] border border-white/10 text-white shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3),0_8px_10px_-6px_rgba(0,0,0,0.2)] rounded-[32px]',
-        playerGlass: 'bg-[#1E293B] border border-white/10 text-white shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3),0_8px_10px_-6px_rgba(0,0,0,0.2)] rounded-[32px]',
-        modalGlass: 'bg-[#1E293B] text-white border border-white/10 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3),0_8px_10px_-6px_rgba(0,0,0,0.2)] rounded-[32px]',
+        cardGlass: 'bg-[#1E293B]/70 [backdrop-filter:blur(25px)_saturate(190%)] border border-white/18 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] text-[#F1F5F9] rounded-[32px]',
+        navGlass: 'bg-[#1E293B]/70 [backdrop-filter:blur(25px)_saturate(190%)] border border-white/18 text-white shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-full',
+        playerGlass: 'bg-[#1E293B]/70 [backdrop-filter:blur(25px)_saturate(190%)] border border-white/18 text-white shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
+        modalGlass: 'bg-[#1E293B]/70 [backdrop-filter:blur(25px)_saturate(190%)] text-white border border-white/18 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
         textPrimary: 'text-[#F1F5F9] font-bold',
         textSecondary: 'text-white/90 font-medium',
         textAccent: 'text-white font-bold',
@@ -67,10 +67,10 @@ export const getThemeConfig = (theme: ThemeMode): ThemeStyleConfig => {
     case 'cyan':
       return {
         rootBg: 'bg-[#FFFFFF] text-cyan-950',
-        cardGlass: 'bg-[#FFFFFF] border border-sky-100/50 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] text-[#0C4A6E] rounded-[32px]',
-        navGlass: 'bg-[#FFFFFF] border border-sky-100/50 text-cyan-950 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
-        playerGlass: 'bg-[#FFFFFF] border border-sky-100/50 text-cyan-950 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
-        modalGlass: 'bg-[#FFFFFF] border border-sky-100/50 text-cyan-950 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
+        cardGlass: 'bg-[#F0F9FF]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-sky-400/45 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] text-[#0C4A6E] rounded-[32px]',
+        navGlass: 'bg-[#F0F9FF]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-sky-400/45 text-cyan-950 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-full',
+        playerGlass: 'bg-[#F0F9FF]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-sky-400/45 text-cyan-950 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
+        modalGlass: 'bg-[#F0F9FF]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-sky-400/45 text-cyan-950 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
         textPrimary: 'text-[#0C4A6E] font-bold',
         textSecondary: 'text-sky-950 font-semibold',
         textAccent: 'text-sky-700 font-bold',
@@ -88,10 +88,10 @@ export const getThemeConfig = (theme: ThemeMode): ThemeStyleConfig => {
     case 'green':
       return {
         rootBg: 'bg-[#FFFFFF] text-emerald-950',
-        cardGlass: 'bg-[#FFFFFF] border border-emerald-100/50 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] text-[#064E3B] rounded-[32px]',
-        navGlass: 'bg-[#FFFFFF] border border-emerald-100/50 text-emerald-950 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
-        playerGlass: 'bg-[#FFFFFF] border border-emerald-100/50 text-emerald-950 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
-        modalGlass: 'bg-[#FFFFFF] border border-emerald-100/50 text-emerald-950 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
+        cardGlass: 'bg-[#F0FDF4]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-emerald-400/45 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] text-[#064E3B] rounded-[32px]',
+        navGlass: 'bg-[#F0FDF4]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-emerald-400/45 text-emerald-950 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-full',
+        playerGlass: 'bg-[#F0FDF4]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-emerald-400/45 text-emerald-950 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
+        modalGlass: 'bg-[#F0FDF4]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-emerald-400/45 text-emerald-950 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
         textPrimary: 'text-[#064E3B] font-bold',
         textSecondary: 'text-emerald-950 font-semibold',
         textAccent: 'text-emerald-700 font-bold',
@@ -109,10 +109,10 @@ export const getThemeConfig = (theme: ThemeMode): ThemeStyleConfig => {
     case 'yellow':
       return {
         rootBg: 'bg-[#FFFFFF] text-amber-950',
-        cardGlass: 'bg-[#FFFFFF] border border-amber-100/50 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] text-[#451A03] rounded-[32px]',
-        navGlass: 'bg-[#FFFFFF] border border-amber-100/50 text-amber-950 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
-        playerGlass: 'bg-[#FFFFFF] border border-amber-100/50 text-amber-950 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
-        modalGlass: 'bg-[#FFFFFF] border border-amber-100/50 text-amber-950 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.08),0_8px_10px_-6px_rgba(0,0,0,0.04)] rounded-[32px]',
+        cardGlass: 'bg-[#FEFCE8]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-amber-400/45 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] text-[#451A03] rounded-[32px]',
+        navGlass: 'bg-[#FEFCE8]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-amber-400/45 text-amber-950 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-full',
+        playerGlass: 'bg-[#FEFCE8]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-amber-400/45 text-amber-950 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
+        modalGlass: 'bg-[#FEFCE8]/75 [backdrop-filter:blur(25px)_saturate(190%)] border border-amber-400/45 text-amber-950 shadow-[0_12px_32px_0_rgba(0,0,0,0.1),_0_4px_12px_0_rgba(0,0,0,0.05)] rounded-[32px]',
         textPrimary: 'text-[#451A03] font-bold',
         textSecondary: 'text-amber-950 font-semibold',
         textAccent: 'text-amber-700 font-bold',

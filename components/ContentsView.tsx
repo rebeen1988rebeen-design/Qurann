@@ -60,40 +60,40 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
 
         {/* Search Bar Input */}
         <div className="relative mb-6">
-          <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-4 top-3.5 text-slate-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className={`w-full pl-10 pr-4 py-2.5 rounded-[16px] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all bg-white dark:bg-slate-800 border border-emerald-500/20 shadow-xs`}
+            className={`w-full pl-11 pr-4 py-3 rounded-full text-sm focus:outline-none transition-all ${themeConfig.cardGlass} border-0`}
           />
         </div>
 
         {/* Surah List */}
-        <div className={`rounded-[22px] overflow-hidden shadow-lg bg-white dark:bg-[#1F2937]`}>
+        <div className={`rounded-[32px] overflow-hidden ${themeConfig.cardGlass} border-0`}>
           {filteredSurahs.map((surah) => {
             const isSelected = surah.number === currentSurahNumber;
 
             const activeRowClass = themeMode === 'dark'
-              ? 'bg-slate-700/50'
+              ? 'bg-white/10'
               : themeMode === 'cyan'
-              ? 'bg-sky-200'
+              ? 'bg-sky-200/50'
               : themeMode === 'green'
-              ? 'bg-emerald-200'
+              ? 'bg-emerald-200/50'
               : themeMode === 'yellow'
-              ? 'bg-amber-200'
-              : 'bg-emerald-100';
+              ? 'bg-amber-200/50'
+              : 'bg-emerald-200/50';
 
             const hoverRowClass = themeMode === 'dark'
-              ? 'hover:bg-slate-700/80'
+              ? 'hover:bg-white/5'
               : themeMode === 'cyan'
-              ? 'hover:bg-sky-100'
+              ? 'hover:bg-sky-100/50'
               : themeMode === 'green'
-              ? 'hover:bg-emerald-100'
+              ? 'hover:bg-emerald-100/50'
               : themeMode === 'yellow'
-              ? 'hover:bg-amber-100'
-              : 'hover:bg-emerald-50';
+              ? 'hover:bg-amber-100/50'
+              : 'hover:bg-emerald-100/50';
 
             return (
               <div
@@ -116,7 +116,7 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
                   </div>
 
                   {/* Surah Name Only */}
-                  <span className="font-bold text-base text-slate-900 dark:text-white kurdish-text">
+                  <span className={`font-bold text-base kurdish-text ${themeMode === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                     {appLanguage === 'en' ? surah.englishName : appLanguage === 'ku' ? surah.kurdishName : surah.name}
                   </span>
                 </div>

@@ -233,10 +233,10 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                 <div
                   key={verse.numberInQuran}
                   id={`verse-${verse.numberInQuran}`}
-                  className={`w-full rounded-[20px] p-4 sm:p-5 transition-colors duration-150 border ${
+                  className={`w-full rounded-[32px] p-4 sm:p-5 transition-colors duration-150 border ${
                     isCurrentPlaying
                       ? 'bg-emerald-500/25 border-emerald-500 ring-2 ring-emerald-500 shadow-xl scale-[1.01]'
-                      : 'bg-white/40 dark:bg-slate-800/40 border-white/50 dark:border-white/10 hover:border-emerald-500/30'
+                      : `${themeConfig.cardGlass} border-0`
                   }`}
                 >
                   {/* Top Bar for Verse */}
@@ -343,10 +343,10 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
 
       {/* Verse Detail / Action Pop-up Modal when tapping verse in Page Mode */}
       {selectedVerseForModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-in fade-in duration-200">
-          <div className={`w-full max-w-lg rounded-[24px] p-6 shadow-2xl ${cardGlassClass} border border-white/40 dark:border-white/20`}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className={`w-full max-w-lg p-6 ${cardGlassClass}`}>
             
-            <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10 mb-4">
+            <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10 mb-4">
               <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 px-3 py-1 rounded-full">
                 {t.surahHeader(
                   appLanguage === 'en' ? currentSurah.englishName : currentSurah.name,

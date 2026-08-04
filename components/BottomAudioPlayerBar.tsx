@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Search,
   BookOpen,
+  Settings,
 } from 'lucide-react';
 import { Reciter, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral, formatLocalizedTime } from '@/data/translations';
@@ -101,7 +102,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
     <div className="fixed bottom-3 left-0 right-0 z-40 flex flex-col items-center pointer-events-none transition-all duration-300 px-3">
       
       {/* Apple Bottom Navigation Tab Bar in a Box */}
-      <div className={`mx-auto max-w-4xl w-full pointer-events-auto py-2.5 px-6 flex items-center justify-around shadow-2xl rounded-[22px] ${navGlassClass}`}>
+      <div className={`mx-auto max-w-4xl w-full pointer-events-auto py-2.5 px-6 flex items-center justify-around shadow-2xl rounded-full ${navGlassClass}`}>
         
         {/* Tab 1: Contents */}
         <button
@@ -156,6 +157,17 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
         >
           <Pencil className="w-5 h-5" />
           <span className="text-[11px] font-medium">{t.highlights}</span>
+        </button>
+
+        {/* Tab 6: Settings */}
+        <button
+          onClick={() => setActiveView('settings')}
+          className={`flex flex-col items-center gap-0.5 transition-all ${
+            activeView === 'settings' ? activeTabClass : inactiveTabClass
+          }`}
+        >
+          <Settings className="w-5 h-5" />
+          <span className="text-[11px] font-medium">{t.settings}</span>
         </button>
 
       </div>

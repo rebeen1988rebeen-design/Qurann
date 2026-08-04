@@ -83,15 +83,15 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full px-3 pt-3 pb-2 transition-all duration-300">
-      <div className={`mx-auto max-w-4xl px-4 py-2.5 flex items-center justify-between transition-all duration-300 ${themeConfig.navGlass}`}>
+    <header className="fixed top-0 left-0 right-0 z-40 w-full px-3 pt-3 pb-2 transition-all duration-300">
+      <div className={`mx-auto max-w-4xl px-4 py-2.5 flex items-center justify-center gap-2 transition-all duration-300 ${themeConfig.navGlass}`}>
         
         {/* Right Controls: Page Badge, Language Switcher, Theme & Settings */}
-        <div className="flex items-center gap-1.5 relative">
+        <div className="flex items-center gap-1.5 relative overflow-x-auto no-scrollbar justify-center">
           {/* Page Badge Button (Rounded Rectangle Box) */}
           <button
             onClick={openPageJump}
-            className={`px-2.5 py-1 h-9 rounded-xl ${themeConfig.activeTabBg} font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xs border cursor-pointer active:scale-95`}
+            className={`px-3 py-1 h-9 rounded-full ${themeConfig.activeTabBg} font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-xs border border-transparent cursor-pointer active:scale-95 shrink-0`}
             title={`${t.pageBadge} ${toLocalizedNumeral(currentPage, appLanguage)}`}
           >
             <BookOpen className="w-3.5 h-3.5" />
@@ -101,10 +101,10 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
           {/* Arabic Translation Mode Button */}
           <button
             onClick={() => setTranslationMode('arabic')}
-            className={`px-2.5 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border ${
+            className={`px-3 h-9 rounded-full font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border shrink-0 ${
               translationMode === 'arabic' || translationMode === 'both'
                 ? themeConfig.activeTabBg
-                : 'bg-white dark:bg-slate-700 border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 opacity-80'
+                : 'bg-white/50 dark:bg-slate-800/50 border-black/5 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/10 opacity-90'
             }`}
             title="عەرەبی (Arabic Only)"
           >
@@ -114,10 +114,10 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
           {/* Kurdish Translation Mode Button */}
           <button
             onClick={() => setTranslationMode('kurdish')}
-            className={`px-2.5 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border ${
+            className={`px-3 h-9 rounded-full font-bold text-xs flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border shrink-0 ${
               translationMode === 'kurdish'
                 ? themeConfig.activeTabBg
-                : 'bg-white dark:bg-slate-700 border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/10 opacity-80'
+                : 'bg-white/50 dark:bg-slate-800/50 border-black/5 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/10 opacity-90'
             }`}
             title="کوردی (Kurdish Translation)"
           >
@@ -125,10 +125,10 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
           </button>
 
           {/* Font Zoom Control Box */}
-          <div className={`h-9 px-2 rounded-xl ${themeConfig.activeTabBg} border flex items-center gap-1 shadow-xs`}>
+          <div className={`h-9 px-2 rounded-full ${themeConfig.activeTabBg} border border-transparent flex items-center gap-1 shadow-xs shrink-0`}>
             <button
               onClick={onZoomOutFont}
-              className="w-6 h-6 rounded-lg bg-white dark:bg-slate-700 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer text-slate-900 dark:text-white"
+              className="w-7 h-7 rounded-full bg-white/50 dark:bg-slate-700/50 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer text-slate-900 dark:text-white"
               title="Zoom Out Font"
             >
               -
@@ -138,7 +138,7 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
             </span>
             <button
               onClick={onZoomInFont}
-              className="w-6 h-6 rounded-lg bg-white dark:bg-slate-700 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer text-slate-900 dark:text-white"
+              className="w-7 h-7 rounded-full bg-white/50 dark:bg-slate-700/50 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center font-bold text-xs transition-all active:scale-95 cursor-pointer text-slate-900 dark:text-white"
               title="Zoom In Font"
             >
               +
@@ -148,21 +148,21 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
           {/* Dynamic Language Toggle Button (Rounded Rectangular Box: w-9 h-9) */}
           <button
             onClick={cycleAppLanguage}
-            className={`w-9 h-9 rounded-xl ${themeConfig.activeTabBg} font-bold flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border`}
+            className={`w-9 h-9 rounded-full ${themeConfig.activeTabBg} font-bold flex items-center justify-center transition-all shadow-xs active:scale-95 cursor-pointer border border-transparent shrink-0`}
             title={`Language: ${appLanguage.toUpperCase()} - Click to switch`}
           >
             <Globe className="w-4 h-4" />
           </button>
 
           {/* Direct Single-Click Theme Switcher Button (Rounded Rectangular Box: w-9 h-9) */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               onClick={cycleTheme}
               onContextMenu={(e) => {
                 e.preventDefault();
                 setShowThemePopover(!showThemePopover);
               }}
-              className={`w-9 h-9 rounded-xl ${themeConfig.activeTabBg} flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 border`}
+              className={`w-9 h-9 rounded-full ${themeConfig.activeTabBg} flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 border border-transparent`}
               title={`${t.theme} - Click to switch automatically`}
             >
               {themeMode === 'white' && <Sun className="w-4 h-4 text-emerald-700" />}
@@ -210,17 +210,6 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
               </>
             )}
           </div>
-
-          {/* Settings Button in a Rounded Rectangle Box */}
-          <button
-            onClick={() => setActiveView('settings')}
-            className={`w-9 h-9 rounded-xl ${themeConfig.activeTabBg} flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 border ${
-              activeView === 'settings' ? 'ring-2 ring-emerald-500/50' : ''
-            }`}
-            title={t.settings}
-          >
-            <Settings className="w-4 h-4" />
-          </button>
         </div>
 
       </div>
