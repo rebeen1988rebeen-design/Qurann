@@ -137,12 +137,28 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
                   const isSelected = surah.number === currentSurahNumber;
                   const revType = surah.revelationType === 'Meccan' ? t.meccan : t.medinan;
 
+                  const activeRowClass = themeMode === 'dark'
+                    ? 'bg-slate-700/80 ring-1 ring-white/20'
+                    : themeMode === 'cyan'
+                    ? 'bg-sky-500/25 ring-1 ring-sky-400'
+                    : themeMode === 'yellow'
+                    ? 'bg-amber-500/25 ring-1 ring-amber-400'
+                    : 'bg-emerald-500/25 ring-1 ring-emerald-400';
+
+                  const hoverRowClass = themeMode === 'dark'
+                    ? 'hover:bg-slate-700/40'
+                    : themeMode === 'cyan'
+                    ? 'hover:bg-sky-500/10'
+                    : themeMode === 'yellow'
+                    ? 'hover:bg-amber-500/10'
+                    : 'hover:bg-emerald-500/10';
+
                   return (
                     <div
                       key={surah.number}
                       onClick={() => onSelectSurah(surah)}
-                      className={`w-full p-4 flex items-center justify-between cursor-pointer transition-all duration-200 hover:bg-emerald-500/10 ${
-                        isSelected ? 'bg-emerald-500/15' : ''
+                      className={`w-full p-4 flex items-center justify-between cursor-pointer transition-all duration-200 ${hoverRowClass} ${
+                        isSelected ? activeRowClass : ''
                       }`}
                     >
                       <div className="flex items-center gap-4">

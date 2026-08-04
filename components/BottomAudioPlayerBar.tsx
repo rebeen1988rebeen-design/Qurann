@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Search,
+  BookOpen,
 } from 'lucide-react';
 import { Reciter, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral, formatLocalizedTime } from '@/data/translations';
@@ -136,7 +137,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
               ? (themeMode === 'dark' ? 'bg-white text-slate-950' : themeMode === 'cyan' ? 'bg-sky-600 text-white' : themeMode === 'yellow' ? 'bg-amber-600 text-white' : 'bg-emerald-600 text-white')
               : (themeMode === 'dark' ? 'bg-slate-700 text-white' : themeMode === 'cyan' ? 'bg-sky-100 text-sky-800' : themeMode === 'yellow' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800')
           }`}>
-            📖
+            <BookOpen className="w-3.5 h-3.5" />
           </div>
           <span className="text-[11px] font-medium">قورئان</span>
         </button>
