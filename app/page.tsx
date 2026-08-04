@@ -43,6 +43,8 @@ export default function QuranApp() {
   const [appLanguage, setAppLanguage] = useState<Language>('ku'); // Default to Sorani Kurdish
   const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish' | 'both'>('kurdish');
   const [themeMode, setThemeMode] = useState<ThemeMode>('white');
+  const [showBars, setShowBars] = useState(true);
+  const toggleBars = () => setShowBars(!showBars);
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
 
   // Synchronized Font Scaling (Arabic default = 22px, Kurdish default = 16px)
@@ -393,6 +395,7 @@ export default function QuranApp() {
         onZoomOutFont={handleZoomOutFont}
         appLanguage={appLanguage}
         setAppLanguage={setAppLanguage}
+        showBars={showBars}
       />
 
       {/* Main Views Container */}
@@ -428,6 +431,7 @@ export default function QuranApp() {
               onZoomInFont={handleZoomInFont}
               onZoomOutFont={handleZoomOutFont}
               appLanguage={appLanguage}
+              toggleBars={toggleBars}
             />
           )
         )}
@@ -524,6 +528,7 @@ export default function QuranApp() {
         setActiveView={setActiveView}
         themeMode={themeMode}
         appLanguage={appLanguage}
+        showBars={showBars}
       />
 
       {/* Modals */}

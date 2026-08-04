@@ -36,6 +36,7 @@ interface NavbarTopProps {
   onZoomOutFont: () => void;
   appLanguage: Language;
   setAppLanguage: (lang: Language) => void;
+  showBars: boolean;
 }
 
 export const NavbarTop: React.FC<NavbarTopProps> = ({
@@ -56,6 +57,7 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
   onZoomOutFont,
   appLanguage,
   setAppLanguage,
+  showBars,
 }) => {
   const t = TRANSLATIONS[appLanguage];
   const themeConfig = getThemeConfig(themeMode);
@@ -83,7 +85,7 @@ export const NavbarTop: React.FC<NavbarTopProps> = ({
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 w-full px-3 pt-3 pb-2 transition-all duration-300">
+    <header className={`fixed top-0 left-0 right-0 z-40 w-full px-3 pt-3 pb-2 transition-all duration-300 ${showBars ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className={`mx-auto max-w-4xl px-4 py-2.5 flex items-center justify-center gap-2 transition-all duration-300 ${themeConfig.navGlass}`}>
         
         {/* Right Controls: Page Badge, Language Switcher, Theme & Settings */}

@@ -41,6 +41,7 @@ interface BottomAudioPlayerBarProps {
   setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search') => void;
   themeMode: ThemeMode;
   appLanguage: Language;
+  showBars: boolean;
 }
 
 export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
@@ -63,6 +64,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
   setActiveView,
   themeMode,
   appLanguage,
+  showBars,
 }) => {
   const t = TRANSLATIONS[appLanguage];
   const themeConfig = getThemeConfig(themeMode);
@@ -99,7 +101,7 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
     : 'text-slate-500 hover:text-slate-900';
 
   return (
-    <div className="fixed bottom-3 left-0 right-0 z-40 flex flex-col items-center pointer-events-none transition-all duration-300 px-3">
+    <div className={`fixed bottom-3 left-0 right-0 z-40 flex flex-col items-center pointer-events-none transition-all duration-300 px-3 ${showBars ? 'translate-y-0' : 'translate-y-full'}`}>
       
       {/* Apple Bottom Navigation Tab Bar in a Box */}
       <div className={`mx-auto max-w-4xl w-full pointer-events-auto py-2.5 px-6 flex items-center justify-around shadow-2xl rounded-full ${navGlassClass}`}>

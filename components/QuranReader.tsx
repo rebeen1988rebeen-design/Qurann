@@ -27,6 +27,7 @@ interface QuranReaderProps {
   onZoomInFont: () => void;
   onZoomOutFont: () => void;
   appLanguage: Language;
+  toggleBars: () => void;
 }
 
 export const QuranReader: React.FC<QuranReaderProps> = ({
@@ -50,11 +51,33 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   onZoomInFont,
   onZoomOutFont,
   appLanguage,
+  toggleBars,
 }) => {
   const t = TRANSLATIONS[appLanguage];
   const themeConfig = getThemeConfig(themeMode);
   const [readingMode, setReadingMode] = useState<'page' | 'verses'>('page');
   const [selectedVerseForModal, setSelectedVerseForModal] = useState<Verse | null>(null);
+
+  // Gesture handling state
+  const touchStartTimeRef = React.useRef(0);
+  const longPressTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleTouchStart = () => {
+    touchStartTimeRef.current = Date.now();
+    longPressTimerRef.current = setTimeout(() => {
+      // Long press initiated
+    }, 500);
+  };
+
+  const handleVerseTapOrLongPress = (verse: Verse, e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+    if (longPressTimerRef.current) clearTimeout(longPressTimerRef.current);
+    
+    if (Date.now() - touchStartTimeRef.current > 500) {
+      // Long press: Select verse
+      setSelectedVerseForModal(verse);
+    }
+  };
 
   const getCleanArabicText = (verse: Verse) => {
     if (verse.numberInSurah !== 1 || currentSurah.number === 1) {
@@ -89,7 +112,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   }, [currentVerseIndex, verses]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-3 py-2 pb-44 flex flex-col items-center">
+    <div className="w-full max-w-4xl mx-auto px-3 py-2 pb-44 flex flex-col items-center" onClick={toggleBars}>
       
       {/* Main Quran Frame Card */}
       <div className={`w-full p-4 sm:p-8 min-h-[500px] relative overflow-hidden ${cardGlassClass}`}>
@@ -134,7 +157,6 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                     <span
                       key={verse.numberInQuran}
                       id={`verse-${verse.numberInQuran}`}
-                      onClick={() => setSelectedVerseForModal(verse)}
                       className={`cursor-pointer transition-colors duration-150 rounded-md px-0.5 inline relative ${
                         isCurrentPlaying
                           ? 'bg-emerald-500/35 text-emerald-950 dark:text-emerald-50 ring-2 ring-emerald-500 shadow-lg scale-[1.02]'
@@ -148,7 +170,11 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       
                       {/* Perfect Round Circle Verse End Marker */}
                       <span
-                        className={`inline-flex items-center justify-center mx-1 font-extrabold text-center align-middle font-sans transition-colors shadow-xs ${
+                        onMouseDown={handleTouchStart}
+                        onMouseUp={(e) => handleVerseTapOrLongPress(verse, e)}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={(e) => handleVerseTapOrLongPress(verse, e)}
+                        className={`inline-flex items-center justify-center mx-1 font-extrabold text-center align-middle font-sans transition-colors shadow-xs active:scale-95 ${
                           isCurrentPlaying
                             ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 shadow-md'
                             : themeConfig.ayahBadge
@@ -186,7 +212,6 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                     <span
                       key={verse.numberInQuran}
                       id={`verse-${verse.numberInQuran}`}
-                      onClick={() => setSelectedVerseForModal(verse)}
                       className={`cursor-pointer transition-colors duration-150 rounded-md px-0.5 inline relative ${
                         isCurrentPlaying
                           ? 'bg-emerald-500/35 ring-2 ring-emerald-500 shadow-lg scale-[1.02]'
@@ -200,7 +225,11 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       
                       {/* Perfect Round Circle Verse End Marker */}
                       <span
-                        className={`inline-flex items-center justify-center mx-1 font-extrabold text-center align-middle font-sans transition-colors shadow-xs ${
+                        onMouseDown={handleTouchStart}
+                        onMouseUp={(e) => handleVerseTapOrLongPress(verse, e)}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={(e) => handleVerseTapOrLongPress(verse, e)}
+                        className={`inline-flex items-center justify-center mx-1 font-extrabold text-center align-middle font-sans transition-colors shadow-xs active:scale-95 ${
                           isCurrentPlaying
                             ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 shadow-md'
                             : themeConfig.ayahBadge
@@ -243,7 +272,11 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                   <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10 mb-3">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`w-8 h-8 rounded-full font-extrabold text-sm flex items-center justify-center transition-colors shadow-xs ${
+                        onMouseDown={handleTouchStart}
+                        onMouseUp={(e) => handleVerseTapOrLongPress(verse, e)}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={(e) => handleVerseTapOrLongPress(verse, e)}
+                        className={`w-8 h-8 rounded-full font-extrabold text-sm flex items-center justify-center transition-colors shadow-xs active:scale-95 ${
                           isCurrentPlaying
                             ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 animate-pulse'
                             : themeConfig.ayahBadge
