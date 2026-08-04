@@ -56,7 +56,7 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
     <div className="w-full max-w-4xl mx-auto px-4 py-4 pb-36 min-h-screen relative flex">
       
       {/* Main Content Column */}
-      <div className="flex-1 pr-6">
+      <div className="flex-1">
         
         {/* Top Segmented Control Switch */}
         <div className="w-full flex items-center justify-between mb-6">
@@ -112,7 +112,7 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className={`w-full pl-10 pr-4 py-2.5 rounded-[16px] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all ${cardGlassClass}`}
+            className={`w-full pl-10 pr-4 py-2.5 rounded-[16px] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all bg-white/60 dark:bg-slate-800/60 border border-emerald-500/20 shadow-xs`}
           />
         </div>
 
@@ -131,8 +131,8 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
                 {t.juzHeader(toLocalizedNumeral(juzNum, appLanguage))}
               </div>
 
-              {/* Surah Items inside continuous glass container */}
-              <div className={`rounded-[22px] overflow-hidden shadow-sm divide-y divide-black/5 dark:divide-white/10 ${cardGlassClass}`}>
+              {/* Surah Items inside a single shared container box per Juz */}
+              <div className={`rounded-[22px] overflow-hidden shadow-xs border border-emerald-500/20 bg-white/50 dark:bg-slate-800/50 divide-y divide-black/5 dark:divide-white/10`}>
                 {surahs.map((surah) => {
                   const isSelected = surah.number === currentSurahNumber;
                   const revType = surah.revelationType === 'Meccan' ? t.meccan : t.medinan;
@@ -184,10 +184,11 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
                               <span className="font-bold text-base text-slate-900 dark:text-white kurdish-text">
                                 {surah.kurdishName}
                               </span>
-                            ) : null}
-                            <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400 uthmani-text">
-                              {surah.name}
-                            </span>
+                            ) : (
+                              <span className="font-bold text-base text-slate-900 dark:text-white">
+                                {surah.name}
+                              </span>
+                            )}
                           </div>
                           <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
                             {t.surahSubtitle(
@@ -208,20 +209,6 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
           ))}
         </div>
 
-      </div>
-
-      {/* Right Edge Vertical Quick-Scroll Index (1 to 30) */}
-      <div className="fixed right-2 top-24 bottom-24 z-30 flex flex-col items-center justify-between py-2 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 select-none bg-white/20 dark:bg-slate-900/40 backdrop-blur-md rounded-full px-1 border border-white/30 shadow-xs">
-        {Array.from({ length: 30 }, (_, i) => i + 1).map((partNum) => (
-          <button
-            key={partNum}
-            onClick={() => scrollToPart(partNum)}
-            className="w-5 h-5 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all text-[10px]"
-            title={`${t.part} ${toLocalizedNumeral(partNum, appLanguage)}`}
-          >
-            {toLocalizedNumeral(partNum, appLanguage)}
-          </button>
-        ))}
       </div>
 
     </div>
