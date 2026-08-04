@@ -3,13 +3,14 @@
 import React from 'react';
 import { Volume2, Check, X } from 'lucide-react';
 import { RECITERS, Reciter } from '@/data/quranData';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface AudioReciterModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedReciter: Reciter;
   onSelectReciter: (reciter: Reciter) => void;
-  themeMode: 'light' | 'dark' | 'ice';
+  themeMode: ThemeMode;
 }
 
 export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
@@ -21,14 +22,9 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const isDark = themeMode === 'dark';
-  const isIce = themeMode === 'ice';
+  const themeConfig = getThemeConfig(themeMode);
 
-  const cardGlassClass = isDark
-    ? 'liquid-glass-dark text-slate-100'
-    : isIce
-    ? 'liquid-glass-ice text-slate-900'
-    : 'liquid-glass-light text-slate-900';
+  const cardGlassClass = themeConfig.modalGlass;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-in fade-in duration-200">

@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react';
 import { CheckCircle2, Calendar, Target, Plus, Minus, Trophy, Flame } from 'lucide-react';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface KhatmahTrackerViewProps {
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  themeMode: 'light' | 'dark' | 'ice';
+  themeMode: ThemeMode;
 }
 
 export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
@@ -19,14 +20,8 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
   const progressPercent = Math.min(100, Math.round((currentPage / totalPages) * 100));
   const pagesPerDay = Math.ceil((totalPages - currentPage) / Math.max(1, targetDays));
 
-  const isDark = themeMode === 'dark';
-  const isIce = themeMode === 'ice';
-
-  const cardGlassClass = isDark
-    ? 'liquid-glass-dark text-slate-100'
-    : isIce
-    ? 'liquid-glass-ice text-slate-900'
-    : 'liquid-glass-light text-slate-900';
+  const themeConfig = getThemeConfig(themeMode);
+  const cardGlassClass = themeConfig.cardGlass;
 
   return (
     <div className="w-full max-w-3xl mx-auto px-4 py-4 pb-36 min-h-screen">

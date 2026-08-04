@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Reciter, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral, formatLocalizedTime } from '@/data/translations';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface BottomAudioPlayerBarProps {
   selectedReciter: Reciter;
@@ -35,7 +36,7 @@ interface BottomAudioPlayerBarProps {
   setCurrentPage: (page: number) => void;
   activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights';
   setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights') => void;
-  themeMode: 'light' | 'dark' | 'ice';
+  themeMode: ThemeMode;
   appLanguage: Language;
 }
 
@@ -61,18 +62,10 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
   appLanguage,
 }) => {
   const t = TRANSLATIONS[appLanguage];
-  const isDark = themeMode === 'dark';
-  const isIce = themeMode === 'ice';
+  const themeConfig = getThemeConfig(themeMode);
 
-  const playerGlassClass = isDark
-    ? 'bg-slate-900/85 backdrop-blur-2xl border-white/10 text-slate-100 shadow-2xl'
-    : isIce
-    ? 'bg-sky-50/85 backdrop-blur-2xl border-white/60 text-slate-900 shadow-xl'
-    : 'bg-white/80 backdrop-blur-2xl border-white/70 text-slate-900 shadow-2xl';
-
-  const navGlassClass = isDark
-    ? 'glass-nav-dark text-slate-300'
-    : 'glass-nav-light text-slate-600';
+  const playerGlassClass = themeConfig.playerGlass;
+  const navGlassClass = themeConfig.navGlass;
 
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
@@ -99,9 +92,9 @@ export const BottomAudioPlayerBar: React.FC<BottomAudioPlayerBarProps> = ({
           
           {/* Top Bar: Active Surah, Ayah Info & Reciter Selection */}
           <div className="flex items-center justify-between text-xs font-semibold px-1">
-            {/* Surah & Ayah Badge */}
+            {/* Surah & Ayah Badge (Vertical Oval Pill) */}
             <div className="flex items-center gap-2 truncate">
-              <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 font-bold flex items-center gap-1.5">
+              <span className={`px-3 py-1.5 rounded-[18px] ${themeConfig.activeTabBg} font-bold flex items-center gap-1.5 shadow-xs`}>
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>{surahDisplayName}</span>
                 <span className="opacity-60">•</span>

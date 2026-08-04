@@ -4,11 +4,12 @@ import React, { useState, useRef } from 'react';
 import { Search, ChevronRight } from 'lucide-react';
 import { SURAHS_LIST, SurahMeta } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface ContentsViewProps {
   onSelectSurah: (surah: SurahMeta) => void;
   currentSurahNumber: number;
-  themeMode: 'light' | 'dark' | 'ice';
+  themeMode: ThemeMode;
   appLanguage: Language;
 }
 
@@ -19,18 +20,12 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
   appLanguage,
 }) => {
   const t = TRANSLATIONS[appLanguage];
+  const themeConfig = getThemeConfig(themeMode);
   const [activeTab, setActiveTab] = useState<'surahs' | 'quarters' | 'juzs'>('surahs');
   const [searchQuery, setSearchQuery] = useState('');
   const partRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
-  const isDark = themeMode === 'dark';
-  const isIce = themeMode === 'ice';
-
-  const cardGlassClass = isDark
-    ? 'liquid-glass-dark text-slate-100'
-    : isIce
-    ? 'liquid-glass-ice text-slate-900'
-    : 'liquid-glass-light text-slate-900';
+  const cardGlassClass = themeConfig.cardGlass;
 
   // Filter surahs based on search query
   const filteredSurahs = SURAHS_LIST.filter(
@@ -158,12 +153,12 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
                       }`}
                     >
                       <div className="flex items-center gap-4">
-                        {/* Surah Index Badge */}
+                        {/* Surah Index Badge (Vertical Oval: w-8 h-10 rounded-[50%]) */}
                         <div
-                          className={`w-10 h-10 rounded-full font-bold text-sm flex items-center justify-center transition-all ${
+                          className={`w-8 h-10 rounded-[50%] font-bold text-sm flex items-center justify-center transition-all shadow-xs ${
                             isSelected
-                              ? 'bg-emerald-600 text-white shadow-md'
-                              : 'bg-slate-200/80 dark:bg-slate-700/80 text-slate-700 dark:text-slate-200'
+                              ? themeConfig.surahBadgeActive
+                              : themeConfig.surahBadgeInactive
                           }`}
                         >
                           {toLocalizedNumeral(surah.number, appLanguage)}

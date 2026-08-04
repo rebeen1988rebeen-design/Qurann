@@ -12,6 +12,7 @@ import {
   Moon,
   Sun,
   Sparkles,
+  Palette,
   Smartphone,
   HelpCircle,
   Info,
@@ -19,11 +20,12 @@ import {
   Volume2,
 } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/data/translations';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface SettingsViewProps {
   onBack: () => void;
-  themeMode: 'light' | 'dark' | 'ice';
-  setThemeMode: (mode: 'light' | 'dark' | 'ice') => void;
+  themeMode: ThemeMode;
+  setThemeMode: (mode: ThemeMode) => void;
   translationMode: 'arabic' | 'kurdish' | 'both';
   setTranslationMode: (mode: 'arabic' | 'kurdish' | 'both') => void;
   fontSize: 'small' | 'medium' | 'large' | 'xlarge';
@@ -48,18 +50,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   setAppLanguage,
 }) => {
   const t = TRANSLATIONS[appLanguage];
+  const themeConfig = getThemeConfig(themeMode);
   const [remindersEnabled, setRemindersEnabled] = useState(true);
   const [syncEnabled, setSyncEnabled] = useState(true);
   const [activeSubModal, setActiveSubModal] = useState<string | null>(null);
 
-  const isDark = themeMode === 'dark';
-  const isIce = themeMode === 'ice';
-
-  const cardGlassClass = isDark
-    ? 'liquid-glass-dark text-slate-100'
-    : isIce
-    ? 'liquid-glass-ice text-slate-900'
-    : 'liquid-glass-light text-slate-900';
+  const cardGlassClass = themeConfig.cardGlass;
 
   return (
     <div className="w-full max-w-3xl mx-auto px-4 py-4 pb-36 min-h-screen">
@@ -221,7 +217,17 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-500 font-medium capitalize">{themeMode} Glass</span>
+              <span className="text-xs text-slate-500 font-medium font-sans">
+                {themeMode === 'white'
+                  ? t.themeWhite
+                  : themeMode === 'dark'
+                  ? t.themeDark
+                  : themeMode === 'cyan'
+                  ? t.themeCyan
+                  : themeMode === 'green'
+                  ? t.themeGreen
+                  : t.themeYellow}
+              </span>
               <ChevronRight className="w-5 h-5 text-slate-400" />
             </div>
           </div>
@@ -317,39 +323,88 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
           <div className={`w-full max-w-md rounded-[24px] p-6 shadow-2xl ${cardGlassClass}`}>
             <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">{t.appearance}</h3>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5">
+              
+              {/* 1. White Theme */}
               <button
-                onClick={() => { setThemeMode('light'); setActiveSubModal(null); }}
-                className="p-3.5 rounded-[16px] bg-white/60 dark:bg-slate-800/60 border border-white/60 flex items-center justify-between font-semibold"
+                onClick={() => { setThemeMode('white'); setActiveSubModal(null); }}
+                className={`p-3.5 rounded-[16px] border flex items-center justify-between font-bold transition-all ${
+                  themeMode === 'white'
+                    ? 'bg-white text-emerald-900 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md'
+                    : 'bg-white/70 text-slate-800 border-emerald-500/20 hover:bg-white'
+                }`}
               >
                 <div className="flex items-center gap-3">
-                  <Sun className="w-5 h-5 text-amber-500" />
-                  <span>Light Liquid Glass</span>
+                  <Sun className="w-5 h-5 text-emerald-600" />
+                  <span>{t.themeWhite}</span>
                 </div>
-                {themeMode === 'light' && <Check className="w-5 h-5 text-emerald-500" />}
+                {themeMode === 'white' && <Check className="w-5 h-5 text-emerald-600" />}
               </button>
 
+              {/* 2. Dark Theme */}
               <button
                 onClick={() => { setThemeMode('dark'); setActiveSubModal(null); }}
-                className="p-3.5 rounded-[16px] bg-slate-900/80 text-white border border-white/10 flex items-center justify-between font-semibold"
+                className={`p-3.5 rounded-[16px] border flex items-center justify-between font-bold transition-all ${
+                  themeMode === 'dark'
+                    ? 'bg-slate-900 text-white border-emerald-400 ring-2 ring-emerald-400/30 shadow-md'
+                    : 'bg-slate-900/80 text-white border-white/10 hover:bg-slate-900'
+                }`}
               >
                 <div className="flex items-center gap-3">
                   <Moon className="w-5 h-5 text-indigo-400" />
-                  <span>Dark Liquid Glass</span>
+                  <span>{t.themeDark}</span>
                 </div>
-                {themeMode === 'dark' && <Check className="w-5 h-5 text-emerald-500" />}
+                {themeMode === 'dark' && <Check className="w-5 h-5 text-emerald-400" />}
               </button>
 
+              {/* 3. Light Cyan Glass */}
               <button
-                onClick={() => { setThemeMode('ice'); setActiveSubModal(null); }}
-                className="p-3.5 rounded-[16px] bg-sky-100/70 text-sky-900 border border-sky-300 flex items-center justify-between font-semibold"
+                onClick={() => { setThemeMode('cyan'); setActiveSubModal(null); }}
+                className={`p-3.5 rounded-[16px] border flex items-center justify-between font-bold transition-all ${
+                  themeMode === 'cyan'
+                    ? 'bg-[#BAE6FD]/80 text-cyan-950 border-cyan-500 ring-2 ring-cyan-500/30 shadow-md'
+                    : 'bg-[#BAE6FD]/40 text-cyan-950 border-white/60 hover:bg-[#BAE6FD]/60'
+                }`}
               >
                 <div className="flex items-center gap-3">
-                  <Sparkles className="w-5 h-5 text-sky-500" />
-                  <span>Ice Cyan Glass</span>
+                  <Sparkles className="w-5 h-5 text-sky-600" />
+                  <span>{t.themeCyan}</span>
                 </div>
-                {themeMode === 'ice' && <Check className="w-5 h-5 text-emerald-500" />}
+                {themeMode === 'cyan' && <Check className="w-5 h-5 text-cyan-700" />}
               </button>
+
+              {/* 4. Light Green Glass */}
+              <button
+                onClick={() => { setThemeMode('green'); setActiveSubModal(null); }}
+                className={`p-3.5 rounded-[16px] border flex items-center justify-between font-bold transition-all ${
+                  themeMode === 'green'
+                    ? 'bg-[#A7F3D0]/80 text-emerald-950 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md'
+                    : 'bg-[#A7F3D0]/40 text-emerald-950 border-white/60 hover:bg-[#A7F3D0]/60'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Palette className="w-5 h-5 text-emerald-700" />
+                  <span>{t.themeGreen}</span>
+                </div>
+                {themeMode === 'green' && <Check className="w-5 h-5 text-emerald-700" />}
+              </button>
+
+              {/* 5. Light Yellow Glass */}
+              <button
+                onClick={() => { setThemeMode('yellow'); setActiveSubModal(null); }}
+                className={`p-3.5 rounded-[16px] border flex items-center justify-between font-bold transition-all ${
+                  themeMode === 'yellow'
+                    ? 'bg-[#FDE68A]/80 text-amber-950 border-amber-500 ring-2 ring-amber-500/30 shadow-md'
+                    : 'bg-[#FDE68A]/40 text-amber-950 border-white/60 hover:bg-[#FDE68A]/60'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Sun className="w-5 h-5 text-amber-600" />
+                  <span>{t.themeYellow}</span>
+                </div>
+                {themeMode === 'yellow' && <Check className="w-5 h-5 text-amber-700" />}
+              </button>
+
             </div>
             <button
               onClick={() => setActiveSubModal(null)}

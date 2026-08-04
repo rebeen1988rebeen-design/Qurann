@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Play, Bookmark, Share2, Volume2 } from 'lucide-react';
 import { SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface QuranReaderProps {
   currentSurah: SurahMeta;
@@ -19,7 +20,7 @@ interface QuranReaderProps {
   onToggleBookmark: (verseNumberInQuran: number) => void;
   highlightedVerses: Record<number, string>;
   onToggleHighlight: (verseNumberInQuran: number, color: string) => void;
-  themeMode: 'light' | 'dark' | 'ice';
+  themeMode: ThemeMode;
   isLoadingVerses?: boolean;
   arabicFontSize: number;
   kurdishFontSize: number;
@@ -51,11 +52,9 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   appLanguage,
 }) => {
   const t = TRANSLATIONS[appLanguage];
+  const themeConfig = getThemeConfig(themeMode);
   const [readingMode, setReadingMode] = useState<'page' | 'verses'>('page');
   const [selectedVerseForModal, setSelectedVerseForModal] = useState<Verse | null>(null);
-
-  const isDark = themeMode === 'dark';
-  const isIce = themeMode === 'ice';
 
   const getCleanArabicText = (verse: Verse) => {
     if (verse.numberInSurah !== 1 || currentSurah.number === 1) {
@@ -74,11 +73,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
     return s;
   };
 
-  const cardGlassClass = isDark
-    ? 'liquid-glass-dark text-slate-100'
-    : isIce
-    ? 'liquid-glass-ice text-slate-900'
-    : 'liquid-glass-light text-slate-900';
+  const cardGlassClass = themeConfig.cardGlass;
 
   // Automatically scroll to highlight and focus the currently playing Ayah in real-time
   useEffect(() => {
@@ -208,16 +203,17 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                     >
                       {verse.kurdish || getCleanArabicText(verse)}
                       
-                      {/* Ornamental Verse End Marker */}
+                      {/* Ornamental Verse End Marker (Vertical Oval) */}
                       <span
-                        className={`inline-flex items-center justify-center mx-1.5 rounded-full font-semibold text-center align-middle font-sans transition-all ${
+                        className={`inline-flex items-center justify-center mx-1.5 font-bold text-center align-middle font-sans transition-all shadow-xs ${
                           isCurrentPlaying
                             ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 scale-110 shadow-md'
-                            : 'bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30'
+                            : themeConfig.ayahBadge
                         }`}
                         style={{
-                          width: `${Math.max(26, kurdishFontSize + 4)}px`,
-                          height: `${Math.max(26, kurdishFontSize + 4)}px`,
+                          width: `${Math.max(22, kurdishFontSize - 2)}px`,
+                          height: `${Math.max(28, kurdishFontSize + 6)}px`,
+                          borderRadius: '50%',
                           fontSize: `${Math.max(10, kurdishFontSize - 8)}px`,
                         }}
                       >
@@ -231,7 +227,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
               /* ARABIC OR BILINGUAL PAGE FLOW */
               <div
                 dir="rtl"
-                className="w-full text-justify leading-[2.1] uthmani-text select-text pt-2 pb-6"
+                className={`w-full text-justify leading-[2.1] uthmani-text select-text pt-2 pb-6 ${themeConfig.arabicVerseText}`}
                 style={{
                   fontSize: `${arabicFontSize}px`,
                   wordSpacing: '-0.06em',
@@ -250,7 +246,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       onClick={() => setSelectedVerseForModal(verse)}
                       className={`cursor-pointer transition-all duration-300 rounded-lg px-1 inline relative ${
                         isCurrentPlaying
-                          ? 'bg-emerald-500/35 text-emerald-950 dark:text-emerald-50 ring-2 ring-emerald-500 shadow-lg scale-[1.02]'
+                          ? 'bg-emerald-500/35 ring-2 ring-emerald-500 shadow-lg scale-[1.02]'
                           : highlightColor
                           ? `${highlightColor} px-1 rounded`
                           : 'hover:bg-emerald-500/10'
@@ -259,16 +255,17 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                     >
                       {getCleanArabicText(verse)}
                       
-                      {/* Ornamental Verse End Marker */}
+                      {/* Ornamental Verse End Marker (Vertical Oval) */}
                       <span
-                        className={`inline-flex items-center justify-center mx-1.5 rounded-full font-semibold text-center align-middle font-sans transition-all ${
+                        className={`inline-flex items-center justify-center mx-1.5 font-bold text-center align-middle font-sans transition-all shadow-xs ${
                           isCurrentPlaying
                             ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 scale-110 shadow-md'
-                            : 'bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30'
+                            : themeConfig.ayahBadge
                         }`}
                         style={{
-                          width: `${Math.max(26, arabicFontSize + 4)}px`,
-                          height: `${Math.max(26, arabicFontSize + 4)}px`,
+                          width: `${Math.max(24, arabicFontSize - 2)}px`,
+                          height: `${Math.max(30, arabicFontSize + 6)}px`,
+                          borderRadius: '50%',
                           fontSize: `${Math.max(10, arabicFontSize - 12)}px`,
                         }}
                       >
@@ -303,10 +300,10 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                   <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10 mb-3">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center border transition-all ${
+                        className={`w-7 h-9 rounded-[50%] font-bold text-xs flex items-center justify-center transition-all shadow-xs ${
                           isCurrentPlaying
-                            ? 'bg-emerald-600 text-white border-emerald-400 animate-pulse'
-                            : 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
+                            ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 animate-pulse'
+                            : themeConfig.ayahBadge
                         }`}
                       >
                         {toLocalizedNumeral(verse.numberInSurah, appLanguage)}
@@ -348,7 +345,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       style={{ fontSize: `${arabicFontSize}px` }}
                     >
                       {getCleanArabicText(verse)}
-                      <span className="inline-flex items-center justify-center w-7 h-7 mx-2 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-bold font-sans">
+                      <span className={`inline-flex items-center justify-center w-6 h-8 mx-2 rounded-[50%] ${themeConfig.ayahBadge} text-xs font-bold font-sans shadow-xs`}>
                         {toLocalizedNumeral(verse.numberInSurah, appLanguage)}
                       </span>
                     </div>

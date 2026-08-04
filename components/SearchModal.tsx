@@ -4,12 +4,13 @@ import React, { useState } from 'react';
 import { Search, X, BookOpen } from 'lucide-react';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectSurah: (surah: SurahMeta, page: number) => void;
-  themeMode: 'light' | 'dark' | 'ice';
+  themeMode: ThemeMode;
   appLanguage: Language;
 }
 
@@ -25,14 +26,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   if (!isOpen) return null;
 
   const t = TRANSLATIONS[appLanguage];
-  const isDark = themeMode === 'dark';
-  const isIce = themeMode === 'ice';
+  const themeConfig = getThemeConfig(themeMode);
 
-  const cardGlassClass = isDark
-    ? 'liquid-glass-dark text-slate-100'
-    : isIce
-    ? 'liquid-glass-ice text-slate-900'
-    : 'liquid-glass-light text-slate-900';
+  const cardGlassClass = themeConfig.modalGlass;
 
   // Search Surahs
   const matchingSurahs = query.trim()

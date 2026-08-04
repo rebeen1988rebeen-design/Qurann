@@ -4,12 +4,13 @@ import React from 'react';
 import { Bookmark, Trash2, BookOpen } from 'lucide-react';
 import { Verse, SAMPLE_VERSES_DATA } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface BookmarksViewProps {
   bookmarkedVerseNumbers: number[];
   onToggleBookmark: (num: number) => void;
   onSelectVerse: (surahNumber: number, page: number) => void;
-  themeMode: 'light' | 'dark' | 'ice';
+  themeMode: ThemeMode;
   appLanguage: Language;
 }
 
@@ -21,14 +22,9 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
   appLanguage,
 }) => {
   const t = TRANSLATIONS[appLanguage];
-  const isDark = themeMode === 'dark';
-  const isIce = themeMode === 'ice';
+  const themeConfig = getThemeConfig(themeMode);
 
-  const cardGlassClass = isDark
-    ? 'liquid-glass-dark text-slate-100'
-    : isIce
-    ? 'liquid-glass-ice text-slate-900'
-    : 'liquid-glass-light text-slate-900';
+  const cardGlassClass = themeConfig.cardGlass;
 
   // Gather saved verses from sample database
   const allVerses: Verse[] = Object.values(SAMPLE_VERSES_DATA).flat();

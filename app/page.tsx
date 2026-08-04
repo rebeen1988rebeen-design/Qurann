@@ -13,6 +13,7 @@ import { SearchModal } from '@/components/SearchModal';
 import { AudioReciterModal } from '@/components/AudioReciterModal';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, RECITERS, SurahMeta, Verse, Reciter } from '@/data/quranData';
 import { Language } from '@/data/translations';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 const stripBismillahPrefix = (text: string, numberInSurah: number, surahNum: number): string => {
   if (numberInSurah !== 1 || surahNum === 1) return text;
@@ -40,7 +41,7 @@ export default function QuranApp() {
   
   const [appLanguage, setAppLanguage] = useState<Language>('ku'); // Default to Sorani Kurdish
   const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish' | 'both'>('kurdish');
-  const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'ice'>('light');
+  const [themeMode, setThemeMode] = useState<ThemeMode>('white');
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
 
   // Synchronized Font Scaling (Arabic default = 22px, Kurdish default = 16px)
@@ -361,13 +362,7 @@ export default function QuranApp() {
 
   // Background style based on theme mode
   const getBgStyle = () => {
-    if (themeMode === 'dark') {
-      return 'frosted-bg-dark text-slate-100';
-    }
-    if (themeMode === 'ice') {
-      return 'frosted-bg-ice text-slate-900';
-    }
-    return 'frosted-bg-light text-slate-900';
+    return getThemeConfig(themeMode).rootBg;
   };
 
   const currentVerse = currentVerseIndex !== null ? versesForCurrentSurah[currentVerseIndex] || null : null;

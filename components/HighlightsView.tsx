@@ -4,12 +4,13 @@ import React from 'react';
 import { Pencil, Trash2, BookOpen } from 'lucide-react';
 import { Verse, SAMPLE_VERSES_DATA } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
+import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface HighlightsViewProps {
   highlightedVerses: Record<number, string>;
   onToggleHighlight: (num: number, color: string) => void;
   onSelectVerse: (surahNumber: number, page: number) => void;
-  themeMode: 'light' | 'dark' | 'ice';
+  themeMode: ThemeMode;
   appLanguage: Language;
 }
 
@@ -21,14 +22,9 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
   appLanguage,
 }) => {
   const t = TRANSLATIONS[appLanguage];
-  const isDark = themeMode === 'dark';
-  const isIce = themeMode === 'ice';
+  const themeConfig = getThemeConfig(themeMode);
 
-  const cardGlassClass = isDark
-    ? 'liquid-glass-dark text-slate-100'
-    : isIce
-    ? 'liquid-glass-ice text-slate-900'
-    : 'liquid-glass-light text-slate-900';
+  const cardGlassClass = themeConfig.cardGlass;
 
   const allVerses: Verse[] = Object.values(SAMPLE_VERSES_DATA).flat();
   const highlightKeys = Object.keys(highlightedVerses).map(Number);
