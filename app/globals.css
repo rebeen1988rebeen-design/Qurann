@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --glass-bg-light: rgba(255, 255, 255, 0.45);
+    --glass-border-light: rgba(255, 255, 255, 0.55);
+    --glass-shadow-light: 0 8px 32px 0 rgba(0, 0, 0, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+    
+    --glass-bg-dark: rgba(15, 23, 42, 0.75);
+    --glass-border-dark: rgba(255, 255, 255, 0.12);
+    --glass-shadow-dark: 0 12px 36px 0 rgba(0, 0, 0, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Custom Scrollbar for Frosted Glass Aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* Frosted Glass Radial Background Mesh */
+.frosted-bg-light {
+  background: radial-gradient(at 0% 0%, #ecfdf5 0px, transparent 55%), 
+              radial-gradient(at 100% 0%, #f0f9ff 0px, transparent 55%), 
+              radial-gradient(at 100% 100%, #fff7ed 0px, transparent 55%), 
+              radial-gradient(at 0% 100%, #f5f3ff 0px, transparent 55%), 
+              #ffffff;
+}
+
+.frosted-bg-dark {
+  background: radial-gradient(at 0% 0%, rgba(6, 78, 59, 0.4) 0px, transparent 50%), 
+              radial-gradient(at 100% 0%, rgba(30, 58, 138, 0.4) 0px, transparent 50%), 
+              radial-gradient(at 100% 100%, rgba(120, 53, 15, 0.3) 0px, transparent 50%), 
+              radial-gradient(at 0% 100%, rgba(49, 46, 129, 0.4) 0px, transparent 50%), 
+              #0f172a;
+}
+
+.frosted-bg-ice {
+  background: radial-gradient(at 0% 0%, #cff4fc 0px, transparent 50%), 
+              radial-gradient(at 100% 0%, #e0f2fe 0px, transparent 50%), 
+              radial-gradient(at 100% 100%, #d1fae5 0px, transparent 50%), 
+              radial-gradient(at 0% 100%, #e0e7ff 0px, transparent 50%), 
+              #f0f9ff;
+}
+
+/* Liquid / Frosted Glass Utilities matching Apple design specification */
+.liquid-glass-light {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.04), inset 0 1.5px 2px 0 rgba(255, 255, 255, 1);
+}
+
+.liquid-glass-dark {
+  background: rgba(15, 23, 42, 0.70);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.liquid-glass-ice {
+  background: rgba(224, 242, 254, 0.50);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 32px 0 rgba(14, 165, 233, 0.08), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Glass Pill and Nav Utilities */
+.glass-pill-light {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.05);
+}
+
+.glass-pill-dark {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.4);
+}
+
+.glass-nav-light {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border-top: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 -8px 30px 0 rgba(0, 0, 0, 0.04);
+}
+
+.glass-nav-dark {
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Quran Uthmani Script Styling */
+.uthmani-text {
+  font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', 'Traditional Arabic', serif;
+  line-height: 2.3;
+  word-spacing: 0.18em;
+  text-rendering: optimizeLegibility;
+}
+
+.kurdish-text {
+  font-family: 'Vazirmatn', 'Noto Naskh Arabic', system-ui, sans-serif;
+  line-height: 1.7;
+}
+
+/* Verse marker ornament */
+.ayah-number-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin: 0 0.4rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.6);
+  color: #1e293b;
+  border: 1px solid rgba(203, 213, 225, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  vertical-align: middle;
+}
+
+
