@@ -10,12 +10,12 @@ import {
   Globe,
   Palette,
   Settings,
+  Play,
+  TowerControl,
   Plus,
   Minus,
   LayoutGrid,
-  Volume2,
   Info,
-  Music,
   Building2,
 } from 'lucide-react';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
@@ -148,7 +148,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
             <button 
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <Building2 className="w-6 h-6 sm:w-7 sm:h-7" />
+              <TowerControl className="w-6 h-6 sm:w-7 sm:h-7" />
               <span className={navLabelClass}>{t.athan}</span>
             </button>
 
@@ -173,43 +173,12 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
             </button>
           </div>
 
-          {/* Row 3: Settings, About, Language, Themes */}
-          <div className="grid grid-cols-4 gap-x-1">
-            <button 
-              onClick={() => setActiveView('settings')}
-              className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass}`}
-            >
-              <Settings className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className={navLabelClass}>{t.settings}</span>
-            </button>
-            <button 
-              className={`${navItemClass} ${inactiveTabClass}`}
-            >
-              <Info className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className={navLabelClass}>{t.about}</span>
-            </button>
-            <button 
-              onClick={cycleAppLanguage}
-              className={`${navItemClass} ${inactiveTabClass}`}
-            >
-              <Globe className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className={navLabelClass}>{t.language}</span>
-            </button>
-            <button 
-              onClick={cycleTheme}
-              className={`${navItemClass} ${inactiveTabClass}`}
-            >
-              <Palette className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className={navLabelClass}>{t.themes}</span>
-            </button>
-          </div>
-
-          {/* Row 4: Recitation, Page Jump, Increase, Decrease */}
+          {/* Row 3: Recitation, Page Jump, Increase, Decrease */}
           <div className="grid grid-cols-4 gap-x-1">
             <button 
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <Music className="w-6 h-6 sm:w-7 sm:h-7" />
+              <Play className="w-6 h-6 sm:w-7 sm:h-7" />
               <span className={navLabelClass}>{t.recitation}</span>
             </button>
             <button 
@@ -240,6 +209,37 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
                 <Minus className="w-3 h-3 absolute -top-1 -right-2" />
               </div>
               <span className={navLabelClass}>{t.decrease}</span>
+            </button>
+          </div>
+
+          {/* Row 4: Settings, Language, Themes, About */}
+          <div className="grid grid-cols-4 gap-x-1">
+            <button 
+              onClick={() => setActiveView('settings')}
+              className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass}`}
+            >
+              <Settings className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.settings}</span>
+            </button>
+            <button 
+              onClick={cycleAppLanguage}
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Globe className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.language}</span>
+            </button>
+            <button 
+              onClick={cycleTheme}
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Palette className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.themes}</span>
+            </button>
+            <button 
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Info className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.about}</span>
             </button>
           </div>
 
