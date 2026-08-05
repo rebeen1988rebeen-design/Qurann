@@ -95,88 +95,107 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
   };
 
   return (
-    <div className={`fixed bottom-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-500 px-4 pb-10 ${showBars ? 'translate-y-0' : 'translate-y-full'}`}>
-      <div className={`mx-auto w-[92%] max-w-[520px] pointer-events-auto py-8 px-6 shadow-2xl rounded-2xl border-0 ${themeConfig.navGlass}`}>
-        <div className="grid grid-cols-4 gap-y-8 gap-x-2">
+    <div className={`fixed bottom-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-500 px-2 pb-8 ${showBars ? 'translate-y-0' : 'translate-y-full'}`}>
+      <div className={`mx-auto w-[98%] max-w-[750px] pointer-events-auto py-7 px-4 shadow-2xl rounded-2xl border-0 ${themeConfig.navGlass}`}>
+        <div className="flex flex-col gap-y-7">
           
-          {/* Row 1 */}
-          <button onClick={() => setActiveView('search')} className={`${navItemClass} ${activeView === 'search' ? activeTabClass : inactiveTabClass}`}>
-            <Search className="w-6 h-6" />
-            <span className={navLabelClass}>{t.search}</span>
-          </button>
+          {/* Row 1: Contents, Search, Bookmarks, Highlights */}
+          <div className="grid grid-cols-4 gap-x-1">
+            <button 
+              onClick={() => setActiveView('contents')}
+              className={`${navItemClass} ${activeView === 'contents' ? activeTabClass : inactiveTabClass}`}
+            >
+              <ListFilter className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.contents}</span>
+            </button>
+            <button 
+              onClick={() => setActiveView('search')}
+              className={`${navItemClass} ${activeView === 'search' ? activeTabClass : inactiveTabClass}`}
+            >
+              <Search className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.search}</span>
+            </button>
+            <button 
+              onClick={() => setActiveView('bookmarks')}
+              className={`${navItemClass} ${activeView === 'bookmarks' ? activeTabClass : inactiveTabClass}`}
+            >
+              <Bookmark className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.bookmarks}</span>
+            </button>
+            <button 
+              onClick={() => setActiveView('highlights')}
+              className={`${navItemClass} ${activeView === 'highlights' ? activeTabClass : inactiveTabClass}`}
+            >
+              <Pencil className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.highlights}</span>
+            </button>
+          </div>
 
-          <button onClick={() => setActiveView('contents')} className={`${navItemClass} ${activeView === 'contents' ? activeTabClass : inactiveTabClass}`}>
-            <ListFilter className="w-6 h-6" />
-            <span className={navLabelClass}>{t.contents}</span>
-          </button>
+          {/* Row 2: Quran, Page Info, +A, -A */}
+          <div className="grid grid-cols-4 gap-x-1">
+            <button 
+              onClick={() => setActiveView('reader')}
+              className={`${navItemClass} ${activeView === 'reader' ? activeTabClass : inactiveTabClass}`}
+            >
+              <BookOpen className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.quran}</span>
+            </button>
+            
+            <button 
+              onClick={openPageJump}
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <LayoutGrid className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-[11px] font-bold mt-1.5 leading-tight text-center max-w-[80px]">{getJuzPageLabel()}</span>
+            </button>
 
-          <button 
-            onClick={() => setTranslationMode('kurdish')} 
-            className={`${navItemClass} ${translationMode === 'kurdish' ? activeTabClass : inactiveTabClass}`}
-          >
-            <div className="w-6 h-6 flex items-center justify-center font-bold text-[11px] border-2 border-current rounded-md">
-              {appLanguage === 'ku' ? 'ک' : appLanguage === 'ar' ? 'ك' : 'K'}
-            </div>
-            <span className={navLabelClass}>{t.kurdishOnly}</span>
-          </button>
+            <button 
+              onClick={onZoomInFont}
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <div className="flex items-center justify-center relative">
+                <span className="text-xl sm:text-2xl font-bold">A</span>
+                <Plus className="w-3 h-3 absolute -top-1 -right-2" />
+              </div>
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5">+A</span>
+            </button>
 
-          <button 
-            onClick={() => setTranslationMode('arabic')} 
-            className={`${navItemClass} ${translationMode === 'arabic' ? activeTabClass : inactiveTabClass}`}
-          >
-            <div className="w-6 h-6 flex items-center justify-center font-bold text-[11px] border-2 border-current rounded-md">
-              {appLanguage === 'en' ? 'A' : 'ع'}
-            </div>
-            <span className={navLabelClass}>{t.arabicOnly}</span>
-          </button>
+            <button 
+              onClick={onZoomOutFont}
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <div className="flex items-center justify-center relative">
+                <span className="text-base sm:text-lg font-bold">A</span>
+                <Minus className="w-3 h-3 absolute -top-1 -right-2" />
+              </div>
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5">-A</span>
+            </button>
+          </div>
 
-          {/* Row 2 */}
-          <button onClick={() => setActiveView('highlights')} className={`${navItemClass} ${activeView === 'highlights' ? activeTabClass : inactiveTabClass}`}>
-            <Pencil className="w-6 h-6" />
-            <span className={navLabelClass}>{t.highlights}</span>
-          </button>
-
-          <button onClick={() => setActiveView('bookmarks')} className={`${navItemClass} ${activeView === 'bookmarks' ? activeTabClass : inactiveTabClass}`}>
-            <Bookmark className="w-6 h-6" />
-            <span className={navLabelClass}>{t.bookmarks}</span>
-          </button>
-
-          <button onClick={() => setActiveView('reader')} className={`${navItemClass} ${activeView === 'reader' ? activeTabClass : inactiveTabClass} col-span-2`}>
-            <BookOpen className="w-6 h-6" />
-            <span className={navLabelClass}>{t.quran}</span>
-          </button>
-
-          {/* Row 3 */}
-          <button onClick={onZoomOutFont} className={`${navItemClass} ${inactiveTabClass}`}>
-            <Minus className="w-6 h-6" />
-            <span className={navLabelClass}>A-</span>
-          </button>
-
-          <button onClick={cycleAppLanguage} className={`${navItemClass} ${inactiveTabClass}`}>
-            <Globe className="w-6 h-6" />
-            <span className={navLabelClass}>{t.language}</span>
-          </button>
-
-          <button onClick={openPageJump} className={`${navItemClass} ${inactiveTabClass} col-span-2`}>
-            <LayoutGrid className="w-6 h-6" />
-            <span className={navLabelClass}>{getJuzPageLabel()}</span>
-          </button>
-
-          {/* Row 4 */}
-          <button onClick={() => setActiveView('settings')} className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass} col-span-2`}>
-            <Settings className="w-6 h-6" />
-            <span className={navLabelClass}>{t.settings}</span>
-          </button>
-
-          <button onClick={cycleTheme} className={`${navItemClass} ${inactiveTabClass}`}>
-            <Palette className="w-6 h-6" />
-            <span className={navLabelClass}>{t.themes}</span>
-          </button>
-
-          <button onClick={onZoomInFont} className={`${navItemClass} ${inactiveTabClass}`}>
-            <Plus className="w-6 h-6" />
-            <span className={navLabelClass}>A+</span>
-          </button>
+          {/* Row 3: Settings, Language, Themes (Centered) */}
+          <div className="grid grid-cols-3 max-w-[90%] mx-auto w-full gap-x-1">
+            <button 
+              onClick={() => setActiveView('settings')}
+              className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass}`}
+            >
+              <Settings className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.settings}</span>
+            </button>
+            <button 
+              onClick={cycleAppLanguage}
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Globe className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.language}</span>
+            </button>
+            <button 
+              onClick={cycleTheme}
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Palette className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.themes}</span>
+            </button>
+          </div>
 
         </div>
       </div>
