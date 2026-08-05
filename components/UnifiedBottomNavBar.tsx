@@ -34,6 +34,7 @@ interface UnifiedBottomNavBarProps {
   appLanguage: Language;
   setAppLanguage: (lang: Language) => void;
   showBars: boolean;
+  setShowBars: (show: boolean) => void;
   currentJuz: number;
   currentPage: number;
 }
@@ -51,11 +52,18 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
   appLanguage,
   setAppLanguage,
   showBars,
+  setShowBars,
   currentJuz,
   currentPage,
 }) => {
   const t = TRANSLATIONS[appLanguage];
   const themeConfig = getThemeConfig(themeMode);
+
+  const autoHideBars = () => {
+    setTimeout(() => {
+      setShowBars(false);
+    }, 500);
+  };
 
   const cycleTheme = () => {
     const modes: ThemeMode[] = ['white', 'dark', 'cyan', 'green', 'yellow'];
@@ -106,28 +114,28 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
           {/* Row 1: Contents, Search, Bookmarks, Highlights */}
           <div className="grid grid-cols-4 gap-x-1">
             <button 
-              onClick={() => setActiveView('contents')}
+              onClick={() => { setActiveView('contents'); autoHideBars(); }}
               className={`${navItemClass} ${activeView === 'contents' ? activeTabClass : inactiveTabClass}`}
             >
               <ListFilter className="w-6 h-6 sm:w-7 sm:h-7" />
               <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.contents}</span>
             </button>
             <button 
-              onClick={() => setActiveView('search')}
+              onClick={() => { setActiveView('search'); autoHideBars(); }}
               className={`${navItemClass} ${activeView === 'search' ? activeTabClass : inactiveTabClass}`}
             >
               <Search className="w-6 h-6 sm:w-7 sm:h-7" />
               <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.search}</span>
             </button>
             <button 
-              onClick={() => setActiveView('bookmarks')}
+              onClick={() => { setActiveView('bookmarks'); autoHideBars(); }}
               className={`${navItemClass} ${activeView === 'bookmarks' ? activeTabClass : inactiveTabClass}`}
             >
               <Bookmark className="w-6 h-6 sm:w-7 sm:h-7" />
               <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.bookmarks}</span>
             </button>
             <button 
-              onClick={() => setActiveView('highlights')}
+              onClick={() => { setActiveView('highlights'); autoHideBars(); }}
               className={`${navItemClass} ${activeView === 'highlights' ? activeTabClass : inactiveTabClass}`}
             >
               <Pencil className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -138,7 +146,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
           {/* Row 2: Quran, Athan, Arabic, Kurdish */}
           <div className="grid grid-cols-4 gap-x-1">
             <button 
-              onClick={() => setActiveView('reader')}
+              onClick={() => { setActiveView('reader'); autoHideBars(); }}
               className={`${navItemClass} ${activeView === 'reader' ? activeTabClass : inactiveTabClass}`}
             >
               <BookOpen className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -146,6 +154,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
             </button>
             
             <button 
+              onClick={() => autoHideBars()}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <TowerControl className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -176,6 +185,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
           {/* Row 3: Recitation, Page Jump, Increase, Decrease */}
           <div className="grid grid-cols-4 gap-x-1">
             <button 
+              onClick={() => autoHideBars()}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <Play className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -215,7 +225,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
           {/* Row 4: Settings, Language, Themes, About */}
           <div className="grid grid-cols-4 gap-x-1">
             <button 
-              onClick={() => setActiveView('settings')}
+              onClick={() => { setActiveView('settings'); autoHideBars(); }}
               className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass}`}
             >
               <Settings className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -236,6 +246,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               <span className={navLabelClass}>{t.themes}</span>
             </button>
             <button 
+              onClick={() => autoHideBars()}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <Info className="w-6 h-6 sm:w-7 sm:h-7" />

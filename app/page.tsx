@@ -517,6 +517,7 @@ export default function QuranApp() {
         appLanguage={appLanguage}
         setAppLanguage={setAppLanguage}
         showBars={showBars}
+        setShowBars={setShowBars}
         currentJuz={currentJuz}
         currentPage={currentPage}
       />
