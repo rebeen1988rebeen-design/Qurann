@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Search, X, BookOpen } from 'lucide-react';
+import { IconBox } from '@/components/IconBox';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -53,11 +54,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4 bg-black/40 backdrop-blur-md animate-in fade-in duration-200">
-      <div className={`w-full max-w-2xl rounded-[24px] p-6 shadow-2xl ${cardGlassClass} border border-white/40 max-h-[80vh] flex flex-col`}>
+      <div className={`w-full max-w-2xl rounded-2xl p-6 shadow-2xl ${cardGlassClass} border border-white/40 max-h-[80vh] flex flex-col`}>
         
         {/* Search Input Bar */}
         <div className="flex items-center gap-3 pb-4 border-b border-black/10 dark:border-white/10">
-          <Search className="w-5 h-5 text-emerald-500" />
+          <IconBox domain="search" size="md">
+            <Search className="w-5 h-5" />
+          </IconBox>
           <input
             type="text"
             value={query}
@@ -68,7 +71,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           />
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-500"
+            className="w-8 h-8 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-300 transition-all font-bold"
           >
             <X className="w-5 h-5" />
           </button>
@@ -96,7 +99,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       onSelectSurah(surah, surah.page);
                       onClose();
                     }}
-                    className="p-3 rounded-[16px] bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-emerald-500/15 cursor-pointer flex items-center justify-between transition-all"
+                    className="p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-cyan-500/15 cursor-pointer flex items-center justify-between transition-all"
                   >
                     <div>
                       <div className="font-bold text-sm text-slate-900 dark:text-white">
@@ -106,7 +109,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                         {surah.kurdishName} • {t.pageBadge} {toLocalizedNumeral(surah.page, appLanguage)}
                       </div>
                     </div>
-                    <span className="font-bold text-emerald-600 dark:text-emerald-400 uthmani-text text-base">{surah.name}</span>
+                    <span className="font-bold text-cyan-600 dark:text-cyan-400 uthmani-text text-base">{surah.name}</span>
                   </div>
                 ))}
               </div>
@@ -128,9 +131,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       onSelectSurah(surah, verse.page);
                       onClose();
                     }}
-                    className="p-4 rounded-[18px] bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-emerald-500/15 cursor-pointer transition-all"
+                    className="p-4 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-cyan-500/15 cursor-pointer transition-all"
                   >
-                    <div className="flex items-center justify-between text-xs text-emerald-600 font-bold mb-1">
+                    <div className="flex items-center justify-between text-xs text-cyan-600 dark:text-cyan-400 font-bold mb-1">
                       <span>{t.verses} {toLocalizedNumeral(verse.numberInSurah, appLanguage)} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}</span>
                       <BookOpen className="w-3.5 h-3.5" />
                     </div>
@@ -151,3 +154,4 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     </div>
   );
 };
+

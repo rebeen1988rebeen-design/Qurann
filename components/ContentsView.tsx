@@ -66,12 +66,12 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
             const activeRowClass = themeMode === 'dark'
               ? 'bg-white/10'
               : themeMode === 'cyan'
-              ? 'bg-sky-200/50'
+              ? 'bg-sky-500/15'
               : themeMode === 'green'
-              ? 'bg-emerald-200/50'
+              ? 'bg-emerald-500/15'
               : themeMode === 'yellow'
-              ? 'bg-amber-200/50'
-              : 'bg-emerald-200/50';
+              ? 'bg-amber-500/15'
+              : 'bg-emerald-500/15';
 
             const hoverRowClass = themeMode === 'dark'
               ? 'hover:bg-white/5'
@@ -94,10 +94,10 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
                 <div className="flex items-center gap-4">
                   {/* Surah Index Badge */}
                   <div
-                    className={`w-8 h-8 rounded-lg font-bold text-sm flex items-center justify-center transition-all shadow-xs ${
+                    className={`w-9 h-9 rounded-xl font-extrabold text-sm flex items-center justify-center transition-all shadow-xs ${
                       isSelected
-                        ? themeMode === 'dark' ? 'bg-white text-slate-900' : 'bg-slate-900 text-white'
-                        : 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-200'
+                        ? themeConfig.surahBadgeActive
+                        : themeConfig.surahBadgeInactive
                     }`}
                   >
                     {toLocalizedNumeral(surah.number, appLanguage)}

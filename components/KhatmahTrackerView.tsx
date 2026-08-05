@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { CheckCircle2, Calendar, Target, Plus, Minus, Trophy, Flame } from 'lucide-react';
+import { IconBox } from '@/components/IconBox';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface KhatmahTrackerViewProps {
@@ -37,7 +38,7 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
           </p>
         </div>
         
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 font-bold text-xs">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 font-bold text-xs">
           <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />
           <span>7 Day Streak</span>
         </div>
@@ -97,7 +98,7 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
 
             <div className="bg-white/40 dark:bg-slate-800/40 p-3.5 rounded-xl border border-white/40 dark:border-white/10 flex flex-col">
               <span className="text-[10px] font-bold uppercase text-slate-400">Target Days</span>
-              <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">{targetDays} Days</span>
+              <span className="text-2xl font-bold text-violet-600 dark:text-violet-400">{targetDays} Days</span>
             </div>
           </div>
 
@@ -110,20 +111,20 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              className="p-2 rounded-full bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 transition-all"
+              className="w-8 h-8 rounded-xl bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 transition-all flex items-center justify-center font-bold"
             >
               <Minus className="w-4 h-4 text-slate-700 dark:text-slate-200" />
             </button>
             <button
               onClick={() => setCurrentPage(Math.min(604, currentPage + 1))}
-              className="px-4 py-1.5 rounded-full bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 shadow-md hover:bg-emerald-600 transition-all"
+              className="px-4 py-1.5 rounded-xl bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 shadow-md hover:bg-emerald-600 transition-all"
             >
               <Plus className="w-4 h-4" />
               <span>+1 Page Read</span>
             </button>
             <button
               onClick={() => setCurrentPage(Math.min(604, currentPage + 20))}
-              className="px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-bold text-xs hover:bg-emerald-500/30 transition-all"
+              className="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-bold text-xs hover:bg-emerald-500/30 transition-all"
             >
               +1 Juz (20 Pgs)
             </button>
@@ -134,9 +135,11 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
 
       {/* Target Planning Card */}
       <div className={`rounded-2xl p-6 shadow-sm ${cardGlassClass}`}>
-        <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-          <Target className="w-5 h-5 text-emerald-500" />
-          <span>Khatmah Target Calculator</span>
+        <h3 className="text-lg font-bold mb-3 flex items-center gap-3">
+          <IconBox domain="quran" size="md">
+            <Target className="w-5 h-5" />
+          </IconBox>
+          <span className="text-slate-900 dark:text-white">Khatmah Target Calculator</span>
         </h3>
         
         <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
@@ -166,3 +169,4 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
     </div>
   );
 };
+

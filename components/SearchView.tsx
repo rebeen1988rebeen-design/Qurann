@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Search, BookOpen } from 'lucide-react';
+import { IconBox } from '@/components/IconBox';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -48,22 +49,27 @@ export const SearchView: React.FC<SearchViewProps> = ({
 
   return (
     <div className="w-full max-w-4xl mx-auto px-3 py-4 pb-44 flex flex-col items-center">
-      <div className={`w-full rounded-[24px] p-6 shadow-xl ${cardGlassClass} flex flex-col min-h-[500px]`}>
+      <div className={`w-full rounded-2xl p-6 shadow-xl ${cardGlassClass} flex flex-col min-h-[500px]`}>
         
         {/* Header Title */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-extrabold tracking-tight mb-1">
-            {appLanguage === 'ku' ? 'گەڕان لە قورئانی پیرۆزدا' : appLanguage === 'ar' ? 'البحث في القرآن الكريم' : 'Search Holy Quran'}
-          </h1>
-          <p className="text-sm opacity-80">
-            {appLanguage === 'ku' ? 'بەدوای سورەت، ئایەت، یان وشەکاندا بە زمانی کوردی و عەرەبی بگەرێ' : appLanguage === 'ar' ? 'ابحث عن السور والآيات والكلمات باللغتين العربية والكردية' : 'Search for surahs, ayahs, and keywords in Kurdish and Arabic'}
-          </p>
+        <div className="mb-6 flex items-center gap-3.5">
+          <IconBox domain="search" size="lg">
+            <Search className="w-6 h-6" />
+          </IconBox>
+          <div>
+            <h1 className="text-2xl font-extrabold tracking-tight mb-0.5 text-slate-900 dark:text-white">
+              {appLanguage === 'ku' ? 'گەڕان لە قورئانی پیرۆزدا' : appLanguage === 'ar' ? 'البحث في القرآن الكريم' : 'Search Holy Quran'}
+            </h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              {appLanguage === 'ku' ? 'بەدوای سورەت، ئایەت، یان وشەکاندا بە زمانی کوردی و عەرەبی بگەرێ' : appLanguage === 'ar' ? 'ابحث عن السور والآيات والكلمات باللغتين العربية والكردية' : 'Search for surahs, ayahs, and keywords in Kurdish and Arabic'}
+            </p>
+          </div>
         </div>
 
         {/* Search Input Bar */}
         <div className="relative mb-6">
-          <div className={`absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none ${themeConfig.textAccent}`}>
-            <Search className="w-5 h-5" />
+          <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+            <Search className="w-5 h-5 text-sky-500" />
           </div>
           <input
             type="text"
@@ -72,21 +78,23 @@ export const SearchView: React.FC<SearchViewProps> = ({
             placeholder={t.searchPlaceholder}
             autoFocus
             dir={appLanguage === 'en' ? 'ltr' : 'rtl'}
-            className="w-full pl-4 pr-12 py-3.5 rounded-2xl bg-white/60 dark:bg-slate-800/60 border border-emerald-500/30 text-base font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
+            className="w-full pl-4 pr-12 py-3.5 rounded-2xl bg-white/60 dark:bg-slate-800/60 border border-sky-500/30 text-base font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm text-slate-900 dark:text-white"
           />
         </div>
 
         {/* Results Container */}
         <div className="flex-1 space-y-6">
           {!query.trim() && (
-            <div className="text-center py-16 opacity-60 text-base flex flex-col items-center justify-center gap-3">
-              <Search className="w-12 h-12 stroke-[1.5] text-emerald-500/50" />
+            <div className="text-center py-16 text-slate-400 text-base flex flex-col items-center justify-center gap-3">
+              <IconBox domain="search" size="lg">
+                <Search className="w-6 h-6" />
+              </IconBox>
               <span>{t.searchPlaceholder}</span>
             </div>
           )}
 
           {query.trim() && matchingSurahs.length === 0 && matchingVerses.length === 0 && (
-            <div className="text-center py-16 opacity-70 text-base">
+            <div className="text-center py-16 text-slate-400 text-base">
               {t.noResults}
             </div>
           )}
@@ -94,7 +102,7 @@ export const SearchView: React.FC<SearchViewProps> = ({
           {/* Surah Matches */}
           {matchingSurahs.length > 0 && (
             <div>
-              <div className="text-xs font-extrabold opacity-70 uppercase tracking-wider mb-3">
+              <div className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-3">
                 {t.tabSurahs} ({toLocalizedNumeral(matchingSurahs.length, appLanguage)})
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -102,17 +110,17 @@ export const SearchView: React.FC<SearchViewProps> = ({
                   <div
                     key={surah.number}
                     onClick={() => onSelectSurah(surah, surah.page)}
-                    className="p-4 rounded-[18px] bg-white/50 dark:bg-slate-800/50 hover:bg-emerald-500/20 cursor-pointer flex items-center justify-between transition-all border border-emerald-500/20 shadow-xs"
+                    className="p-4 rounded-xl bg-white/50 dark:bg-slate-800/50 hover:bg-sky-500/15 cursor-pointer flex items-center justify-between transition-all border border-sky-500/20 shadow-xs"
                   >
                     <div>
-                      <div className="font-bold text-base">
+                      <div className="font-bold text-base text-slate-900 dark:text-white">
                         {toLocalizedNumeral(surah.number, appLanguage)}. {appLanguage === 'en' ? surah.englishName : surah.name}
                       </div>
-                      <div className="text-xs opacity-75 mt-0.5">
+                      <div className="text-xs text-slate-500 mt-0.5">
                         {surah.kurdishName} • {t.pageBadge} {toLocalizedNumeral(surah.page, appLanguage)} • {surah.numberOfAyahs} {t.verses}
                       </div>
                     </div>
-                    <span className={`font-bold uthmani-text text-xl ${themeConfig.textAccent}`}>{surah.name}</span>
+                    <span className="font-bold uthmani-text text-xl text-sky-600 dark:text-sky-400">{surah.name}</span>
                   </div>
                 ))}
               </div>
@@ -122,7 +130,7 @@ export const SearchView: React.FC<SearchViewProps> = ({
           {/* Verse Matches */}
           {matchingVerses.length > 0 && (
             <div>
-              <div className="text-xs font-extrabold opacity-70 uppercase tracking-wider mb-3">
+              <div className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-3">
                 {t.verses} ({toLocalizedNumeral(matchingVerses.length, appLanguage)})
               </div>
               <div className="flex flex-col gap-3">
@@ -133,16 +141,16 @@ export const SearchView: React.FC<SearchViewProps> = ({
                       const surah = SURAHS_LIST.find((s) => s.page <= verse.page) || SURAHS_LIST[0];
                       onSelectSurah(surah, verse.page);
                     }}
-                    className="p-4 rounded-[18px] bg-white/50 dark:bg-slate-800/50 hover:bg-emerald-500/20 cursor-pointer transition-all border border-emerald-500/20 shadow-xs"
+                    className="p-4 rounded-xl bg-white/50 dark:bg-slate-800/50 hover:bg-sky-500/15 cursor-pointer transition-all border border-sky-500/20 shadow-xs"
                   >
-                    <div className="flex items-center justify-between text-xs text-emerald-600 font-bold mb-2">
+                    <div className="flex items-center justify-between text-xs text-sky-600 dark:text-sky-400 font-bold mb-2">
                       <span>{t.verses} {toLocalizedNumeral(verse.numberInSurah, appLanguage)} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}</span>
                       <BookOpen className="w-4 h-4" />
                     </div>
-                    <div dir="rtl" className="text-lg uthmani-text mb-2">
+                    <div dir="rtl" className="text-lg uthmani-text mb-2 text-slate-900 dark:text-white">
                       {verse.text}
                     </div>
-                    <div dir="rtl" className="text-sm kurdish-text opacity-90">
+                    <div dir="rtl" className="text-sm kurdish-text text-slate-600 dark:text-slate-300">
                       {verse.kurdish}
                     </div>
                   </div>
@@ -156,3 +164,4 @@ export const SearchView: React.FC<SearchViewProps> = ({
     </div>
   );
 };
+

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Volume2, Check, X } from 'lucide-react';
+import { IconBox } from '@/components/IconBox';
 import { RECITERS, Reciter } from '@/data/quranData';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
@@ -31,13 +32,15 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
       <div className={`w-full max-w-md rounded-2xl p-6 shadow-2xl ${cardGlassClass} border border-white/40`}>
         
         <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10 mb-4">
-          <div className="flex items-center gap-2">
-            <Volume2 className="w-5 h-5 text-emerald-500" />
+          <div className="flex items-center gap-3">
+            <IconBox domain="audio" size="md">
+              <Volume2 className="w-5 h-5" />
+            </IconBox>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white">Select Reciter</h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-400"
+            className="w-8 h-8 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-300 transition-all"
           >
             <X className="w-5 h-5" />
           </button>
@@ -56,8 +59,8 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
                 }}
                 className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
                   isSelected
-                    ? 'bg-emerald-500/20 border-emerald-500 text-emerald-900 dark:text-emerald-100 font-bold shadow-sm'
-                    : 'bg-white/40 dark:bg-slate-800/40 border-white/40 dark:border-white/10 hover:bg-emerald-500/10'
+                    ? 'bg-teal-500/20 border-teal-500 text-teal-950 dark:text-teal-100 font-bold shadow-sm'
+                    : 'bg-white/40 dark:bg-slate-800/40 border-white/40 dark:border-white/10 hover:bg-teal-500/10'
                 }`}
               >
                 <div>
@@ -66,7 +69,7 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
                 </div>
 
                 {isSelected && (
-                  <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold shadow-sm">
                     <Check className="w-4 h-4" />
                   </div>
                 )}
@@ -86,3 +89,4 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
     </div>
   );
 };
+

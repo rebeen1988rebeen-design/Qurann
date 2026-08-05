@@ -244,7 +244,7 @@ export const TRANSLATIONS = {
     syncData: "هاوکاتکردنی زانیارییەکان",
     athan: "بانگدان",
     about: "دەربارە",
-    qibla: "ڕووگەنەما",
+    qibla: "ڕووگەنما",
     dailyAzkar: "ویردی ڕۆژانە",
     recitation: "خوێندنەوە",
     increase: "زیادکردن",

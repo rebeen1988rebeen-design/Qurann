@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Pencil, Trash2, BookOpen } from 'lucide-react';
+import { IconBox } from '@/components/IconBox';
 import { Verse, SAMPLE_VERSES_DATA } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -42,14 +43,16 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
             {t.highlightsCount(toLocalizedNumeral(activeHighlights.length, appLanguage))}
           </p>
         </div>
-        <div className="w-10 h-10 rounded-full bg-emerald-500/15 text-emerald-500 flex items-center justify-center border border-emerald-500/30">
-          <Pencil className="w-5 h-5" />
-        </div>
+        <IconBox domain="quran" size="lg">
+          <Pencil className="w-6 h-6" />
+        </IconBox>
       </div>
 
       {activeHighlights.length === 0 ? (
-        <div className={`rounded-[24px] p-8 text-center ${cardGlassClass}`}>
-          <Pencil className="w-12 h-12 text-slate-400 mx-auto mb-3 opacity-50" />
+        <div className={`rounded-2xl p-8 text-center ${cardGlassClass}`}>
+          <IconBox domain="quran" size="lg" className="mx-auto mb-3">
+            <Pencil className="w-6 h-6" />
+          </IconBox>
           <h3 className="text-lg font-bold text-slate-700 dark:text-slate-200">{t.noHighlightsTitle}</h3>
           <p className="text-xs text-slate-500 max-w-xs mx-auto mt-1">
             {t.noHighlightsDesc}
@@ -60,16 +63,16 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
           {activeHighlights.map((verse) => (
             <div
               key={verse.numberInQuran}
-              className={`rounded-[22px] p-4 sm:p-5 shadow-sm transition-all border border-white/40 ${cardGlassClass}`}
+              className={`rounded-2xl p-4 sm:p-5 shadow-sm transition-all border border-white/40 ${cardGlassClass}`}
             >
               <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10 mb-3">
-                <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 px-3 py-1 rounded-full">
+                <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 px-3 py-1 rounded-xl border border-emerald-500/20">
                   {t.verses} {toLocalizedNumeral(verse.numberInSurah, appLanguage)} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}
                 </span>
 
                 <button
                   onClick={() => onToggleHighlight(verse.numberInQuran, '')}
-                  className="p-1.5 rounded-full hover:bg-rose-500/20 text-rose-500 transition-all"
+                  className="w-8 h-8 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 flex items-center justify-center transition-all"
                   title={t.removeHighlight}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -82,14 +85,14 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
               </div>
 
               {/* Kurdish / English depending on language */}
-              <div dir={appLanguage === 'en' ? 'ltr' : 'rtl'} className="text-base kurdish-text text-emerald-800 dark:text-emerald-300 mt-1">
+              <div dir={appLanguage === 'en' ? 'ltr' : 'rtl'} className="text-base kurdish-text text-slate-700 dark:text-slate-300 mt-1">
                 {appLanguage === 'en' ? verse.english : verse.kurdish}
               </div>
 
               {/* Jump Button */}
               <button
                 onClick={() => onSelectVerse(1, verse.page)}
-                className="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold text-xs border border-emerald-500/30 hover:bg-emerald-500/30 transition-all"
+                className="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-800 dark:text-emerald-200 font-bold text-xs border border-emerald-500/30 hover:bg-emerald-500/30 transition-all"
               >
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>{t.jumpToPage(toLocalizedNumeral(verse.page, appLanguage))}</span>
@@ -102,3 +105,4 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
     </div>
   );
 };
+

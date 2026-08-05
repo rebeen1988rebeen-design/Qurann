@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { triggerHaptic } from '@/lib/haptics';
+import { IconBox } from '@/components/IconBox';
 import {
   ListFilter,
   Search,
@@ -19,6 +20,8 @@ import {
   Info,
   Sparkles,
   Compass,
+  BookText,
+  BookOpenCheck,
 } from 'lucide-react';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -93,8 +96,8 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
     ? 'text-white/60 hover:text-white'
     : 'text-slate-500 hover:text-slate-900';
 
-  const navItemClass = "flex flex-col items-center justify-center gap-1 min-w-[64px] transition-all cursor-pointer outline-none";
-  const navLabelClass = "text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap";
+  const navItemClass = "flex flex-col items-center justify-center gap-1 min-w-[64px] transition-all cursor-pointer outline-none group";
+  const navLabelClass = "text-[10.5px] sm:text-[11.5px] font-bold mt-1 whitespace-nowrap";
 
   const getJuzPageLabel = () => {
     const juzNum = toLocalizedNumeral(currentJuz, appLanguage);
@@ -120,39 +123,52 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => { setActiveView('contents'); hideBarsDirectly(); }}
               className={`${navItemClass} ${activeView === 'contents' ? activeTabClass : inactiveTabClass}`}
             >
-              <ListFilter className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.contents}</span>
+              <IconBox domain="contents" size="md" active={activeView === 'contents'}>
+                <ListFilter className="w-[23px] h-[23px]" />
+              </IconBox>
+              <span className={navLabelClass}>{t.contents}</span>
             </button>
+
             <button 
               onClick={() => { setActiveView('search'); hideBarsDirectly(); }}
               className={`${navItemClass} ${activeView === 'search' ? activeTabClass : inactiveTabClass}`}
             >
-              <Search className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.search}</span>
+              <IconBox domain="search" size="md" active={activeView === 'search'}>
+                <Search className="w-[23px] h-[23px]" />
+              </IconBox>
+              <span className={navLabelClass}>{t.search}</span>
             </button>
+
             <button 
               onClick={() => { setActiveView('bookmarks'); hideBarsDirectly(); }}
               className={`${navItemClass} ${activeView === 'bookmarks' ? activeTabClass : inactiveTabClass}`}
             >
-              <Bookmark className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.bookmarks}</span>
+              <IconBox domain="bookmarks" size="md" active={activeView === 'bookmarks'}>
+                <Bookmark className="w-[23px] h-[23px]" />
+              </IconBox>
+              <span className={navLabelClass}>{t.bookmarks}</span>
             </button>
+
             <button 
               onClick={() => { setActiveView('highlights'); hideBarsDirectly(); }}
               className={`${navItemClass} ${activeView === 'highlights' ? activeTabClass : inactiveTabClass}`}
             >
-              <Pencil className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.highlights}</span>
+              <IconBox domain="bookmarks" size="md" active={activeView === 'highlights'}>
+                <Pencil className="w-[23px] h-[23px]" />
+              </IconBox>
+              <span className={navLabelClass}>{t.highlights}</span>
             </button>
           </div>
 
-          {/* Row 2: Quran, Athan, Daily Azkar, Display */}
+          {/* Row 2: Quran, Athan, Daily Azkar, Qibla */}
           <div className="grid grid-cols-4 gap-x-1">
             <button 
               onClick={() => { setActiveView('reader'); hideBarsDirectly(); }}
               className={`${navItemClass} ${activeView === 'reader' ? activeTabClass : inactiveTabClass}`}
             >
-              <BookOpen className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IconBox domain="quran" size="md" active={activeView === 'reader'}>
+                <BookOpen className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{t.quran}</span>
             </button>
             
@@ -160,7 +176,9 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => hideBarsDirectly()}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <TowerControl className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IconBox domain="notifications" size="md">
+                <TowerControl className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{t.athan}</span>
             </button>
 
@@ -168,7 +186,9 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => { setActiveView('dailyAzkar'); hideBarsDirectly(); }}
               className={`${navItemClass} ${activeView === 'dailyAzkar' ? activeTabClass : inactiveTabClass}`}
             >
-              <Sparkles className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IconBox domain="dhikr" size="md" active={activeView === 'dailyAzkar'}>
+                <Sparkles className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{t.dailyAzkar}</span>
             </button>
 
@@ -176,7 +196,9 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => hideBarsDirectly()}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <Compass className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IconBox domain="themes" size="md">
+                <Compass className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{t.qibla}</span>
             </button>
           </div>
@@ -187,24 +209,29 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => hideBarsDirectly()}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <Play className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IconBox domain="audio" size="md">
+                <Play className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{t.recitation}</span>
             </button>
+
             <button 
               onClick={() => { openPageJump(); triggerHaptic(10); }}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <LayoutGrid className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[9px] sm:text-[10px] font-bold mt-1.5 leading-tight text-center max-w-[80px]">{getJuzPageLabel()}</span>
+              <IconBox domain="contents" size="md">
+                <LayoutGrid className="w-[23px] h-[23px]" />
+              </IconBox>
+              <span className="text-[9px] sm:text-[10px] font-bold mt-1 leading-tight text-center max-w-[80px]">{getJuzPageLabel()}</span>
             </button>
 
             <button 
               onClick={() => { setTranslationMode('arabic'); triggerHaptic(10); }} 
               className={`${navItemClass} ${translationMode === 'arabic' ? activeTabClass : inactiveTabClass}`}
             >
-              <div className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center font-bold text-[12px] sm:text-[14px] border-2 border-current rounded-md">
-                {appLanguage === 'en' ? 'A' : 'ع'}
-              </div>
+              <IconBox domain="language" size="md">
+                <BookText className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{appLanguage === 'ku' ? 'عەرەبی' : appLanguage === 'ar' ? 'العربية' : 'Arabic'}</span>
             </button>
 
@@ -212,9 +239,9 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => { setTranslationMode('kurdish'); triggerHaptic(10); }} 
               className={`${navItemClass} ${translationMode === 'kurdish' ? activeTabClass : inactiveTabClass}`}
             >
-              <div className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center font-bold text-[12px] sm:text-[14px] border-2 border-current rounded-md">
-                {appLanguage === 'ku' ? 'ک' : appLanguage === 'ar' ? 'ك' : 'K'}
-              </div>
+              <IconBox domain="language" size="md">
+                <BookOpenCheck className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{appLanguage === 'ku' ? 'کوردی' : appLanguage === 'ar' ? 'الكردية' : 'Kurdish'}</span>
             </button>
           </div>
@@ -225,28 +252,39 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => { setActiveView('settings'); hideBarsDirectly(); }}
               className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass}`}
             >
-              <Settings className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IconBox domain="settings" size="md" active={activeView === 'settings'}>
+                <Settings className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{t.settings}</span>
             </button>
+
             <button 
               onClick={cycleAppLanguage}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <Globe className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IconBox domain="language" size="md">
+                <Globe className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{t.language}</span>
             </button>
+
             <button 
               onClick={cycleTheme}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <Palette className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IconBox domain="themes" size="md">
+                <Palette className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{t.themes}</span>
             </button>
+
             <button 
               onClick={() => { setActiveView('about'); hideBarsDirectly(); }}
               className={`${navItemClass} ${activeView === 'about' ? activeTabClass : inactiveTabClass}`}
             >
-              <Info className="w-6 h-6 sm:w-7 sm:h-7" />
+              <IconBox domain="info" size="md" active={activeView === 'about'}>
+                <Info className="w-[23px] h-[23px]" />
+              </IconBox>
               <span className={navLabelClass}>{t.about}</span>
             </button>
           </div>
@@ -257,10 +295,12 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => { onZoomInFont(); triggerHaptic(5); }}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <div className="flex items-center justify-center relative">
-                <span className="text-xl sm:text-2xl font-bold">A</span>
-                <Plus className="w-3 h-3 absolute -top-1 -right-2" />
-              </div>
+              <IconBox domain="themes" size="md">
+                <div className="flex items-center justify-center relative">
+                  <span className="text-lg font-bold">A</span>
+                  <Plus className="w-2.5 h-2.5 absolute -top-1 -right-2" />
+                </div>
+              </IconBox>
               <span className={navLabelClass}>{t.increase}</span>
             </button>
 
@@ -268,10 +308,12 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => { onZoomOutFont(); triggerHaptic(5); }}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <div className="flex items-center justify-center relative">
-                <span className="text-base sm:text-lg font-bold">A</span>
-                <Minus className="w-3 h-3 absolute -top-1 -right-2" />
-              </div>
+              <IconBox domain="themes" size="md">
+                <div className="flex items-center justify-center relative">
+                  <span className="text-sm font-bold">A</span>
+                  <Minus className="w-2.5 h-2.5 absolute -top-1 -right-2" />
+                </div>
+              </IconBox>
               <span className={navLabelClass}>{t.decrease}</span>
             </button>
 
@@ -284,3 +326,4 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
     </div>
   );
 };
+
