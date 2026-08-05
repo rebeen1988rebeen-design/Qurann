@@ -119,6 +119,11 @@ export const TRANSLATIONS = {
     ourOtherApp: "تطبيقنا الآخر",
     hisnSub: "حصن المسلم والأذكار اليومية",
     syncData: "مزامنة البيانات",
+    athan: "الآذان",
+    about: "حول التطبيق",
+    recitation: "تلاوة",
+    increase: "تكبير",
+    decrease: "تصغير",
 
     // Bookmarks View
     bookmarksTitle: "الآيات المحفوظة",
@@ -235,6 +240,11 @@ export const TRANSLATIONS = {
     ourOtherApp: "بەرنامەیەکی تری ئیمە",
     hisnSub: "قەڵای موسڵمان و زیکرەکانی ڕۆژانە",
     syncData: "هاوکاتکردنی زانیارییەکان",
+    athan: "بانگدان",
+    about: "دەربارە",
+    recitation: "خوێندنەوە",
+    increase: "زیادکردن",
+    decrease: "کەمکردن",
 
     // Bookmarks View
     bookmarksTitle: "ئایەتە نیشانەکراوەکان",
@@ -351,6 +361,11 @@ export const TRANSLATIONS = {
     ourOtherApp: "OUR OTHER APP",
     hisnSub: "Daily Muslim Azkar & Supplications",
     syncData: "Sync Data",
+    athan: "Athan",
+    about: "About",
+    recitation: "Recitation",
+    increase: "Increase",
+    decrease: "Decrease",
 
     // Bookmarks View
     bookmarksTitle: "Bookmarks",

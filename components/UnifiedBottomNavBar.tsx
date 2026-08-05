@@ -13,6 +13,10 @@ import {
   Plus,
   Minus,
   LayoutGrid,
+  Volume2,
+  Info,
+  Music,
+  Building2,
 } from 'lucide-react';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -79,25 +83,25 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
     : 'text-slate-500 hover:text-slate-900';
 
   const navItemClass = "flex flex-col items-center justify-center gap-1 min-w-[64px] transition-all cursor-pointer outline-none";
-  const navLabelClass = "text-[10px] font-bold whitespace-nowrap";
+  const navLabelClass = "text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap";
 
   const getJuzPageLabel = () => {
     const juzNum = toLocalizedNumeral(currentJuz, appLanguage);
     const pageNum = toLocalizedNumeral(currentPage, appLanguage);
     
     if (appLanguage === 'ku') {
-      return `لاپەڕە ${pageNum} • بەشی ${juzNum}`;
+      return `لاپەڕە ${pageNum} بەشی ${juzNum}`;
     }
     if (appLanguage === 'ar') {
-      return `الصفحة ${pageNum} • الجزء ${juzNum}`;
+      return `الصفحة ${pageNum} الجزء ${juzNum}`;
     }
-    return `Page ${pageNum} • Juz ${juzNum}`;
+    return `Page ${pageNum} Juz ${juzNum}`;
   };
 
   return (
-    <div className={`fixed bottom-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-500 px-2 pb-8 ${showBars ? 'translate-y-0' : 'translate-y-full'}`}>
-      <div className={`mx-auto w-[98%] max-w-[750px] pointer-events-auto py-7 px-4 shadow-2xl rounded-2xl border-0 ${themeConfig.navGlass}`}>
-        <div className="flex flex-col gap-y-7">
+    <div className={`fixed bottom-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-500 px-2 pb-6 ${showBars ? 'translate-y-0' : 'translate-y-full'}`}>
+      <div className={`mx-auto w-[98%] max-w-[750px] pointer-events-auto py-6 px-4 shadow-2xl rounded-2xl border-0 ${themeConfig.navGlass}`}>
+        <div className="flex flex-col gap-y-8">
           
           {/* Row 1: Contents, Search, Bookmarks, Highlights */}
           <div className="grid grid-cols-4 gap-x-1">
@@ -131,22 +135,89 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
             </button>
           </div>
 
-          {/* Row 2: Quran, Page Info, +A, -A */}
+          {/* Row 2: Quran, Athan, Arabic, Kurdish */}
           <div className="grid grid-cols-4 gap-x-1">
             <button 
               onClick={() => setActiveView('reader')}
               className={`${navItemClass} ${activeView === 'reader' ? activeTabClass : inactiveTabClass}`}
             >
               <BookOpen className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.quran}</span>
+              <span className={navLabelClass}>{t.quran}</span>
             </button>
             
+            <button 
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Building2 className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.athan}</span>
+            </button>
+
+            <button 
+              onClick={() => setTranslationMode('arabic')} 
+              className={`${navItemClass} ${translationMode === 'arabic' ? activeTabClass : inactiveTabClass}`}
+            >
+              <div className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center font-bold text-[12px] sm:text-[14px] border-2 border-current rounded-md">
+                {appLanguage === 'en' ? 'A' : 'ع'}
+              </div>
+              <span className={navLabelClass}>{appLanguage === 'ku' ? 'عەرەبی' : appLanguage === 'ar' ? 'العربية' : 'Arabic'}</span>
+            </button>
+
+            <button 
+              onClick={() => setTranslationMode('kurdish')} 
+              className={`${navItemClass} ${translationMode === 'kurdish' ? activeTabClass : inactiveTabClass}`}
+            >
+              <div className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center font-bold text-[12px] sm:text-[14px] border-2 border-current rounded-md">
+                {appLanguage === 'ku' ? 'ک' : appLanguage === 'ar' ? 'ك' : 'K'}
+              </div>
+              <span className={navLabelClass}>{appLanguage === 'ku' ? 'کوردی' : appLanguage === 'ar' ? 'الكردية' : 'Kurdish'}</span>
+            </button>
+          </div>
+
+          {/* Row 3: Settings, About, Language, Themes */}
+          <div className="grid grid-cols-4 gap-x-1">
+            <button 
+              onClick={() => setActiveView('settings')}
+              className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass}`}
+            >
+              <Settings className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.settings}</span>
+            </button>
+            <button 
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Info className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.about}</span>
+            </button>
+            <button 
+              onClick={cycleAppLanguage}
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Globe className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.language}</span>
+            </button>
+            <button 
+              onClick={cycleTheme}
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Palette className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.themes}</span>
+            </button>
+          </div>
+
+          {/* Row 4: Recitation, Page Jump, Increase, Decrease */}
+          <div className="grid grid-cols-4 gap-x-1">
+            <button 
+              className={`${navItemClass} ${inactiveTabClass}`}
+            >
+              <Music className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.recitation}</span>
+            </button>
             <button 
               onClick={openPageJump}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <LayoutGrid className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[9.5px] sm:text-[10.5px] font-bold mt-1.5 leading-tight text-center max-w-[80px]">{getJuzPageLabel()}</span>
+              <span className="text-[9px] sm:text-[10px] font-bold mt-1.5 leading-tight text-center max-w-[80px]">{getJuzPageLabel()}</span>
             </button>
 
             <button 
@@ -154,10 +225,10 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <div className="flex items-center justify-center relative">
-                <span className="text-lg sm:text-xl font-bold">A</span>
+                <span className="text-xl sm:text-2xl font-bold">A</span>
                 <Plus className="w-3 h-3 absolute -top-1 -right-2" />
               </div>
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5">+A</span>
+              <span className={navLabelClass}>{t.increase}</span>
             </button>
 
             <button 
@@ -165,35 +236,10 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <div className="flex items-center justify-center relative">
-                <span className="text-sm sm:text-base font-bold">A</span>
+                <span className="text-base sm:text-lg font-bold">A</span>
                 <Minus className="w-3 h-3 absolute -top-1 -right-2" />
               </div>
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5">-A</span>
-            </button>
-          </div>
-
-          {/* Row 3: Settings, Language, Themes (Centered) */}
-          <div className="grid grid-cols-3 max-w-[90%] mx-auto w-full gap-x-1">
-            <button 
-              onClick={() => setActiveView('settings')}
-              className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass}`}
-            >
-              <Settings className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.settings}</span>
-            </button>
-            <button 
-              onClick={cycleAppLanguage}
-              className={`${navItemClass} ${inactiveTabClass}`}
-            >
-              <Globe className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.language}</span>
-            </button>
-            <button 
-              onClick={cycleTheme}
-              className={`${navItemClass} ${inactiveTabClass}`}
-            >
-              <Palette className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.themes}</span>
+              <span className={navLabelClass}>{t.decrease}</span>
             </button>
           </div>
 
