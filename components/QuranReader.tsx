@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Play, Bookmark, Share2, Volume2 } from 'lucide-react';
+import { triggerHaptic } from '@/lib/haptics';
 import { SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -108,7 +109,10 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
     const currentTime = new Date().getTime();
     if (currentTime - touchStartTimeRef.current > 500) {
       // Long press: Select verse
+      triggerHaptic([30, 20, 30]); // Distinctive pattern for long press
       setSelectedVerseForModal(verse);
+    } else {
+      triggerHaptic(10); // Standard tap
     }
   };
 
@@ -324,7 +328,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
 
                     <div className="flex items-center gap-1.5">
                       <button
-                        onClick={() => onPlayVerseAudio(verse)}
+                        onClick={() => { onPlayVerseAudio(verse); triggerHaptic(15); }}
                         className={`p-1.5 rounded-full transition-colors ${
                           isCurrentPlaying
                             ? 'bg-emerald-500 text-white shadow-md'
@@ -335,7 +339,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                         <Volume2 className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => onToggleBookmark(verse.numberInQuran)}
+                        onClick={() => { onToggleBookmark(verse.numberInQuran); triggerHaptic(20); }}
                         className={`p-1.5 rounded-full transition-colors ${
                           isBookmarked ? 'text-amber-500 fill-amber-500' : 'text-slate-400 hover:text-amber-500'
                         }`}
@@ -414,7 +418,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                 )}
               </span>
               <button
-                onClick={() => setSelectedVerseForModal(null)}
+                onClick={() => { setSelectedVerseForModal(null); triggerHaptic(5); }}
                 className="text-xs font-bold px-2.5 py-1 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10"
               >
                 {t.close} ✕
@@ -441,6 +445,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
               <button
                 onClick={() => {
                   onPlayVerseAudio(selectedVerseForModal);
+                  triggerHaptic(15);
                   setSelectedVerseForModal(null);
                 }}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-emerald-500 text-white font-semibold text-xs shadow-md hover:bg-emerald-600 transition-all"
@@ -452,6 +457,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
               <button
                 onClick={() => {
                   onToggleBookmark(selectedVerseForModal.numberInQuran);
+                  triggerHaptic(20);
                 }}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/40 dark:bg-slate-800/60 font-semibold text-xs border border-white/50 text-slate-700 dark:text-slate-200 hover:bg-white/60"
               >
@@ -462,6 +468,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(`${selectedVerseForModal.text}\n${selectedVerseForModal.kurdish}`);
+                  triggerHaptic([10, 50, 10]);
                 }}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/40 dark:bg-slate-800/60 font-semibold text-xs border border-white/50 text-slate-700 dark:text-slate-200 hover:bg-white/60"
               >

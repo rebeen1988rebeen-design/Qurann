@@ -11,6 +11,8 @@ import { HighlightsView } from '@/components/HighlightsView';
 import { SearchView } from '@/components/SearchView';
 import { SearchModal } from '@/components/SearchModal';
 import { AudioReciterModal } from '@/components/AudioReciterModal';
+import { triggerHaptic } from '@/lib/haptics';
+import AboutView from '@/components/AboutView';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, RECITERS, SurahMeta, Verse, Reciter } from '@/data/quranData';
 import { Language } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -38,7 +40,7 @@ export default function QuranApp() {
   const [currentSurah, setCurrentSurah] = useState<SurahMeta>(SURAHS_LIST[1]); // Al-Baqarah default
   const [currentPage, setCurrentPage] = useState<number>(3);
   const [currentJuz, setCurrentJuz] = useState<number>(1);
-  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search'>('reader');
+  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about'>('reader');
   
   const [appLanguage, setAppLanguage] = useState<Language>('ku'); // Default to Sorani Kurdish
   const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish'>('kurdish');
@@ -51,8 +53,14 @@ export default function QuranApp() {
   const [arabicFontSize, setArabicFontSize] = useState<number>(22);
   const kurdishFontSize = Math.max(10, arabicFontSize - 6);
 
-  const handleZoomInFont = () => setArabicFontSize((prev) => Math.min(44, prev + 2));
-  const handleZoomOutFont = () => setArabicFontSize((prev) => Math.max(14, prev - 2));
+  const handleZoomInFont = () => {
+    triggerHaptic(5);
+    setArabicFontSize((prev) => Math.min(44, prev + 2));
+  };
+  const handleZoomOutFont = () => {
+    triggerHaptic(5);
+    setArabicFontSize((prev) => Math.max(14, prev - 2));
+  };
 
   const [bookmarkedVerses, setBookmarkedVerses] = useState<number[]>([]);
   const [highlightedVerses, setHighlightedVerses] = useState<Record<number, string>>({});
@@ -335,6 +343,7 @@ export default function QuranApp() {
   };
 
   const handleSelectSurah = (surah: SurahMeta, page?: number) => {
+    triggerHaptic(20);
     setCurrentSurah(surah);
     setCurrentPage(page || surah.page);
     setActiveView('reader');
@@ -343,9 +352,11 @@ export default function QuranApp() {
       if (audioRef.current) audioRef.current.pause();
     }
     setCurrentVerseIndex(null);
+    setShowBars(false);
   };
 
   const handleToggleBookmark = (num: number) => {
+    triggerHaptic(15);
     setBookmarkedVerses((prev) =>
       prev.includes(num) ? prev.filter((n) => n !== num) : [...prev, num]
     );
@@ -500,6 +511,10 @@ export default function QuranApp() {
             themeMode={themeMode}
             appLanguage={appLanguage}
           />
+        )}
+
+        {activeView === 'about' && (
+          <AboutView appLanguage={appLanguage} themeMode={themeMode} />
         )}
       </main>
 
