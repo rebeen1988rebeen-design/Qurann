@@ -13,6 +13,7 @@ import { SearchModal } from '@/components/SearchModal';
 import { AudioReciterModal } from '@/components/AudioReciterModal';
 import { triggerHaptic } from '@/lib/haptics';
 import AboutView from '@/components/AboutView';
+import DailyAzkarView from '@/components/DailyAzkarView';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, RECITERS, SurahMeta, Verse, Reciter } from '@/data/quranData';
 import { Language } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -40,7 +41,7 @@ export default function QuranApp() {
   const [currentSurah, setCurrentSurah] = useState<SurahMeta>(SURAHS_LIST[1]); // Al-Baqarah default
   const [currentPage, setCurrentPage] = useState<number>(3);
   const [currentJuz, setCurrentJuz] = useState<number>(1);
-  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about'>('reader');
+  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar'>('reader');
   
   const [appLanguage, setAppLanguage] = useState<Language>('ku'); // Default to Sorani Kurdish
   const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish'>('kurdish');
@@ -515,6 +516,14 @@ export default function QuranApp() {
 
         {activeView === 'about' && (
           <AboutView appLanguage={appLanguage} themeMode={themeMode} />
+        )}
+
+        {activeView === 'dailyAzkar' && (
+          <DailyAzkarView
+            appLanguage={appLanguage}
+            themeMode={themeMode}
+            onClose={() => setActiveView('reader')}
+          />
         )}
       </main>
 

@@ -18,14 +18,14 @@ import {
   LayoutGrid,
   Info,
   Sparkles,
-  Monitor,
+  Compass,
 } from 'lucide-react';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface UnifiedBottomNavBarProps {
-  activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about';
-  setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about') => void;
+  activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar';
+  setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar') => void;
   openPageJump: () => void;
   themeMode: ThemeMode;
   setThemeMode: (mode: ThemeMode) => void;
@@ -165,8 +165,8 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
             </button>
 
             <button 
-              onClick={() => hideBarsDirectly()}
-              className={`${navItemClass} ${inactiveTabClass}`}
+              onClick={() => { setActiveView('dailyAzkar'); hideBarsDirectly(); }}
+              className={`${navItemClass} ${activeView === 'dailyAzkar' ? activeTabClass : inactiveTabClass}`}
             >
               <Sparkles className="w-6 h-6 sm:w-7 sm:h-7" />
               <span className={navLabelClass}>{t.dailyAzkar}</span>
@@ -176,8 +176,8 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => hideBarsDirectly()}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <Monitor className="w-6 h-6 sm:w-7 sm:h-7" />
-              <span className={navLabelClass}>{t.display}</span>
+              <Compass className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className={navLabelClass}>{t.qibla}</span>
             </button>
           </div>
 
