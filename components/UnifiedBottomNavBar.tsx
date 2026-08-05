@@ -105,29 +105,29 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => setActiveView('contents')}
               className={`${navItemClass} ${activeView === 'contents' ? activeTabClass : inactiveTabClass}`}
             >
-              <ListFilter className="w-7 h-7 sm:w-8 sm:h-8" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.contents}</span>
+              <ListFilter className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.contents}</span>
             </button>
             <button 
               onClick={() => setActiveView('search')}
               className={`${navItemClass} ${activeView === 'search' ? activeTabClass : inactiveTabClass}`}
             >
-              <Search className="w-7 h-7 sm:w-8 sm:h-8" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.search}</span>
+              <Search className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.search}</span>
             </button>
             <button 
               onClick={() => setActiveView('bookmarks')}
               className={`${navItemClass} ${activeView === 'bookmarks' ? activeTabClass : inactiveTabClass}`}
             >
-              <Bookmark className="w-7 h-7 sm:w-8 sm:h-8" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.bookmarks}</span>
+              <Bookmark className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.bookmarks}</span>
             </button>
             <button 
               onClick={() => setActiveView('highlights')}
               className={`${navItemClass} ${activeView === 'highlights' ? activeTabClass : inactiveTabClass}`}
             >
-              <Pencil className="w-7 h-7 sm:w-8 sm:h-8" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.highlights}</span>
+              <Pencil className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.highlights}</span>
             </button>
           </div>
 
@@ -137,16 +137,16 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => setActiveView('reader')}
               className={`${navItemClass} ${activeView === 'reader' ? activeTabClass : inactiveTabClass}`}
             >
-              <BookOpen className="w-7 h-7 sm:w-8 sm:h-8" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.quran}</span>
+              <BookOpen className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.quran}</span>
             </button>
             
             <button 
               onClick={openPageJump}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <LayoutGrid className="w-7 h-7 sm:w-8 sm:h-8" />
-              <span className="text-[10px] sm:text-[11px] font-bold mt-1.5 leading-tight text-center max-w-[80px]">{getJuzPageLabel()}</span>
+              <LayoutGrid className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[9.5px] sm:text-[10.5px] font-bold mt-1.5 leading-tight text-center max-w-[80px]">{getJuzPageLabel()}</span>
             </button>
 
             <button 
@@ -154,10 +154,10 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <div className="flex items-center justify-center relative">
-                <span className="text-xl sm:text-2xl font-bold">A</span>
+                <span className="text-lg sm:text-xl font-bold">A</span>
                 <Plus className="w-3 h-3 absolute -top-1 -right-2" />
               </div>
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5">+A</span>
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5">+A</span>
             </button>
 
             <button 
@@ -165,10 +165,10 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <div className="flex items-center justify-center relative">
-                <span className="text-base sm:text-lg font-bold">A</span>
+                <span className="text-sm sm:text-base font-bold">A</span>
                 <Minus className="w-3 h-3 absolute -top-1 -right-2" />
               </div>
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5">-A</span>
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5">-A</span>
             </button>
           </div>
 
@@ -178,22 +178,22 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               onClick={() => setActiveView('settings')}
               className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass}`}
             >
-              <Settings className="w-7 h-7 sm:w-8 sm:h-8" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.settings}</span>
+              <Settings className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.settings}</span>
             </button>
             <button 
               onClick={cycleAppLanguage}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <Globe className="w-7 h-7 sm:w-8 sm:h-8" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.language}</span>
+              <Globe className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.language}</span>
             </button>
             <button 
               onClick={cycleTheme}
               className={`${navItemClass} ${inactiveTabClass}`}
             >
-              <Palette className="w-7 h-7 sm:w-8 sm:h-8" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold mt-1.5 whitespace-nowrap">{t.themes}</span>
+              <Palette className="w-6 h-6 sm:w-7 sm:h-7" />
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold mt-1.5 whitespace-nowrap">{t.themes}</span>
             </button>
           </div>
 
