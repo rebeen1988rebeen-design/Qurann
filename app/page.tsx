@@ -38,6 +38,8 @@ const stripBismillahPrefix = (text: string, numberInSurah: number, surahNum: num
 };
 
 export default function QuranApp() {
+  const [mounted, setMounted] = useState(false);
+
   const [currentSurah, setCurrentSurah] = useState<SurahMeta>(SURAHS_LIST[1]); // Al-Baqarah default
   const [currentPage, setCurrentPage] = useState<number>(3);
   const [currentJuz, setCurrentJuz] = useState<number>(1);
@@ -48,6 +50,7 @@ export default function QuranApp() {
   const [themeMode, setThemeMode] = useState<ThemeMode>('white');
   const [showBars, setShowBars] = useState(true);
   const toggleBars = () => setShowBars(!showBars);
+
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
 
   // Synchronized Font Scaling (Arabic default = 22px, Kurdish default = 16px)
@@ -70,6 +73,59 @@ export default function QuranApp() {
   const [isReciterModalOpen, setIsReciterModalOpen] = useState(false);
   const [selectedReciter, setSelectedReciter] = useState<Reciter>(RECITERS[0]);
 
+  // Restore state from localStorage safely on client mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      try {
+        const savedSurahNum = localStorage.getItem('quran_app_surah_num');
+        if (savedSurahNum) {
+          const found = SURAHS_LIST.find((s) => s.number === parseInt(savedSurahNum, 10));
+          if (found) setCurrentSurah(found);
+        }
+        const savedPage = localStorage.getItem('quran_app_page');
+        if (savedPage) setCurrentPage(parseInt(savedPage, 10));
+
+        const savedJuz = localStorage.getItem('quran_app_juz');
+        if (savedJuz) setCurrentJuz(parseInt(savedJuz, 10));
+
+        const savedView = localStorage.getItem('quran_app_active_view');
+        if (savedView) setActiveView(savedView as any);
+
+        const savedLang = localStorage.getItem('quran_app_lang');
+        if (savedLang) setAppLanguage(savedLang as any);
+
+        const savedTransMode = localStorage.getItem('quran_app_trans_mode');
+        if (savedTransMode) setTranslationMode(savedTransMode as any);
+
+        const savedTheme = localStorage.getItem('quran_app_theme');
+        if (savedTheme) setThemeMode(savedTheme as any);
+
+        const savedFontSize = localStorage.getItem('quran_app_font_size');
+        if (savedFontSize) setFontSize(savedFontSize as any);
+
+        const savedArabicFontSize = localStorage.getItem('quran_app_arabic_font_size');
+        if (savedArabicFontSize) setArabicFontSize(parseInt(savedArabicFontSize, 10));
+
+        const savedBookmarks = localStorage.getItem('quran_app_bookmarks');
+        if (savedBookmarks) setBookmarkedVerses(JSON.parse(savedBookmarks));
+
+        const savedHighlights = localStorage.getItem('quran_app_highlights');
+        if (savedHighlights) setHighlightedVerses(JSON.parse(savedHighlights));
+
+        const savedReciterId = localStorage.getItem('quran_app_reciter_id');
+        if (savedReciterId) {
+          const rec = RECITERS.find((r) => r.id === savedReciterId);
+          if (rec) setSelectedReciter(rec);
+        }
+      } catch (e) {
+        console.warn('Failed to restore app state:', e);
+      }
+      setMounted(true);
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Audio Recitation state
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentVerseIndex, setCurrentVerseIndex] = useState<number | null>(null);
@@ -78,6 +134,39 @@ export default function QuranApp() {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const preloaderRef = useRef<HTMLAudioElement | null>(null);
+
+  // Persist state to localStorage on every change
+  useEffect(() => {
+    try {
+      localStorage.setItem('quran_app_surah_num', currentSurah.number.toString());
+      localStorage.setItem('quran_app_page', currentPage.toString());
+      localStorage.setItem('quran_app_juz', currentJuz.toString());
+      localStorage.setItem('quran_app_active_view', activeView);
+      localStorage.setItem('quran_app_lang', appLanguage);
+      localStorage.setItem('quran_app_trans_mode', translationMode);
+      localStorage.setItem('quran_app_theme', themeMode);
+      localStorage.setItem('quran_app_font_size', fontSize);
+      localStorage.setItem('quran_app_arabic_font_size', arabicFontSize.toString());
+      localStorage.setItem('quran_app_bookmarks', JSON.stringify(bookmarkedVerses));
+      localStorage.setItem('quran_app_highlights', JSON.stringify(highlightedVerses));
+      localStorage.setItem('quran_app_reciter_id', selectedReciter.id);
+    } catch (e) {
+      console.warn('Failed to save app state to localStorage:', e);
+    }
+  }, [
+    currentSurah.number,
+    currentPage,
+    currentJuz,
+    activeView,
+    appLanguage,
+    translationMode,
+    themeMode,
+    fontSize,
+    arabicFontSize,
+    bookmarkedVerses,
+    highlightedVerses,
+    selectedReciter.id,
+  ]);
 
   // Dynamic verse storage for all 114 surahs
   const [fetchedVersesMap, setFetchedVersesMap] = useState<Record<number, Verse[]>>({});
@@ -395,6 +484,17 @@ export default function QuranApp() {
   };
 
   const currentVerse = currentVerseIndex !== null ? versesForCurrentSurah[currentVerseIndex] || null : null;
+
+  if (!mounted) {
+    return (
+      <div
+        dir="rtl"
+        className="min-h-screen flex flex-col items-center justify-center bg-[#1E2022]"
+      >
+        <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div

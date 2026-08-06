@@ -40,38 +40,38 @@ export const IconBox: React.FC<IconBoxProps> = ({
   switch (domain) {
     case 'quran':
     case 'contents':
-      domainStyle = 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/40';
+      domainStyle = 'bg-emerald-500/5 text-emerald-700 dark:text-emerald-300 border-emerald-500/35';
       break;
     case 'dhikr':
-      domainStyle = 'bg-violet-500/20 text-violet-700 dark:text-violet-300 border-violet-500/40';
+      domainStyle = 'bg-violet-500/5 text-violet-700 dark:text-violet-300 border-violet-500/35';
       break;
     case 'language':
-      domainStyle = 'bg-sky-500/20 text-sky-700 dark:text-sky-300 border-sky-500/40';
+      domainStyle = 'bg-sky-500/5 text-sky-700 dark:text-sky-300 border-sky-500/35';
       break;
     case 'notifications':
-      domainStyle = 'bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border-indigo-500/40';
+      domainStyle = 'bg-indigo-500/5 text-indigo-700 dark:text-indigo-300 border-indigo-500/35';
       break;
     case 'audio':
-      domainStyle = 'bg-teal-500/20 text-teal-700 dark:text-teal-300 border-teal-500/40';
+      domainStyle = 'bg-teal-500/5 text-teal-700 dark:text-teal-300 border-teal-500/35';
       break;
     case 'themes':
-      domainStyle = 'bg-amber-500/20 text-amber-700 dark:text-amber-300 border-amber-500/40';
+      domainStyle = 'bg-amber-500/5 text-amber-700 dark:text-amber-300 border-amber-500/35';
       break;
     case 'bookmarks':
-      domainStyle = 'bg-rose-500/20 text-rose-700 dark:text-rose-300 border-rose-500/40';
+      domainStyle = 'bg-rose-500/5 text-rose-700 dark:text-rose-300 border-rose-500/35';
       break;
     case 'search':
-      domainStyle = 'bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 border-cyan-500/40';
+      domainStyle = 'bg-cyan-500/5 text-cyan-700 dark:text-cyan-300 border-cyan-500/35';
       break;
     case 'settings':
-      domainStyle = 'bg-slate-500/20 text-slate-700 dark:text-slate-300 border-slate-500/40';
+      domainStyle = 'bg-slate-500/5 text-slate-700 dark:text-slate-300 border-slate-500/35';
       break;
     case 'info':
-      domainStyle = 'bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-500/40';
+      domainStyle = 'bg-blue-500/5 text-blue-700 dark:text-blue-300 border-blue-500/35';
       break;
     case 'neutral':
     default:
-      domainStyle = 'bg-white/10 dark:bg-white/10 text-current border-white/20';
+      domainStyle = 'bg-white/5 dark:bg-white/5 text-current border-white/25';
       break;
   }
 
