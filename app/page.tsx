@@ -41,7 +41,7 @@ export default function QuranApp() {
   const [currentSurah, setCurrentSurah] = useState<SurahMeta>(SURAHS_LIST[1]); // Al-Baqarah default
   const [currentPage, setCurrentPage] = useState<number>(3);
   const [currentJuz, setCurrentJuz] = useState<number>(1);
-  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar'>('reader');
+  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar' | 'athan' | 'recitation' | 'qibla'>('reader');
   
   const [appLanguage, setAppLanguage] = useState<Language>('ku'); // Default to Sorani Kurdish
   const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish'>('kurdish');
@@ -522,7 +522,35 @@ export default function QuranApp() {
           <DailyAzkarView
             appLanguage={appLanguage}
             themeMode={themeMode}
-            onClose={() => setActiveView('reader')}
+            domainOverride="dhikr"
+            iconType="dhikr"
+          />
+        )}
+
+        {activeView === 'athan' && (
+          <DailyAzkarView
+            appLanguage={appLanguage}
+            themeMode={themeMode}
+            domainOverride="notifications"
+            iconType="athan"
+          />
+        )}
+
+        {activeView === 'recitation' && (
+          <DailyAzkarView
+            appLanguage={appLanguage}
+            themeMode={themeMode}
+            domainOverride="audio"
+            iconType="recitation"
+          />
+        )}
+
+        {activeView === 'qibla' && (
+          <DailyAzkarView
+            appLanguage={appLanguage}
+            themeMode={themeMode}
+            domainOverride="themes"
+            iconType="qibla"
           />
         )}
       </main>

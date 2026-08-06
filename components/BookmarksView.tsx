@@ -34,18 +34,10 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
   return (
     <div className="w-full max-w-3xl mx-auto px-4 py-4 pb-36 min-h-screen">
       
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            {t.bookmarksTitle}
-          </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            {t.savedVersesCount(toLocalizedNumeral(savedVerses.length, appLanguage))}
-          </p>
-        </div>
-        <IconBox domain="bookmarks" size="lg">
-          <Bookmark className="w-6 h-6 fill-rose-500/20" />
-        </IconBox>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-base font-bold text-slate-900 dark:text-white">
+          {t.bookmarksTitle}
+        </h1>
       </div>
 
       {savedVerses.length === 0 ? (

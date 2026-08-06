@@ -34,18 +34,10 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
   return (
     <div className="w-full max-w-3xl mx-auto px-4 py-4 pb-36 min-h-screen">
       
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            {t.highlightsTitle}
-          </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            {t.highlightsCount(toLocalizedNumeral(activeHighlights.length, appLanguage))}
-          </p>
-        </div>
-        <IconBox domain="quran" size="lg">
-          <Pencil className="w-6 h-6" />
-        </IconBox>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-base font-bold text-slate-900 dark:text-white">
+          {t.highlightsTitle}
+        </h1>
       </div>
 
       {activeHighlights.length === 0 ? (

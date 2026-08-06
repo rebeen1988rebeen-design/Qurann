@@ -245,7 +245,7 @@ export const TRANSLATIONS = {
     athan: "بانگدان",
     about: "دەربارە",
     qibla: "ڕووگەنما",
-    dailyAzkar: "ویردی ڕۆژانە",
+    dailyAzkar: "وێردی ڕۆژانە",
     recitation: "خوێندنەوە",
     increase: "زیادکردن",
     decrease: "کەمکردن",

@@ -1,57 +1,84 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'motion/react';
-import { Sparkles } from 'lucide-react';
-import { IconBox } from '@/components/IconBox';
-import { triggerHaptic } from '@/lib/haptics';
-import { Language } from '@/data/translations';
+import { Sparkles, TowerControl, Play, Compass } from 'lucide-react';
+import { IconBox, IconBoxDomain } from '@/components/IconBox';
+import { Language, TRANSLATIONS } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface DailyAzkarViewProps {
   appLanguage: Language;
   themeMode: ThemeMode;
-  onClose: () => void;
+  onClose?: () => void;
+  titleOverride?: string;
+  domainOverride?: IconBoxDomain;
+  iconType?: 'dhikr' | 'athan' | 'recitation' | 'qibla';
 }
 
-const DailyAzkarView: React.FC<DailyAzkarViewProps> = ({ appLanguage, themeMode, onClose }) => {
+export const DailyAzkarView: React.FC<DailyAzkarViewProps> = ({ 
+  appLanguage, 
+  themeMode, 
+  titleOverride,
+  domainOverride = "dhikr",
+  iconType = 'dhikr'
+}) => {
+  const t = TRANSLATIONS[appLanguage];
   const themeConfig = getThemeConfig(themeMode);
+  const cardGlassClass = themeConfig.cardGlass;
+
+  const renderIcon = () => {
+    switch (iconType) {
+      case 'athan':
+        return <TowerControl className="w-6 h-6" />;
+      case 'recitation':
+        return <Play className="w-6 h-6" />;
+      case 'qibla':
+        return <Compass className="w-6 h-6" />;
+      case 'dhikr':
+      default:
+        return <Sparkles className="w-6 h-6" />;
+    }
+  };
+
+  const getTitle = () => {
+    if (titleOverride) return titleOverride;
+    switch (iconType) {
+      case 'athan':
+        return t.athan;
+      case 'recitation':
+        return t.recitation;
+      case 'qibla':
+        return t.qibla;
+      case 'dhikr':
+      default:
+        return t.dailyAzkar;
+    }
+  };
+
+  const currentTitle = getTitle();
 
   return (
-    <div className="h-full w-full flex items-center justify-center p-6">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        className={`w-full max-w-md min-h-[500px] flex flex-col rounded-2xl overflow-hidden shadow-2xl border-0 ${themeConfig.navGlass}`}
-      >
-        {/* Header */}
-        <div className="p-6 border-b border-white/10 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <IconBox domain="dhikr" size="md">
-              <Sparkles className="w-5 h-5" />
-            </IconBox>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-              {appLanguage === 'ku' ? 'ویردی ڕۆژانە' : appLanguage === 'ar' ? 'أذكار اليوم' : 'Daily Dhikr'}
-            </h2>
-          </div>
-          <button 
-            onClick={() => { triggerHaptic(5); onClose(); }}
-            className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-slate-600 dark:text-white/70 hover:text-white transition-all flex items-center justify-center font-bold"
-          >
-            ✕
-          </button>
-        </div>
+    <div className="w-full max-w-3xl mx-auto px-4 py-4 pb-36 min-h-screen">
+      {/* Top Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-base font-bold text-slate-900 dark:text-white">
+          {currentTitle}
+        </h1>
+      </div>
 
-        {/* Content */}
-        <div className="flex-1 p-6 flex items-center justify-center">
-          <p className="text-slate-400 dark:text-white/30 italic text-sm">
-            {appLanguage === 'ku' ? 'هیچ زانیارییەک بەردەست نییە' : appLanguage === 'ar' ? 'لا توجد بيانات متاحة' : 'No data available'}
-          </p>
+      {/* View Card */}
+      <div className={`rounded-2xl p-8 text-center min-h-[350px] flex items-center justify-center ${cardGlassClass}`}>
+        <div className="flex flex-col items-center justify-center gap-3">
+          <IconBox domain={domainOverride} size="lg">
+            {renderIcon()}
+          </IconBox>
+          <h3 className="text-lg font-bold text-slate-700 dark:text-slate-200">
+            {currentTitle}
+          </h3>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
 
 export default DailyAzkarView;
-

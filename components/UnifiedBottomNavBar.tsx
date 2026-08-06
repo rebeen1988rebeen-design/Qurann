@@ -27,8 +27,8 @@ import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations'
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface UnifiedBottomNavBarProps {
-  activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar';
-  setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar') => void;
+  activeView: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar' | 'athan' | 'recitation' | 'qibla';
+  setActiveView: (view: 'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar' | 'athan' | 'recitation' | 'qibla') => void;
   openPageJump: () => void;
   themeMode: ThemeMode;
   setThemeMode: (mode: ThemeMode) => void;
@@ -173,8 +173,8 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
             </button>
             
             <button 
-              onClick={() => hideBarsDirectly()}
-              className={`${navItemClass} ${inactiveTabClass}`}
+              onClick={() => { setActiveView('athan'); hideBarsDirectly(); }}
+              className={`${navItemClass} ${activeView === 'athan' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="notifications" size="md">
                 <TowerControl className="w-[23px] h-[23px]" />
@@ -193,10 +193,10 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
             </button>
 
             <button 
-              onClick={() => hideBarsDirectly()}
-              className={`${navItemClass} ${inactiveTabClass}`}
+              onClick={() => { setActiveView('qibla'); hideBarsDirectly(); }}
+              className={`${navItemClass} ${activeView === 'qibla' ? activeTabClass : inactiveTabClass}`}
             >
-              <IconBox domain="themes" size="md">
+              <IconBox domain="themes" size="md" active={activeView === 'qibla'}>
                 <Compass className="w-[23px] h-[23px]" />
               </IconBox>
               <span className={navLabelClass}>{t.qibla}</span>
@@ -206,8 +206,8 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
           {/* Row 3: Recitation, Page Jump, Arabic, Kurdish */}
           <div className="grid grid-cols-4 gap-x-1">
             <button 
-              onClick={() => hideBarsDirectly()}
-              className={`${navItemClass} ${inactiveTabClass}`}
+              onClick={() => { setActiveView('recitation'); hideBarsDirectly(); }}
+              className={`${navItemClass} ${activeView === 'recitation' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="audio" size="md">
                 <Play className="w-[23px] h-[23px]" />
@@ -240,7 +240,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${translationMode === 'kurdish' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="language" size="md">
-                <BookOpenCheck className="w-[23px] h-[23px]" />
+                <BookText className="w-[23px] h-[23px]" />
               </IconBox>
               <span className={navLabelClass}>{appLanguage === 'ku' ? 'کوردی' : appLanguage === 'ar' ? 'الكردية' : 'Kurdish'}</span>
             </button>

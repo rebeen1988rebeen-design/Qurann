@@ -19,6 +19,7 @@ import {
   Info,
   Check,
   Volume2,
+  Settings,
 } from 'lucide-react';
 import { Language, TRANSLATIONS } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -62,16 +63,18 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     <div className="w-full max-w-3xl mx-auto px-4 py-4 pb-36 min-h-screen">
       
       {/* Top Header Navigation */}
-      <div className="flex items-center gap-4 mb-6">
-        <button
-          onClick={onBack}
-          className="w-10 h-10 rounded-xl bg-slate-200/70 dark:bg-slate-800/70 flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-emerald-500/20 transition-all border border-white/20"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-          {t.settingsTitle}
-        </h1>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onBack}
+            className="w-8 h-8 rounded-xl bg-slate-200/70 dark:bg-slate-800/70 flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-emerald-500/20 transition-all border border-white/20"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <h1 className="text-base font-bold text-slate-900 dark:text-white">
+            {t.settingsTitle}
+          </h1>
+        </div>
       </div>
 
       <div className="flex flex-col gap-5">
