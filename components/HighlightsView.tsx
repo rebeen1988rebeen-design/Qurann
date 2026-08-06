@@ -43,7 +43,7 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
 
       {activeHighlights.length === 0 ? (
         <div className={`rounded-2xl p-8 text-center ${cardGlassClass}`}>
-          <IconBox domain="quran" size="lg" className="mx-auto mb-3">
+          <IconBox domain="dhikr" size="lg" className="mx-auto mb-3">
             <Pencil className="w-6 h-6" />
           </IconBox>
           <h3 className="text-lg font-bold text-slate-700 dark:text-slate-200">{t.noHighlightsTitle}</h3>
@@ -59,9 +59,14 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
               className={`rounded-2xl p-4 sm:p-5 shadow-sm transition-all border border-white/40 ${cardGlassClass}`}
             >
               <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10 mb-3">
-                <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 px-3 py-1 rounded-xl border border-emerald-500/20">
-                  {t.verses} {toLocalizedNumeral(verse.numberInSurah, appLanguage)} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}
-                </span>
+                <div className="flex items-center gap-2.5">
+                  <IconBox domain="dhikr" size="sm">
+                    <span className="font-extrabold text-xs">{toLocalizedNumeral(verse.numberInSurah, appLanguage)}</span>
+                  </IconBox>
+                  <span className="text-xs font-bold text-violet-600 dark:text-violet-400">
+                    {t.verses} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}
+                  </span>
+                </div>
 
                 <button
                   onClick={() => { triggerHaptic(20); onToggleHighlight(verse.numberInQuran, ''); }}
@@ -85,7 +90,7 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
               {/* Jump Button */}
               <button
                 onClick={() => { triggerHaptic(10); onSelectVerse(1, verse.page); }}
-                className="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-800 dark:text-emerald-200 font-bold text-xs border border-emerald-500/30 hover:bg-emerald-500/30 transition-all"
+                className="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-violet-500/20 text-violet-800 dark:text-violet-200 font-bold text-xs border border-violet-500/30 hover:bg-violet-500/30 transition-all"
               >
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>{t.jumpToPage(toLocalizedNumeral(verse.page, appLanguage))}</span>

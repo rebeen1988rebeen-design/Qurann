@@ -103,12 +103,17 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     }}
                     className="p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-cyan-500/15 cursor-pointer flex items-center justify-between transition-all"
                   >
-                    <div>
-                      <div className="font-bold text-sm text-slate-900 dark:text-white">
-                        {appLanguage === 'en' ? surah.englishName : surah.name}
-                      </div>
-                      <div className="text-xs text-slate-500">
-                        {surah.kurdishName} • {t.pageBadge} {toLocalizedNumeral(surah.page, appLanguage)}
+                    <div className="flex items-center gap-2.5">
+                      <IconBox domain="search" size="sm">
+                        <span className="font-extrabold text-xs">{toLocalizedNumeral(surah.number, appLanguage)}</span>
+                      </IconBox>
+                      <div>
+                        <div className="font-bold text-sm text-slate-900 dark:text-white">
+                          {appLanguage === 'en' ? surah.englishName : surah.name}
+                        </div>
+                        <div className="text-xs text-slate-500">
+                          {surah.kurdishName} • {t.pageBadge} {toLocalizedNumeral(surah.page, appLanguage)}
+                        </div>
                       </div>
                     </div>
                     <span className="font-bold text-cyan-600 dark:text-cyan-400 uthmani-text text-base">{surah.name}</span>
@@ -137,7 +142,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     className="p-4 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-cyan-500/15 cursor-pointer transition-all"
                   >
                     <div className="flex items-center justify-between text-xs text-cyan-600 dark:text-cyan-400 font-bold mb-1">
-                      <span>{t.verses} {toLocalizedNumeral(verse.numberInSurah, appLanguage)} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}</span>
+                      <div className="flex items-center gap-2">
+                        <IconBox domain="search" size="sm">
+                          <span className="font-extrabold text-xs">{toLocalizedNumeral(verse.numberInSurah, appLanguage)}</span>
+                        </IconBox>
+                        <span>{t.verses} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}</span>
+                      </div>
                       <BookOpen className="w-3.5 h-3.5" />
                     </div>
                     <div dir="rtl" className="text-lg uthmani-text text-slate-900 dark:text-slate-100 mb-1">

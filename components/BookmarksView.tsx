@@ -59,9 +59,14 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
               className={`rounded-2xl p-4 sm:p-5 shadow-sm transition-all border border-white/40 ${cardGlassClass}`}
             >
               <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10 mb-3">
-                <span className="text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-500/15 px-3 py-1 rounded-xl border border-rose-500/20">
-                  {t.verses} {toLocalizedNumeral(verse.numberInSurah, appLanguage)} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}
-                </span>
+                <div className="flex items-center gap-2.5">
+                  <IconBox domain="bookmarks" size="sm">
+                    <span className="font-extrabold text-xs">{toLocalizedNumeral(verse.numberInSurah, appLanguage)}</span>
+                  </IconBox>
+                  <span className="text-xs font-bold text-rose-600 dark:text-rose-400">
+                    {t.verses} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}
+                  </span>
+                </div>
 
                 <button
                   onClick={() => { triggerHaptic(20); onToggleBookmark(verse.numberInQuran); }}

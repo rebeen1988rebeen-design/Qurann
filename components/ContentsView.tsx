@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { Search, ChevronRight } from 'lucide-react';
+import { IconBox } from '@/components/IconBox';
 import { triggerHaptic } from '@/lib/haptics';
 import { SURAHS_LIST, SurahMeta } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
@@ -97,15 +98,9 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
               >
                 <div className="flex items-center gap-4">
                   {/* Surah Index Badge */}
-                  <div
-                    className={`w-9 h-9 rounded-xl font-extrabold text-sm flex items-center justify-center transition-all shadow-xs ${
-                      isSelected
-                        ? themeConfig.surahBadgeActive
-                        : themeConfig.surahBadgeInactive
-                    }`}
-                  >
-                    {toLocalizedNumeral(surah.number, appLanguage)}
-                  </div>
+                  <IconBox domain="contents" size="sm" active={isSelected}>
+                    <span className="font-extrabold text-sm">{toLocalizedNumeral(surah.number, appLanguage)}</span>
+                  </IconBox>
 
                   {/* Surah Name Only */}
                   <span className={`font-bold text-base kurdish-text ${themeMode === 'dark' ? 'text-white' : 'text-slate-900'}`}>
