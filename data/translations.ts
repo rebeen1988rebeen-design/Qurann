@@ -124,6 +124,7 @@ export const TRANSLATIONS = {
     qibla: "القبلة",
     dailyAzkar: "الأذكار اليومية",
     recitation: "تلاوة",
+    hadith: "الأحاديث النبوية",
     increase: "تكبير",
     decrease: "تصغير",
 
@@ -247,6 +248,7 @@ export const TRANSLATIONS = {
     qibla: "ڕووگەنما",
     dailyAzkar: "وێردی ڕۆژانە",
     recitation: "خوێندنەوە",
+    hadith: "فەرموودە",
     increase: "زیادکردن",
     decrease: "کەمکردن",
 
@@ -370,6 +372,7 @@ export const TRANSLATIONS = {
     qibla: "Qibla",
     dailyAzkar: "Daily Azkar",
     recitation: "Recitation",
+    hadith: "Hadith",
     increase: "Increase",
     decrease: "Decrease",
 

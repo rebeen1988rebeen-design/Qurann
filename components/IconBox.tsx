@@ -31,9 +31,9 @@ export const IconBox: React.FC<IconBoxProps> = ({
   size = 'md',
   active = false,
 }) => {
-  let sizeClass = 'w-[62px] h-[62px] p-3 sm:w-[68px] sm:h-[68px] sm:p-3.5';
-  if (size === 'sm') sizeClass = 'w-11 h-11 p-2.5';
-  if (size === 'lg') sizeClass = 'w-20 h-20 p-5';
+  let sizeClass = 'px-4 py-2.5 text-base sm:px-5 sm:py-3 sm:text-lg';
+  if (size === 'sm') sizeClass = 'px-3 py-1 text-sm font-bold';
+  if (size === 'lg') sizeClass = 'px-7 py-4 text-xl';
 
   let radialBg = 'radial-gradient(circle at center, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 50%, transparent 85%)';
   let textColor = 'text-slate-900 dark:text-white';
@@ -92,9 +92,9 @@ export const IconBox: React.FC<IconBoxProps> = ({
       style={{
         background: radialBg,
       }}
-      className={`rounded-full flex items-center justify-center transition-all bg-white/35 dark:bg-black/45 backdrop-blur-md backdrop-saturate-150 border border-white/85 dark:border-white/40 shadow-[inset_0_2.5px_3px_0_rgba(255,255,255,0.95),_inset_0_-2px_2px_0_rgba(255,255,255,0.5),_0_10px_25px_rgba(0,0,0,0.18)] ${sizeClass} ${textColor} ${className}`}
+      className={`rounded-full inline-flex items-center justify-center transition-all bg-white/35 dark:bg-black/45 backdrop-blur-md backdrop-saturate-150 border border-white/85 dark:border-white/40 shadow-[inset_0_2.5px_3px_0_rgba(255,255,255,0.95),_inset_0_-2px_2px_0_rgba(255,255,255,0.5),_0_10px_25px_rgba(0,0,0,0.18)] ${sizeClass} ${textColor} ${className}`}
     >
-      <div className="drop-shadow-[0_2px_6px_rgba(0,0,0,0.3)] flex items-center justify-center w-full h-full">
+      <div className="drop-shadow-[0_2px_6px_rgba(0,0,0,0.3)] flex items-center justify-center gap-1.5 w-full h-full">
         {children}
       </div>
     </div>
@@ -102,4 +102,3 @@ export const IconBox: React.FC<IconBoxProps> = ({
 };
 
 export default IconBox;
-

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Search, ChevronRight } from 'lucide-react';
 import { IconBox } from '@/components/IconBox';
 import { triggerHaptic } from '@/lib/haptics';
@@ -23,11 +23,7 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
 }) => {
   const t = TRANSLATIONS[appLanguage];
   const themeConfig = getThemeConfig(themeMode);
-  const [activeTab, setActiveTab] = useState<'surahs' | 'quarters' | 'juzs'>('surahs');
   const [searchQuery, setSearchQuery] = useState('');
-  const partRefs = useRef<Record<number, HTMLDivElement | null>>({});
-
-  const cardGlassClass = themeConfig.cardGlass;
 
   // Filter surahs based on search query
   const filteredSurahs = SURAHS_LIST.filter(
@@ -38,20 +34,20 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
       s.number.toString() === searchQuery
   );
 
-  // Group surahs by Juz/Part
-  const groupedByJuz = filteredSurahs.reduce<Record<number, SurahMeta[]>>((acc, surah) => {
-    if (!acc[surah.juz]) {
-      acc[surah.juz] = [];
-    }
-    acc[surah.juz].push(surah);
-    return acc;
-  }, {});
+  const getBadgeColorClass = () => {
+    if (themeMode === 'dark') return 'text-white dark:text-white';
+    if (themeMode === 'cyan') return 'text-cyan-600 dark:text-cyan-400';
+    if (themeMode === 'green') return 'text-emerald-600 dark:text-emerald-400';
+    if (themeMode === 'yellow') return 'text-amber-600 dark:text-amber-400';
+    return 'text-emerald-600 dark:text-emerald-400'; // white/default theme
+  };
 
-  const scrollToPart = (partNum: number) => {
-    const el = partRefs.current[partNum];
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  const getDomainForTheme = () => {
+    if (themeMode === 'dark') return 'neutral';
+    if (themeMode === 'cyan') return 'search';
+    if (themeMode === 'green') return 'contents';
+    if (themeMode === 'yellow') return 'themes';
+    return 'contents';
   };
 
   return (
@@ -63,18 +59,6 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
         {/* Surah List */}
         <div className={`rounded-2xl overflow-hidden ${themeConfig.cardGlass} border-0`}>
           {filteredSurahs.map((surah) => {
-            const isSelected = surah.number === currentSurahNumber;
-
-            const activeRowClass = themeMode === 'dark'
-              ? 'bg-white/10'
-              : themeMode === 'cyan'
-              ? 'bg-sky-500/15'
-              : themeMode === 'green'
-              ? 'bg-emerald-500/15'
-              : themeMode === 'yellow'
-              ? 'bg-amber-500/15'
-              : 'bg-emerald-500/15';
-
             const hoverRowClass = themeMode === 'dark'
               ? 'hover:bg-white/5'
               : themeMode === 'cyan'
@@ -92,14 +76,14 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
                   triggerHaptic(10);
                   onSelectSurah(surah);
                 }}
-                className={`w-full p-4 flex items-center justify-between cursor-pointer transition-all duration-200 ${hoverRowClass} ${
-                  isSelected ? activeRowClass : ''
-                }`}
+                className={`w-full p-4 flex items-center justify-between cursor-pointer transition-all duration-200 ${hoverRowClass}`}
               >
                 <div className="flex items-center gap-4">
                   {/* Surah Index Badge */}
-                  <IconBox domain="contents" size="sm" active={isSelected}>
-                    <span className="font-extrabold text-sm">{toLocalizedNumeral(surah.number, appLanguage)}</span>
+                  <IconBox domain={getDomainForTheme()} size="sm">
+                    <span className={`font-extrabold text-sm ${getBadgeColorClass()}`}>
+                      {toLocalizedNumeral(surah.number, appLanguage)}
+                    </span>
                   </IconBox>
 
                   {/* Surah Name Only */}

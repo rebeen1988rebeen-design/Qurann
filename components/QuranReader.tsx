@@ -319,9 +319,9 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                         onMouseUp={(e) => handleVerseTapOrLongPress(verse, e)}
                         onTouchStart={handleTouchStart}
                         onTouchEnd={(e) => handleVerseTapOrLongPress(verse, e)}
-                        className={`w-8 h-8 rounded-full font-extrabold text-sm flex items-center justify-center transition-colors shadow-xs active:scale-95 ${
+                        className={`px-3.5 py-1 rounded-full font-extrabold text-sm inline-flex items-center justify-center transition-colors shadow-xs active:scale-95 ${
                           isCurrentPlaying
-                            ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 animate-pulse'
+                            ? 'bg-emerald-600 text-white animate-pulse'
                             : themeConfig.ayahBadge
                         }`}
                       >
@@ -364,7 +364,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                       style={{ fontSize: `${arabicFontSize}px` }}
                     >
                       {getCleanArabicText(verse)}
-                      <span className={`inline-flex items-center justify-center w-8 h-8 mx-2 rounded-full ${themeConfig.ayahBadge} text-xs font-extrabold font-sans shadow-xs`}>
+                      <span className={`inline-flex items-center justify-center px-3 py-1 mx-2 rounded-full ${themeConfig.ayahBadge} text-xs font-extrabold font-sans shadow-xs`}>
                         {toLocalizedNumeral(verse.numberInSurah, appLanguage)}
                       </span>
                     </div>

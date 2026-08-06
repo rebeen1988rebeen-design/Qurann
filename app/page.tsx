@@ -14,6 +14,7 @@ import { AudioReciterModal } from '@/components/AudioReciterModal';
 import { triggerHaptic } from '@/lib/haptics';
 import AboutView from '@/components/AboutView';
 import DailyAzkarView from '@/components/DailyAzkarView';
+import HadithView from '@/components/HadithView';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, RECITERS, SurahMeta, Verse, Reciter } from '@/data/quranData';
 import { Language } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -43,18 +44,44 @@ export default function QuranApp() {
   const [currentSurah, setCurrentSurah] = useState<SurahMeta>(SURAHS_LIST[1]); // Al-Baqarah default
   const [currentPage, setCurrentPage] = useState<number>(3);
   const [currentJuz, setCurrentJuz] = useState<number>(1);
-  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar' | 'athan' | 'recitation' | 'qibla'>('reader');
+  const [activeView, setActiveView] = useState<'reader' | 'contents' | 'settings' | 'khatmah' | 'bookmarks' | 'highlights' | 'search' | 'about' | 'dailyAzkar' | 'athan' | 'recitation' | 'qibla' | 'hadith'>('reader');
   
-  const [appLanguage, setAppLanguage] = useState<Language>('ku'); // Default to Sorani Kurdish
-  const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish'>('kurdish');
-  const [themeMode, setThemeMode] = useState<ThemeMode>('white');
+  const [appLanguage, setAppLanguage] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('quran_app_lang');
+      if (saved) return saved as Language;
+    }
+    return 'ku';
+  }); // Default to Sorani Kurdish
+  const [translationMode, setTranslationMode] = useState<'arabic' | 'kurdish'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('quran_app_trans_mode');
+      if (saved) return saved as any;
+    }
+    return 'kurdish';
+  });
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('quran_app_theme');
+      if (saved && ['white', 'dark', 'cyan', 'green', 'yellow'].includes(saved)) {
+        return saved as ThemeMode;
+      }
+    }
+    return 'white';
+  });
   const [showBars, setShowBars] = useState(true);
   const toggleBars = () => setShowBars(!showBars);
 
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
 
   // Synchronized Font Scaling (Arabic default = 22px, Kurdish default = 16px)
-  const [arabicFontSize, setArabicFontSize] = useState<number>(22);
+  const [arabicFontSize, setArabicFontSize] = useState<number>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('quran_app_arabic_font_size');
+      if (saved) return parseInt(saved, 10);
+    }
+    return 22;
+  });
   const kurdishFontSize = Math.max(10, arabicFontSize - 6);
 
   const handleZoomInFont = () => {
@@ -653,6 +680,13 @@ export default function QuranApp() {
             iconType="qibla"
           />
         )}
+
+        {activeView === 'hadith' && (
+          <HadithView
+            appLanguage={appLanguage}
+            themeMode={themeMode}
+          />
+        )}
       </main>
 
       {/* Unified Bottom Navigation Bar */}
@@ -672,6 +706,7 @@ export default function QuranApp() {
         setShowBars={setShowBars}
         currentJuz={currentJuz}
         currentPage={currentPage}
+        currentSurah={currentSurah}
       />
 
       {/* Modals */}
