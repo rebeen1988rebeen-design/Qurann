@@ -97,7 +97,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
     : 'text-slate-500 hover:text-slate-900';
 
   const navItemClass = "flex flex-col items-center justify-center gap-1 min-w-[64px] transition-all cursor-pointer outline-none group";
-  const navLabelClass = "text-[10.5px] sm:text-[11.5px] font-bold mt-1 whitespace-nowrap";
+  const navLabelClass = "text-[12px] sm:text-[13px] font-bold mt-1.5 whitespace-nowrap";
 
   const getJuzPageLabel = () => {
     const juzNum = toLocalizedNumeral(currentJuz, appLanguage);
@@ -124,7 +124,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'contents' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="contents" size="md" active={activeView === 'contents'}>
-                <ListFilter className="w-[23px] h-[23px]" />
+                <ListFilter className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.contents}</span>
             </button>
@@ -134,7 +134,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'search' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="search" size="md" active={activeView === 'search'}>
-                <Search className="w-[23px] h-[23px]" />
+                <Search className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.search}</span>
             </button>
@@ -144,7 +144,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'bookmarks' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="bookmarks" size="md" active={activeView === 'bookmarks'}>
-                <Bookmark className="w-[23px] h-[23px]" />
+                <Bookmark className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.bookmarks}</span>
             </button>
@@ -154,7 +154,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'highlights' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="bookmarks" size="md" active={activeView === 'highlights'}>
-                <Pencil className="w-[23px] h-[23px]" />
+                <Pencil className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.highlights}</span>
             </button>
@@ -167,7 +167,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'reader' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="quran" size="md" active={activeView === 'reader'}>
-                <BookOpen className="w-[23px] h-[23px]" />
+                <BookOpen className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.quran}</span>
             </button>
@@ -177,7 +177,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'athan' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="notifications" size="md">
-                <TowerControl className="w-[23px] h-[23px]" />
+                <TowerControl className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.athan}</span>
             </button>
@@ -187,7 +187,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'dailyAzkar' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="dhikr" size="md" active={activeView === 'dailyAzkar'}>
-                <Sparkles className="w-[23px] h-[23px]" />
+                <Sparkles className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.dailyAzkar}</span>
             </button>
@@ -197,7 +197,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'qibla' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="themes" size="md" active={activeView === 'qibla'}>
-                <Compass className="w-[23px] h-[23px]" />
+                <Compass className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.qibla}</span>
             </button>
@@ -210,7 +210,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'recitation' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="audio" size="md">
-                <Play className="w-[23px] h-[23px]" />
+                <Play className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.recitation}</span>
             </button>
@@ -220,9 +220,9 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <IconBox domain="contents" size="md">
-                <LayoutGrid className="w-[23px] h-[23px]" />
+                <LayoutGrid className="w-[26px] h-[26px]" />
               </IconBox>
-              <span className="text-[9px] sm:text-[10px] font-bold mt-1 leading-tight text-center max-w-[80px]">{getJuzPageLabel()}</span>
+              <span className="text-[10px] sm:text-[11px] font-bold mt-1 leading-tight text-center max-w-[80px]">{getJuzPageLabel()}</span>
             </button>
 
             <button 
@@ -230,7 +230,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${translationMode === 'arabic' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="language" size="md">
-                <BookText className="w-[23px] h-[23px]" />
+                <BookText className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{appLanguage === 'ku' ? 'عەرەبی' : appLanguage === 'ar' ? 'العربية' : 'Arabic'}</span>
             </button>
@@ -240,7 +240,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${translationMode === 'kurdish' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="language" size="md">
-                <BookText className="w-[23px] h-[23px]" />
+                <BookText className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{appLanguage === 'ku' ? 'کوردی' : appLanguage === 'ar' ? 'الكردية' : 'Kurdish'}</span>
             </button>
@@ -253,7 +253,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'settings' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="settings" size="md" active={activeView === 'settings'}>
-                <Settings className="w-[23px] h-[23px]" />
+                <Settings className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.settings}</span>
             </button>
@@ -263,7 +263,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <IconBox domain="language" size="md">
-                <Globe className="w-[23px] h-[23px]" />
+                <Globe className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.language}</span>
             </button>
@@ -273,7 +273,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${inactiveTabClass}`}
             >
               <IconBox domain="themes" size="md">
-                <Palette className="w-[23px] h-[23px]" />
+                <Palette className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.themes}</span>
             </button>
@@ -283,7 +283,7 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
               className={`${navItemClass} ${activeView === 'about' ? activeTabClass : inactiveTabClass}`}
             >
               <IconBox domain="info" size="md" active={activeView === 'about'}>
-                <Info className="w-[23px] h-[23px]" />
+                <Info className="w-[26px] h-[26px]" />
               </IconBox>
               <span className={navLabelClass}>{t.about}</span>
             </button>
