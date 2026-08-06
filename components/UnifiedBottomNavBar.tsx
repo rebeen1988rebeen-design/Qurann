@@ -97,16 +97,16 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
   };
 
   const capsuleClass = `
-    flex flex-row items-center justify-center gap-3 px-3.5 py-3 rounded-full transition-all cursor-pointer outline-none
-    bg-white/20 dark:bg-black/30 backdrop-blur-md backdrop-saturate-150
+    flex flex-row items-center justify-center gap-3 px-3.5 py-3 rounded-[24px] transition-all cursor-pointer outline-none
+    bg-white/20 dark:bg-black/20 backdrop-blur-xl backdrop-saturate-[1.8]
     border border-white/40 dark:border-white/20
-    shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.7),_0_4px_14px_rgba(0,0,0,0.12)]
-    hover:bg-white/35 dark:hover:bg-black/45
+    shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.7),_0_8px_16px_rgba(0,0,0,0.1)]
+    hover:bg-white/30 dark:hover:bg-black/30
   `;
 
   return (
     <div className={`fixed bottom-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-500 px-3 pb-6 ${showBars ? 'translate-y-0' : 'translate-y-full'}`}>
-      <div className={`mx-auto w-[98%] max-w-[1024px] pointer-events-auto py-2 px-4 sm:px-6 ${themeConfig.navGlass} bg-white/[0.08] dark:bg-black/[0.08] backdrop-blur-xl backdrop-saturate-150 rounded-[28px] max-h-[85vh] overflow-y-auto shadow-2xl border border-white/40 dark:border-white/20 flex flex-col items-center`}>
+      <div className={`mx-auto w-[98%] max-w-[1024px] pointer-events-auto py-2 px-4 sm:px-6 ${themeConfig.navGlass} bg-white/20 dark:bg-black/20 backdrop-blur-3xl backdrop-saturate-[1.8] rounded-[32px] max-h-[85vh] overflow-y-auto shadow-[0_8px_32px_0_rgba(255,255,255,0.15)] border border-white/40 dark:border-white/20 flex flex-col items-center`}>
         <div className="grid grid-cols-2 gap-3 w-full">
             
           {/* Row 1: Contents & Search */}
