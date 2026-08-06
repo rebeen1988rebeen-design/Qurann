@@ -31,7 +31,7 @@ export const IconBox: React.FC<IconBoxProps> = ({
   size = 'md',
   active = false,
 }) => {
-  let sizeClass = 'w-[62px] h-[62px] p-3.5 sm:w-[68px] sm:h-[68px] sm:p-4';
+  let sizeClass = 'w-[62px] h-[62px] p-3 sm:w-[68px] sm:h-[68px] sm:p-3.5';
   if (size === 'sm') sizeClass = 'w-11 h-11 p-2.5';
   if (size === 'lg') sizeClass = 'w-20 h-20 p-5';
 

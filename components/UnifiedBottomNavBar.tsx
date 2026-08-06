@@ -114,8 +114,8 @@ export const UnifiedBottomNavBar: React.FC<UnifiedBottomNavBarProps> = ({
 
   return (
     <div className={`fixed bottom-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-500 px-2 pb-6 ${showBars ? 'translate-y-0' : 'translate-y-full'}`}>
-      <div className={`mx-auto w-[98%] max-w-[750px] pointer-events-auto py-6 px-4 ${themeConfig.navGlass}`}>
-        <div className="flex flex-col gap-y-7 sm:gap-y-8">
+      <div className={`mx-auto w-[98%] max-w-[750px] pointer-events-auto py-4 sm:py-5 px-4 ${themeConfig.navGlass}`}>
+        <div className="flex flex-col gap-y-3.5 sm:gap-y-4">
           
           {/* Row 1: Contents, Search, Bookmarks, Highlights */}
           <div className="grid grid-cols-4 gap-x-1">
