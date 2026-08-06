@@ -3,6 +3,7 @@
 import React from 'react';
 import { Volume2, Check, X } from 'lucide-react';
 import { IconBox } from '@/components/IconBox';
+import { triggerHaptic } from '@/lib/haptics';
 import { RECITERS, Reciter } from '@/data/quranData';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
@@ -39,7 +40,7 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
             <h3 className="text-xl font-bold text-slate-900 dark:text-white">Select Reciter</h3>
           </div>
           <button
-            onClick={onClose}
+            onClick={() => { triggerHaptic(10); onClose(); }}
             className="w-8 h-8 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-300 transition-all"
           >
             <X className="w-5 h-5" />
@@ -54,6 +55,7 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
               <div
                 key={reciter.id}
                 onClick={() => {
+                  triggerHaptic(15);
                   onSelectReciter(reciter);
                   onClose();
                 }}
@@ -79,7 +81,7 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
         </div>
 
         <button
-          onClick={onClose}
+          onClick={() => { triggerHaptic(10); onClose(); }}
           className="w-full mt-5 py-2.5 rounded-xl bg-slate-200/80 dark:bg-slate-800 font-bold text-sm text-slate-700 dark:text-slate-200"
         >
           Cancel
@@ -89,4 +91,5 @@ export const AudioReciterModal: React.FC<AudioReciterModalProps> = ({
     </div>
   );
 };
+
 

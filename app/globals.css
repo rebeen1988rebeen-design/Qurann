@@ -110,22 +110,29 @@
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* Quran Uthmani Script Styling */
+/* Quran Uthmani Script Styling - Refactored for ultra crisp rendering */
 .uthmani-text {
   font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', 'Traditional Arabic', serif;
-  line-height: 2.1;
-  word-spacing: -0.06em;
-  letter-spacing: 0.01em;
-  text-justify: inter-character;
-  font-feature-settings: "kash" 1;
+  line-height: 2.25;
+  word-spacing: -0.05em;
+  letter-spacing: 0em;
+  text-justify: inter-word;
+  font-feature-settings: "rlig" 1, "calt" 1, "liga" 1, "kash" 1;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translateZ(0); /* Force hardware accelerated crisp text rendering */
 }
 
 .kurdish-text {
   font-family: 'Vazirmatn', 'Noto Naskh Arabic', system-ui, sans-serif;
-  line-height: 1.7;
+  line-height: 1.85;
   word-spacing: -0.02em;
   letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translateZ(0);
 }
 
 /* Verse marker ornament */

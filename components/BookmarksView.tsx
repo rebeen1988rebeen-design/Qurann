@@ -3,6 +3,7 @@
 import React from 'react';
 import { Bookmark, Trash2, BookOpen } from 'lucide-react';
 import { IconBox } from '@/components/IconBox';
+import { triggerHaptic } from '@/lib/haptics';
 import { Verse, SAMPLE_VERSES_DATA } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -63,7 +64,7 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
                 </span>
 
                 <button
-                  onClick={() => onToggleBookmark(verse.numberInQuran)}
+                  onClick={() => { triggerHaptic(20); onToggleBookmark(verse.numberInQuran); }}
                   className="w-8 h-8 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 flex items-center justify-center transition-all"
                   title={t.removeBookmark}
                 >
@@ -83,7 +84,7 @@ export const BookmarksView: React.FC<BookmarksViewProps> = ({
 
               {/* Jump Button */}
               <button
-                onClick={() => onSelectVerse(1, verse.page)}
+                onClick={() => { triggerHaptic(10); onSelectVerse(1, verse.page); }}
                 className="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-800 dark:text-rose-200 font-bold text-xs border border-rose-500/30 hover:bg-rose-500/30 transition-all"
               >
                 <BookOpen className="w-3.5 h-3.5" />

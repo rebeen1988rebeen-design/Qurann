@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { Search, ChevronRight } from 'lucide-react';
+import { triggerHaptic } from '@/lib/haptics';
 import { SURAHS_LIST, SurahMeta } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -86,7 +87,10 @@ export const ContentsView: React.FC<ContentsViewProps> = ({
             return (
               <div
                 key={surah.number}
-                onClick={() => onSelectSurah(surah)}
+                onClick={() => {
+                  triggerHaptic(10);
+                  onSelectSurah(surah);
+                }}
                 className={`w-full p-4 flex items-center justify-between cursor-pointer transition-all duration-200 ${hoverRowClass} ${
                   isSelected ? activeRowClass : ''
                 }`}

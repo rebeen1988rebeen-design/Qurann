@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Play, Bookmark, Share2, Volume2 } from 'lucide-react';
-import { triggerHaptic } from '@/lib/haptics';
+import { triggerHaptic, hapticTap, hapticLongPress, hapticSuccess } from '@/lib/haptics';
 import { SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -60,6 +60,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   const themeConfig = getThemeConfig(themeMode);
   const [readingMode, setReadingMode] = useState<'page' | 'verses'>('page');
   const [selectedVerseForModal, setSelectedVerseForModal] = useState<Verse | null>(null);
+  const [visibleVerse, setVisibleVerse] = useState<Verse | null>(null);
 
   // Gesture handling state
   const touchStartTimeRef = React.useRef(0);
@@ -77,6 +78,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
           const numberInQuran = parseInt(verseId.replace('verse-', ''), 10);
           const verse = verses.find((v) => v.numberInQuran === numberInQuran);
           if (verse) {
+            setVisibleVerse(verse);
             onVisibleVerseChange?.(verse);
             if (verse.page !== currentPage) {
               setCurrentPage(verse.page);
@@ -98,7 +100,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
   const handleTouchStart = () => {
     touchStartTimeRef.current = Date.now();
     longPressTimerRef.current = setTimeout(() => {
-      // Long press initiated
+      hapticLongPress();
     }, 500);
   };
 
@@ -109,10 +111,10 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
     const currentTime = new Date().getTime();
     if (currentTime - touchStartTimeRef.current > 500) {
       // Long press: Select verse
-      triggerHaptic([30, 20, 30]); // Distinctive pattern for long press
+      hapticLongPress();
       setSelectedVerseForModal(verse);
     } else {
-      triggerHaptic(10); // Standard tap
+      hapticTap();
     }
   };
 
@@ -152,14 +154,12 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
     <div className="w-full max-w-full sm:max-w-5xl mx-auto px-1 sm:px-2 py-2 pb-44 flex flex-col items-center min-h-screen" onClick={toggleBars}>
       
       {/* Main Quran Frame Card */}
-      <div className={`w-full px-1 sm:px-4 py-3 sm:py-6 flex-1 relative overflow-hidden ${cardGlassClass}`}>
+      <div className={`w-full px-2 sm:px-6 py-3 sm:py-6 flex-1 relative overflow-hidden transition-all duration-200 ${cardGlassClass}`}>
         
-
-
         {/* Bismillah Header (Except Surah At-Tawbah - 9) */}
         {currentSurah.number !== 9 && (
-          <div dir="rtl" className="w-full text-center py-4 mb-4">
-            <span className={`text-xl sm:text-2xl font-bold uthmani-text ${themeConfig.textAccent}`}>
+          <div dir="rtl" className="w-full text-center py-4 mb-4 select-none">
+            <span className={`text-xl sm:text-2xl font-bold uthmani-text subpixel-antialiased ${themeConfig.textAccent}`}>
               بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
             </span>
           </div>
@@ -172,18 +172,21 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
             {translationMode === 'kurdish' ? (
               <div
                 dir="rtl"
-                className="w-full select-text pt-2 pb-6 kurdish-text"
+                className="w-full select-text pt-2 pb-6 kurdish-text antialiased subpixel-antialiased break-words"
                 style={{
                   textAlign: 'justify',
                   textAlignLast: 'right',
                   textJustify: 'inter-word',
                   direction: 'rtl',
                   width: '100%',
-                  wordSpacing: '-0.08em',
-                  letterSpacing: '-0.02em',
+                  wordSpacing: '-0.05em',
+                  letterSpacing: '-0.01em',
                   overflowX: 'hidden',
                   fontSize: `${kurdishFontSize}px`,
                   lineHeight: '1.9',
+                  WebkitFontSmoothing: 'antialiased',
+                  MozOsxFontSmoothing: 'grayscale',
+                  textRendering: 'optimizeLegibility',
                 }}
               >
                 {verses.map((verse, index) => {
@@ -233,12 +236,15 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
               /* ARABIC OR BILINGUAL PAGE FLOW */
               <div
                 dir="rtl"
-                className={`w-full text-justify leading-[2.0] uthmani-text select-text pt-2 pb-6 ${themeConfig.arabicVerseText}`}
+                className={`w-full text-justify leading-[2.15] uthmani-text select-text pt-2 pb-6 antialiased subpixel-antialiased break-words ${themeConfig.arabicVerseText}`}
                 style={{
                   fontSize: `${arabicFontSize}px`,
-                  wordSpacing: '-0.12em',
-                  letterSpacing: '-0.02em',
-                  textJustify: 'inter-character',
+                  wordSpacing: '-0.07em',
+                  letterSpacing: '0em',
+                  textJustify: 'inter-word',
+                  WebkitFontSmoothing: 'antialiased',
+                  MozOsxFontSmoothing: 'grayscale',
+                  textRendering: 'optimizeLegibility',
                 }}
               >
                 {verses.map((verse, index) => {
@@ -388,21 +394,11 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
                     </div>
                   )}
 
-                  {/* English Translation */}
-                  {false && verse && (
-                    <div className="w-full text-left text-sm text-slate-600 dark:text-slate-300 mt-2 p-3 rounded-[14px] font-sans">
-                      <span className="text-[10px] uppercase font-bold text-slate-500 block mb-0.5">{t.englishTranslation}</span>
-                      {verse?.english}
-                    </div>
-                  )}
-
                 </div>
               );
             })}
           </div>
         )}
-
-        {/* Footer Page Number Badge removed per user request */}
       </div>
 
       {/* Verse Detail / Action Pop-up Modal when tapping verse in Page Mode */}
@@ -468,7 +464,7 @@ export const QuranReader: React.FC<QuranReaderProps> = ({
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(`${selectedVerseForModal.text}\n${selectedVerseForModal.kurdish}`);
-                  triggerHaptic([10, 50, 10]);
+                  hapticSuccess();
                 }}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/40 dark:bg-slate-800/60 font-semibold text-xs border border-white/50 text-slate-700 dark:text-slate-200 hover:bg-white/60"
               >

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Search, BookOpen } from 'lucide-react';
 import { IconBox } from '@/components/IconBox';
+import { triggerHaptic } from '@/lib/haptics';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -103,7 +104,10 @@ export const SearchView: React.FC<SearchViewProps> = ({
               {matchingSurahs.map((surah) => (
                 <div
                   key={surah.number}
-                  onClick={() => onSelectSurah(surah, surah.page)}
+                  onClick={() => {
+                    triggerHaptic(10);
+                    onSelectSurah(surah, surah.page);
+                  }}
                   className="p-4 rounded-xl bg-white/50 dark:bg-slate-800/50 hover:bg-sky-500/15 cursor-pointer flex items-center justify-between transition-all border border-sky-500/20 shadow-xs"
                 >
                   <div>
@@ -132,6 +136,7 @@ export const SearchView: React.FC<SearchViewProps> = ({
                 <div
                   key={verse.numberInQuran}
                   onClick={() => {
+                    triggerHaptic(10);
                     const surah = SURAHS_LIST.find((s) => s.page <= verse.page) || SURAHS_LIST[0];
                     onSelectSurah(surah, verse.page);
                   }}

@@ -3,6 +3,7 @@
 import React from 'react';
 import { Pencil, Trash2, BookOpen } from 'lucide-react';
 import { IconBox } from '@/components/IconBox';
+import { triggerHaptic } from '@/lib/haptics';
 import { Verse, SAMPLE_VERSES_DATA } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -63,7 +64,7 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
                 </span>
 
                 <button
-                  onClick={() => onToggleHighlight(verse.numberInQuran, '')}
+                  onClick={() => { triggerHaptic(20); onToggleHighlight(verse.numberInQuran, ''); }}
                   className="w-8 h-8 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 flex items-center justify-center transition-all"
                   title={t.removeHighlight}
                 >
@@ -83,7 +84,7 @@ export const HighlightsView: React.FC<HighlightsViewProps> = ({
 
               {/* Jump Button */}
               <button
-                onClick={() => onSelectVerse(1, verse.page)}
+                onClick={() => { triggerHaptic(10); onSelectVerse(1, verse.page); }}
                 className="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-800 dark:text-emerald-200 font-bold text-xs border border-emerald-500/30 hover:bg-emerald-500/30 transition-all"
               >
                 <BookOpen className="w-3.5 h-3.5" />

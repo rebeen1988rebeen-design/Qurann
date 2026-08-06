@@ -11,3 +11,10 @@ export const triggerHaptic = (pattern: number | number[] = 10) => {
     }
   }
 };
+
+export const hapticTap = () => triggerHaptic(10);
+export const hapticMedium = () => triggerHaptic(18);
+export const hapticHeavy = () => triggerHaptic(28);
+export const hapticSuccess = () => triggerHaptic([12, 40, 15]);
+export const hapticLongPress = () => triggerHaptic([35, 25, 35]);
+

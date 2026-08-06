@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { CheckCircle2, Calendar, Target, Plus, Minus, Trophy, Flame } from 'lucide-react';
 import { IconBox } from '@/components/IconBox';
+import { triggerHaptic } from '@/lib/haptics';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
 
 interface KhatmahTrackerViewProps {
@@ -110,20 +111,20 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
           
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              onClick={() => { triggerHaptic(10); setCurrentPage(Math.max(1, currentPage - 1)); }}
               className="w-8 h-8 rounded-xl bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 transition-all flex items-center justify-center font-bold"
             >
               <Minus className="w-4 h-4 text-slate-700 dark:text-slate-200" />
             </button>
             <button
-              onClick={() => setCurrentPage(Math.min(604, currentPage + 1))}
+              onClick={() => { triggerHaptic(15); setCurrentPage(Math.min(604, currentPage + 1)); }}
               className="px-4 py-1.5 rounded-xl bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 shadow-md hover:bg-emerald-600 transition-all"
             >
               <Plus className="w-4 h-4" />
               <span>+1 Page Read</span>
             </button>
             <button
-              onClick={() => setCurrentPage(Math.min(604, currentPage + 20))}
+              onClick={() => { triggerHaptic(20); setCurrentPage(Math.min(604, currentPage + 20)); }}
               className="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-bold text-xs hover:bg-emerald-500/30 transition-all"
             >
               +1 Juz (20 Pgs)
@@ -150,7 +151,7 @@ export const KhatmahTrackerView: React.FC<KhatmahTrackerViewProps> = ({
           {[15, 30, 60].map((days) => (
             <button
               key={days}
-              onClick={() => setTargetDays(days)}
+              onClick={() => { triggerHaptic(10); setTargetDays(days); }}
               className={`p-3.5 rounded-xl border text-center font-bold text-sm transition-all ${
                 targetDays === days
                   ? 'bg-emerald-500 text-white border-emerald-500 shadow-md'

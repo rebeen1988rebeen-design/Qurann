@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Search, X, BookOpen } from 'lucide-react';
 import { IconBox } from '@/components/IconBox';
+import { triggerHaptic } from '@/lib/haptics';
 import { SURAHS_LIST, SAMPLE_VERSES_DATA, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
@@ -70,7 +71,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             className="w-full bg-transparent text-base font-medium focus:outline-none text-slate-900 dark:text-white placeholder:text-slate-400"
           />
           <button
-            onClick={onClose}
+            onClick={() => { triggerHaptic(10); onClose(); }}
             className="w-8 h-8 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-300 transition-all font-bold"
           >
             <X className="w-5 h-5" />
@@ -96,6 +97,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   <div
                     key={surah.number}
                     onClick={() => {
+                      triggerHaptic(10);
                       onSelectSurah(surah, surah.page);
                       onClose();
                     }}
@@ -127,6 +129,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   <div
                     key={verse.numberInQuran}
                     onClick={() => {
+                      triggerHaptic(10);
                       const surah = SURAHS_LIST.find((s) => s.page <= verse.page) || SURAHS_LIST[0];
                       onSelectSurah(surah, verse.page);
                       onClose();

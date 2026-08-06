@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { IconBox } from '@/components/IconBox';
+import { triggerHaptic } from '@/lib/haptics';
 import {
   ChevronLeft,
   ChevronRight,
@@ -66,7 +67,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <button
-            onClick={onBack}
+            onClick={() => { triggerHaptic(10); onBack(); }}
             className="w-8 h-8 rounded-xl bg-slate-200/70 dark:bg-slate-800/70 flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-emerald-500/20 transition-all border border-white/20"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -222,6 +223,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   key={item.id}
                   onClick={(e) => {
                     e.stopPropagation();
+                    triggerHaptic(15);
                     setAppLanguage(item.id);
                   }}
                   className={`py-2 px-2 rounded-xl border flex items-center justify-center gap-2 transition-all cursor-pointer ${
@@ -285,6 +287,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   key={item.id}
                   onClick={(e) => {
                     e.stopPropagation();
+                    triggerHaptic(15);
                     setThemeMode(item.id);
                   }}
                   className={`py-2 px-1 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${item.bg} ${
