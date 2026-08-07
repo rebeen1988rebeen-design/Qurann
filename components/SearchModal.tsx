@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, X, BookOpen } from 'lucide-react';
+import { Search, X, BookOpen, Loader2 } from 'lucide-react';
 import { IconBox } from '@/components/IconBox';
 import { triggerHaptic } from '@/lib/haptics';
-import { SURAHS_LIST, SAMPLE_VERSES_DATA, SurahMeta, Verse } from '@/data/quranData';
+import { SURAHS_LIST, SurahMeta, Verse } from '@/data/quranData';
 import { Language, TRANSLATIONS, toLocalizedNumeral } from '@/data/translations';
 import { ThemeMode, getThemeConfig } from '@/lib/themeUtils';
+import { useQuranSearch, HighlightedText } from '@/lib/searchIndex';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -23,62 +24,22 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   onSelectSurah,
   themeMode,
   appLanguage,
-  fetchedVersesMap,
 }) => {
   const [query, setQuery] = useState('');
 
-  if (!isOpen) return null;
-
   const t = TRANSLATIONS[appLanguage];
   const themeConfig = getThemeConfig(themeMode);
-
   const cardGlassClass = themeConfig.modalGlass;
 
-  const normalize = (text: string) => {
-    if (!text) return '';
-    return text
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[أإآٱ]/g, 'ا')
-      .replace(/\u0670/g, 'ا')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[\u064b-\u065f\u065c-\u065e\u06d6-\u06ed]/g, '')
-      .replace(/ة/g, 'ه')
-      .replace(/ى/g, 'ي')
-      .replace(/رحمان/g, 'رحمن')
-      .replace(/\s+/g, ' ')
-      .trim();
-  };
+  const {
+    matchingSurahs,
+    matchingVerses,
+    searchWords,
+    isSearching,
+    debouncedQuery,
+  } = useQuranSearch(query);
 
-  const normalizedQuery = normalize(query);
-  const searchWords = normalizedQuery.split(' ').filter(w => w.length > 0);
-
-  // Search Surahs
-  const matchingSurahs = query.trim()
-    ? SURAHS_LIST.filter(
-        (s) =>
-          normalize(s.englishName).includes(normalizedQuery) ||
-          normalize(s.name).includes(normalizedQuery) ||
-          normalize(s.kurdishName).includes(normalizedQuery) ||
-          String(s.number).includes(normalizedQuery)
-      )
-    : [];
-
-  // Search Verses across sample verses and any fetched surahs
-  const combinedMap: Record<number, Verse[]> = {
-    ...SAMPLE_VERSES_DATA,
-    ...(fetchedVersesMap || {}),
-  };
-  const allVerses: Verse[] = Object.values(combinedMap).flat();
-
-  const matchingVerses = (query.trim() && searchWords.length > 0)
-    ? allVerses.filter((v) => {
-        const nText = normalize(v.text);
-        const nKurdish = normalize(v.kurdish);
-        const nEnglish = normalize(v.english);
-        return searchWords.every(w => nText.includes(w) || nKurdish.includes(w) || nEnglish.includes(w));
-      })
-    : [];
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4 bg-black/40 backdrop-blur-md animate-in fade-in duration-200">
@@ -87,7 +48,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         {/* Search Input Bar */}
         <div className="flex items-center gap-3 pb-4 border-b border-black/10 dark:border-white/10">
           <IconBox domain="search" size="md">
-            <Search className="w-5 h-5" />
+            {isSearching ? (
+              <Loader2 className="w-5 h-5 text-sky-500 animate-spin" />
+            ) : (
+              <Search className="w-5 h-5 text-sky-500" />
+            )}
           </IconBox>
           <input
             type="text"
@@ -95,6 +60,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
             autoFocus
+            dir={appLanguage === 'en' ? 'ltr' : 'rtl'}
             className="w-full bg-transparent text-base font-medium focus:outline-none text-slate-900 dark:text-white placeholder:text-slate-400"
           />
           <button
@@ -110,6 +76,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           {!query.trim() && (
             <div className="text-center py-8 text-slate-400 text-sm">
               {t.searchPlaceholder}
+            </div>
+          )}
+
+          {debouncedQuery.trim() && !isSearching && matchingSurahs.length === 0 && matchingVerses.length === 0 && (
+            <div className="text-center py-8 text-slate-400 text-sm">
+              {t.noResults}
             </div>
           )}
 
@@ -136,10 +108,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       </IconBox>
                       <div>
                         <div className="font-bold text-sm text-slate-900 dark:text-white">
-                          {appLanguage === 'en' ? surah.englishName : surah.name}
+                          {appLanguage === 'en' ? surah.englishName : (appLanguage === 'ku' ? surah.kurdishName : surah.name)}
                         </div>
                         <div className="text-xs text-slate-500">
-                          {surah.kurdishName} • {t.pageBadge} {toLocalizedNumeral(surah.page, appLanguage)}
+                          {surah.name} • {t.pageBadge} {toLocalizedNumeral(surah.page, appLanguage)}
                         </div>
                       </div>
                     </div>
@@ -157,34 +129,42 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                 {t.verses} ({toLocalizedNumeral(matchingVerses.length, appLanguage)})
               </div>
               <div className="flex flex-col gap-3">
-                {matchingVerses.map((verse) => (
-                  <div
-                    key={verse.numberInQuran}
-                    onClick={() => {
-                      triggerHaptic(10);
-                      const surah = SURAHS_LIST.find((s) => s.page <= verse.page) || SURAHS_LIST[0];
-                      onSelectSurah(surah, verse.page);
-                      onClose();
-                    }}
-                    className="p-4 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-cyan-500/15 cursor-pointer transition-all"
-                  >
-                    <div className="flex items-center justify-between text-xs text-cyan-600 dark:text-cyan-400 font-bold mb-1">
-                      <div className="flex items-center gap-2">
-                        <IconBox domain="search" size="sm">
-                          <span className="font-extrabold text-xs">{toLocalizedNumeral(verse.numberInSurah, appLanguage)}</span>
-                        </IconBox>
-                        <span>{t.verses} • {t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}</span>
+                {matchingVerses.map((item) => {
+                  const { verse, surahNumber } = item;
+                  const surah = SURAHS_LIST.find((s) => s.number === surahNumber) || SURAHS_LIST[0];
+
+                  return (
+                    <div
+                      key={verse.numberInQuran}
+                      onClick={() => {
+                        triggerHaptic(10);
+                        onSelectSurah(surah, verse.page);
+                        onClose();
+                      }}
+                      className="p-4 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 hover:bg-cyan-500/15 cursor-pointer transition-all"
+                    >
+                      <div className="flex items-center justify-between text-xs text-cyan-600 dark:text-cyan-400 font-bold mb-1">
+                        <div className="flex items-center gap-2">
+                          <IconBox domain="search" size="sm">
+                            <span className="font-extrabold text-xs">{toLocalizedNumeral(verse.numberInSurah, appLanguage)}</span>
+                          </IconBox>
+                          <span className="font-bold text-sm">
+                            {appLanguage === 'ku' ? item.surahKurdishName : (appLanguage === 'en' ? item.surahEnglishName : item.surahName)}
+                            {' • '}{t.verses} {toLocalizedNumeral(verse.numberInSurah, appLanguage)}
+                            {' • '}{t.pageBadge} {toLocalizedNumeral(verse.page, appLanguage)}
+                          </span>
+                        </div>
+                        <BookOpen className="w-3.5 h-3.5" />
                       </div>
-                      <BookOpen className="w-3.5 h-3.5" />
+                      <div dir="rtl" className="text-lg uthmani-text text-slate-900 dark:text-slate-100 mb-1 leading-relaxed">
+                        <HighlightedText text={verse.text} searchWords={searchWords} isArabic={true} />
+                      </div>
+                      <div dir="rtl" className="text-sm kurdish-text text-slate-600 dark:text-slate-300 leading-relaxed">
+                        <HighlightedText text={verse.kurdish} searchWords={searchWords} isArabic={false} />
+                      </div>
                     </div>
-                    <div dir="rtl" className="text-lg uthmani-text text-slate-900 dark:text-slate-100 mb-1">
-                      {verse.text}
-                    </div>
-                    <div dir={appLanguage === 'en' ? 'ltr' : 'rtl'} className="text-sm kurdish-text text-slate-600 dark:text-slate-300">
-                      {appLanguage === 'en' ? verse.english : verse.kurdish}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -194,4 +174,3 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     </div>
   );
 };
-
