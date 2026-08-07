@@ -638,6 +638,7 @@ export default function QuranApp() {
             }}
             themeMode={themeMode}
             appLanguage={appLanguage}
+            fetchedVersesMap={fetchedVersesMap}
           />
         )}
 
@@ -716,6 +717,7 @@ export default function QuranApp() {
         onSelectSurah={(surah, page) => handleSelectSurah(surah, page)}
         themeMode={themeMode}
         appLanguage={appLanguage}
+        fetchedVersesMap={fetchedVersesMap}
       />
 
       <AudioReciterModal

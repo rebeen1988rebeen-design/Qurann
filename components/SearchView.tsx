@@ -12,41 +12,77 @@ interface SearchViewProps {
   onSelectSurah: (surah: SurahMeta, page: number) => void;
   themeMode: ThemeMode;
   appLanguage: Language;
+  fetchedVersesMap?: Record<number, Verse[]>;
 }
 
 export const SearchView: React.FC<SearchViewProps> = ({
   onSelectSurah,
   themeMode,
   appLanguage,
+  fetchedVersesMap,
 }) => {
   const [query, setQuery] = useState('');
   const t = TRANSLATIONS[appLanguage];
   const themeConfig = getThemeConfig(themeMode);
 
+  const normalize = (text: string) => {
+    if (!text) return '';
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      // Convert Alef Wasla (\u0671) and other Alef variants to standard Alef ('ا') FIRST
+      .replace(/[أإآٱ]/g, 'ا')
+      // Convert Dagger Alef (\u0670) to standard Alef ('ا')
+      .replace(/\u0670/g, 'ا')
+      // Remove diacritics / vowel signs (Tashkeel)
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[\u064b-\u065f\u065c-\u065e\u06d6-\u06ed]/g, '')
+      // Normalize Ta Marbuta 'ة' to 'ه'
+      .replace(/ة/g, 'ه')
+      // Normalize Ya / Alef Maksura 'ى' to 'ي'
+      .replace(/ى/g, 'ي')
+      // Normalize common spelling variation 'رحمان' -> 'رحمن' so both match
+      .replace(/رحمان/g, 'رحمن')
+      // Normalize extra spaces
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
   const cardGlassClass = themeConfig.cardGlass;
 
-  // Search Surahs
-  const matchingSurahs = query.trim()
-    ? SURAHS_LIST.filter(
-        (s) =>
-          s.englishName.toLowerCase().includes(query.toLowerCase()) ||
-          s.name.includes(query) ||
-          s.kurdishName.includes(query) ||
-          String(s.number).includes(query)
-      )
-    : [];
+  const normalizedQuery = normalize(query);
+  const searchWords = normalizedQuery.split(' ').filter(w => w.length > 0);
 
-  // Search Verses across available sample/fetched verses
-  const allVerses: Verse[] = Object.values(SAMPLE_VERSES_DATA).flat();
-  const matchingVerses = query.trim()
-    ? allVerses.filter(
-        (v) =>
-          v.text.includes(query) ||
-          v.kurdish.includes(query) ||
-          v.english.toLowerCase().includes(query.toLowerCase()) ||
-          String(v.numberInSurah).includes(query)
-      )
-    : [];
+  // Search Surahs
+  const matchingSurahs = React.useMemo(() => {
+    if (!query.trim()) return [];
+    return SURAHS_LIST.filter(
+      (s) =>
+        normalize(s.englishName).includes(normalizedQuery) ||
+        normalize(s.name).includes(normalizedQuery) ||
+        normalize(s.kurdishName).includes(normalizedQuery) ||
+        String(s.number).includes(normalizedQuery)
+    );
+  }, [query, normalizedQuery]);
+
+  // Combined search dataset across sample verses and any fetched surahs
+  const allVerses = React.useMemo(() => {
+    const combinedMap: Record<number, Verse[]> = {
+      ...SAMPLE_VERSES_DATA,
+      ...(fetchedVersesMap || {}),
+    };
+    return Object.values(combinedMap).flat();
+  }, [fetchedVersesMap]);
+
+  const matchingVerses = React.useMemo(() => {
+    if (!query.trim() || searchWords.length === 0) return [];
+    return allVerses.filter((v) => {
+      const nText = normalize(v.text);
+      const nKurdish = normalize(v.kurdish);
+      const nEnglish = normalize(v.english);
+      return searchWords.every(w => nText.includes(w) || nKurdish.includes(w) || nEnglish.includes(w));
+    });
+  }, [query, allVerses, searchWords]);
 
   return (
     <div className="w-full max-w-3xl mx-auto px-4 py-4 pb-36 min-h-screen">

@@ -14,6 +14,7 @@ interface SearchModalProps {
   onSelectSurah: (surah: SurahMeta, page: number) => void;
   themeMode: ThemeMode;
   appLanguage: Language;
+  fetchedVersesMap?: Record<number, Verse[]>;
 }
 
 export const SearchModal: React.FC<SearchModalProps> = ({
@@ -22,6 +23,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   onSelectSurah,
   themeMode,
   appLanguage,
+  fetchedVersesMap,
 }) => {
   const [query, setQuery] = useState('');
 
@@ -32,25 +34,50 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
   const cardGlassClass = themeConfig.modalGlass;
 
+  const normalize = (text: string) => {
+    if (!text) return '';
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[أإآٱ]/g, 'ا')
+      .replace(/\u0670/g, 'ا')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[\u064b-\u065f\u065c-\u065e\u06d6-\u06ed]/g, '')
+      .replace(/ة/g, 'ه')
+      .replace(/ى/g, 'ي')
+      .replace(/رحمان/g, 'رحمن')
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
+  const normalizedQuery = normalize(query);
+  const searchWords = normalizedQuery.split(' ').filter(w => w.length > 0);
+
   // Search Surahs
   const matchingSurahs = query.trim()
     ? SURAHS_LIST.filter(
         (s) =>
-          s.englishName.toLowerCase().includes(query.toLowerCase()) ||
-          s.name.includes(query) ||
-          s.kurdishName.includes(query)
+          normalize(s.englishName).includes(normalizedQuery) ||
+          normalize(s.name).includes(normalizedQuery) ||
+          normalize(s.kurdishName).includes(normalizedQuery) ||
+          String(s.number).includes(normalizedQuery)
       )
     : [];
 
-  // Search Verses
-  const allVerses: Verse[] = Object.values(SAMPLE_VERSES_DATA).flat();
-  const matchingVerses = query.trim()
-    ? allVerses.filter(
-        (v) =>
-          v.text.includes(query) ||
-          v.kurdish.includes(query) ||
-          v.english.toLowerCase().includes(query.toLowerCase())
-      )
+  // Search Verses across sample verses and any fetched surahs
+  const combinedMap: Record<number, Verse[]> = {
+    ...SAMPLE_VERSES_DATA,
+    ...(fetchedVersesMap || {}),
+  };
+  const allVerses: Verse[] = Object.values(combinedMap).flat();
+
+  const matchingVerses = (query.trim() && searchWords.length > 0)
+    ? allVerses.filter((v) => {
+        const nText = normalize(v.text);
+        const nKurdish = normalize(v.kurdish);
+        const nEnglish = normalize(v.english);
+        return searchWords.every(w => nText.includes(w) || nKurdish.includes(w) || nEnglish.includes(w));
+      })
     : [];
 
   return (
