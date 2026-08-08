@@ -10,6 +10,8 @@ export const toLocalizedNumeral = (num: number | string, lang: Language): string
   return str.replace(/\d/g, (d) => digits[parseInt(d, 10)]);
 };
 
+export const toKurdishDigits = toLocalizedNumeral;
+
 export const formatLocalizedTime = (seconds: number, lang: Language): string => {
   if (isNaN(seconds) || seconds < 0) return toLocalizedNumeral("0:00", lang);
   const mins = Math.floor(seconds / 60);
@@ -142,6 +144,33 @@ export const TRANSLATIONS = {
     noHighlightsTitle: "لا توجد آيات مظللة",
     noHighlightsDesc: "قم بتظليل الآيات باللون الذهبي أو الزمردي أو الأزرق لتنظيم مراجعتك.",
     removeHighlight: "إزالة التظليل",
+
+    // Athan / Prayer Times
+    nextPrayerLabel: "الصلاة القادمة",
+    fajrName: "الفجر",
+    sunriseName: "الشروق",
+    dhuhrName: "الظهر",
+    asrName: "العصر",
+    maghribName: "المغرب",
+    ishaName: "العشاء",
+    timeRemainingAthan: "الوقت المتبقي للأذان",
+    selectCity: "اختر مدينتك",
+    useCurrentLocation: "استخدام الموقع الحالي",
+    locationDetected: "تم تحديد الموقع بنجاح",
+    locationPermissionDenied: "عذراً، تعذر تحديد الموقع، تم استخدام المدينة الافتراضية",
+    athanActive: "مفعل",
+    athanDisabled: "معطل",
+    enableAllAthans: "تفعيل الكل",
+    disableAllAthans: "تعطيل الكل",
+    athanTimeArrived: (prayer: string) => `حان الآن موعد أذان ${prayer}`,
+    playAthanAudio: "انقر لتشغيل صوت الأذان",
+    athanDuaTitle: "دعاء ما بعد الأذان",
+    loadingPrayerTimes: "جاري تحميل مواقيت الصلاة...",
+    errorLoadingPrayerTimes: "خطأ في تحميل مواقيت الصلاة",
+    todayLabel: "اليوم",
+    tomorrowLabel: "غداً",
+    enableNotifications: "تفعيل التنبيهات",
+    notificationsEnabled: "التنبيهات مفعلة",
   },
   ku: {
     // Header & General Navigation
@@ -266,6 +295,33 @@ export const TRANSLATIONS = {
     noHighlightsTitle: "هیچ ئایەتێک دیاری نەکراوە",
     noHighlightsDesc: "دیاریکردنی ئایەتەکان بە ڕەنگی زێڕین، زمڕودی، یان شینی سەهۆڵی.",
     removeHighlight: "سڕینەوەی دیاریکراو",
+
+    // Athan / Prayer Times
+    nextPrayerLabel: "نوێژی داهاتوو",
+    fajrName: "بەیانی",
+    sunriseName: "ڕۆژهەڵات",
+    dhuhrName: "نیوەڕۆ",
+    asrName: "عەسر",
+    maghribName: "مەغریب",
+    ishaName: "عیشا",
+    timeRemainingAthan: "کاتی ماوە بۆ بانگدان",
+    selectCity: "شاری خۆت هەڵبژێرە",
+    useCurrentLocation: "بەکارهێنانی شوێنی ئێستا",
+    locationDetected: "شوێنەکەت دیاری کرا",
+    locationPermissionDenied: "شوێن نەدۆزرایەوە، شاری سەرەکی بەکارهێنرا",
+    athanActive: "چالاکە",
+    athanDisabled: "ناچالاکە",
+    enableAllAthans: "چالاککردنی هەمووی",
+    disableAllAthans: "کوژاندنەوەی هەمووی",
+    athanTimeArrived: (prayer: string) => `کاتی بانگدانی ${prayer} هات!`,
+    playAthanAudio: "پەخشکردنی دەنگی بانگ",
+    athanDuaTitle: "نزای دوای بانگدان",
+    loadingPrayerTimes: "بارکردنی کاتەکانی نوێژ...",
+    errorLoadingPrayerTimes: "نەتوانرا کاتەکانی نوێژ باربکرێت",
+    todayLabel: "ئەمڕۆ",
+    tomorrowLabel: "سبەینێ",
+    enableNotifications: "چالاککردنی ئاگادارکردنەوەکان",
+    notificationsEnabled: "ئاگادارکردنەوەکان چالاکن",
   },
   en: {
     // Header & General Navigation
@@ -390,5 +446,32 @@ export const TRANSLATIONS = {
     noHighlightsTitle: "No Highlights Yet",
     noHighlightsDesc: "Highlight meaningful verses in gold, emerald, or ice blue to organize your study.",
     removeHighlight: "Remove Highlight",
+
+    // Athan / Prayer Times
+    nextPrayerLabel: "Next Prayer",
+    fajrName: "Fajr",
+    sunriseName: "Sunrise",
+    dhuhrName: "Dhuhr",
+    asrName: "Asr",
+    maghribName: "Maghrib",
+    ishaName: "Isha",
+    timeRemainingAthan: "Time Remaining for Athan",
+    selectCity: "Select Your City",
+    useCurrentLocation: "Use Current Location",
+    locationDetected: "Location detected successfully",
+    locationPermissionDenied: "Location unavailable, using default city",
+    athanActive: "Active",
+    athanDisabled: "Disabled",
+    enableAllAthans: "Enable All",
+    disableAllAthans: "Disable All",
+    athanTimeArrived: (prayer: string) => `It is time for ${prayer} Athan!`,
+    playAthanAudio: "Click to play Athan audio",
+    athanDuaTitle: "Post-Athan Supplication",
+    loadingPrayerTimes: "Loading prayer times...",
+    errorLoadingPrayerTimes: "Error loading prayer times",
+    todayLabel: "Today",
+    tomorrowLabel: "Tomorrow",
+    enableNotifications: "Enable Notifications",
+    notificationsEnabled: "Notifications Enabled",
   }
 };

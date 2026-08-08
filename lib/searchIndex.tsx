@@ -31,7 +31,7 @@ export const normalizeSearchText = (text: string): string => {
 let cachedIndex: IndexedVerse[] | null = null;
 
 export const getSearchIndex = (): IndexedVerse[] => {
-  if (cachedIndex) return cachedIndex;
+  if (cachedIndex && cachedIndex.length > 0) return cachedIndex;
 
   const surahMap = new Map<number, SurahMeta>();
   SURAHS_LIST.forEach((s) => surahMap.set(s.number, s));
@@ -58,7 +58,9 @@ export const getSearchIndex = (): IndexedVerse[] => {
     });
   });
 
-  cachedIndex = index;
+  if (index.length > 0) {
+    cachedIndex = index;
+  }
   return index;
 };
 
@@ -104,7 +106,7 @@ export const HighlightedText: React.FC<HighlightedTextProps> = ({
       }
       return pattern;
     })
-    .filter(Boolean);
+    .filter(p => typeof p === 'string' && p.trim().length > 0);
 
   if (patterns.length === 0) {
     return <span className={className}>{text}</span>;
@@ -112,12 +114,22 @@ export const HighlightedText: React.FC<HighlightedTextProps> = ({
 
   let parts: string[] = [];
   let testRegex: RegExp | null = null;
+  let hasError = false;
+
+  const patternStr = patterns.join('|');
+  if (!patternStr) {
+    return <span className={className}>{text}</span>;
+  }
 
   try {
-    const combinedRegex = new RegExp(`(${patterns.join('|')})`, 'gi');
+    const combinedRegex = new RegExp(`(${patternStr})`, 'gi');
     parts = text.split(combinedRegex);
-    testRegex = new RegExp(`^(${patterns.join('|')})$`, 'i');
+    testRegex = new RegExp(`^(${patternStr})$`, 'i');
   } catch {
+    hasError = true;
+  }
+
+  if (hasError || parts.length === 0) {
     return <span className={className}>{text}</span>;
   }
 
@@ -170,7 +182,10 @@ export function useQuranSearch(query: string, limit: number = 200): UseQuranSear
     [normalizedQuery]
   );
 
-  const searchIndex = useMemo(() => getSearchIndex(), []);
+  const searchIndex = useMemo(() => {
+    if (typeof window === 'undefined') return [];
+    return getSearchIndex();
+  }, []);
 
   const matchingSurahs = useMemo(() => {
     if (!normalizedQuery.trim()) return [];
